@@ -143,12 +143,13 @@ class Entry(Base):
     (DELETED,_('DELETED')),
     )
     
-    SLEEPING, QUEUED, SENT = 10, 20, 30
+    SLEEPING, QUEUED, SENT, UNKNOWN = 10, 20, 30, 0
     
     PINGING_STATUS = (
     (SLEEPING, _('SLEEPING')),
     (QUEUED, _('QUEUED')),
     (SENT, _('SENT')),
+    (UNKNOWN, _('UNKNOWN'))
     )
     
     published_status = {}

@@ -45,8 +45,9 @@ The following apps are optional but recommended:\
 \cf0 \
 Note that all comments are managed by Disqus. They are not stored on your server. It is possible to download them as JSON object from the disqus website.\
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
 
-\b Optional Functions:
+\b \cf0 Optional Functions:
 \b0 \
 \ul Tagging\ulnone \
 Allows to add tags to your entries. Tags can be separated by commas or spaces. This function needs to be added as extension and as app.\
@@ -55,16 +56,20 @@ Allows to add tags to your entries. Tags can be separated by commas or spaces. T
 Allows automatic inter-blog communication. Lets you know when someone posted something about your entry on a different website.\
 \
 \ul Translations\
-\ulnone If your blog has entries in different languages, use this extension.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \ulnone If your blog has entries in different languages, use this extension.\
 \
-\ul Datepublisher\ulnone \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \ul Datepublisher\ulnone \
 Lets you set an expiration date to your entries. This is an extension as well.\
 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
 
-\b\fs26 Installation:\
+\b\fs26 \cf0 Installation:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
 
-\b0\fs24 \
+\b0\fs24 \cf0 \
 You need a Disqus account: {\field{\*\fldinst{HYPERLINK "http://www.disqus.com/"}}{\fldrslt http://www.disqus.com/}}\
 \
 Copy the elephantblog dir into your project directory.\
@@ -76,7 +81,7 @@ Add the following lines to
 \i settings.py
 \i0 :\
 \
-\pard\pardeftab720
+\pard\pardeftab720\ql\qnatural
 
 \f1\fs22 \cf0 PINGING_WEBLOG_NAME = \cf2 '<your blog name>'\cf0 \
 PINGING_WEBLOG_URL = \cf2 '<your blog url>'\
@@ -90,7 +95,7 @@ In your
 \i application/models.py 
 \i0 register the blog module and content types:\
 \
-\pard\pardeftab720
+\pard\pardeftab720\ql\qnatural
 
 \f1\fs22 \cf3 from\cf0  feincms.content.richtext.models \cf3 import\cf0  RichTextContent\
 \cf3 from\cf0  feincms.content.medialibrary.models \cf3 import\cf0  MediaFileContent\
@@ -99,7 +104,7 @@ In your
 
 \f1\fs22 \cf3 from\cf0  elephantblog.models \cf3 import\cf0  Entry \cf3 as\cf0  Elephantentry
 \f0\fs24 \
-\pard\pardeftab720
+\pard\pardeftab720\ql\qnatural
 
 \f1\fs22 \cf0 Elephantentry.register_extensions(\cf2 'translations'\cf0 , \cf2 'tags'\cf0 , \cf2 'datepublisher'\cf0 ) \
 Elephantentry.create_content_type(RichTextContent)\
@@ -113,7 +118,7 @@ Elephantentry.create_content_type(VideoContent)\
 \i urls.py
 \i0 :\
 \
-\pard\pardeftab720
+\pard\pardeftab720\ql\qnatural
 
 \f1\fs22 \cf4 # Elephantblog urls\cf0 \
 urlpatterns += patterns(\cf2 ''\cf0 ,\
@@ -126,18 +131,22 @@ urlpatterns += patterns(\cf2 ''\cf0 ,\
 \f0\fs24 \cf0 run manage.py syncdb.\
 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
 
-\b\fs26 Pinging:
+\b\fs26 \cf0 Pinging:
 \b0\fs24 \
 \
-The Pinging app needs two cron jobs. One to add recently activated posts to the batch list and one to process that list and send out the Pings. \
+The Pinging app uses the management command manage.py blogping to generate the pings for the search engines. Set it up to run as a cron job. \
+\
+There is one option -f. It runs through the posts without sending out any pings.\
 \
 Here is a list of servers that can be used for pinging: {\field{\*\fldinst{HYPERLINK "http://www.netlupe.de/2006/08/18/url-zum-pingen-blog-n-ping-urls/"}}{\fldrslt http://www.netlupe.de/2006/08/18/url-zum-pingen-blog-n-ping-urls/}}\
 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
 
-\f1\fs22 \
-\pard\pardeftab720
+\f1\fs22 \cf0 \
+\pard\pardeftab720\ql\qnatural
 
 \f0\fs24 \cf0 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
