@@ -55,16 +55,16 @@ Optionally add 'tagging' and 'trackback' as well.
 
 Add the following lines to settings.py:
 
-<code>
+<pre><code>
 PINGING_WEBLOG_NAME = '<your blog name>'
 PINGING_WEBLOG_URL = '<your blog url>'
 DISQUS_API_KEY = '<api key>'
 DISQUS_WEBSITE_SHORTNAME = '<Disqus website shortname>'
-</code>
+</code></pre>
 
 In your application/models.py register the blog module and content types:
 
-<code>
+<pre><code>
 from feincms.content.richtext.models import RichTextContent
 from feincms.content.medialibrary.models import MediaFileContent
 from feincms.content.video.models import VideoContent
@@ -73,7 +73,7 @@ Elephantentry.register_extensions('translations', 'tags', 'datepublisher')
 Elephantentry.create_content_type(RichTextContent)
 MediaFileContent.default_create_content_type(Elephantentry)
 Elephantentry.create_content_type(VideoContent)
-</code>
+</code></pre>
 
 Add the following lines to your urls.py:
 
