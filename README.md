@@ -18,11 +18,13 @@ Elephantblog is easy to add to FeinCMS and has the following features:
 * Additional content type widgets for the Page module
 
 The app is dependent on external django apps. The following apps are required:
+
 * [feincms](http://github.com/matthiask/feincms) (obviously) 
 * [pinging](http://github.com/matthiask/pinging)
 * [django-disqus](http://github.com/arthurk/django-disqus)
 
 The following apps are optional but recommended:
+
 * Django-tagging
 * Django-trackback
 
