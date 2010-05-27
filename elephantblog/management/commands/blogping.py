@@ -38,5 +38,8 @@ class Command(NoArgsCommand):
             PingedURL.objects.create_for_servers(**create_kwargs)
             entry.pinging = Entry.SENT
             entry.save()
+            
+    PingedURL.objects.process_pending()
+            
     PingedURL.objects.filter(created=datetime.now()-timedelta(days=7), 
                                  status=PingedURL.SUCCESSFUL).delete()
