@@ -77,12 +77,12 @@ Elephantentry.create_content_type(VideoContent)
 
 Add the following lines to your urls.py:
 
-<code>
+<pre><code>
 # Elephantblog urls
 urlpatterns += patterns('',
     url(r'^blog/', include('elephantblog.urls')),
 )
-</code>
+</code></pre>
 
 run manage.py syncdb.
 
