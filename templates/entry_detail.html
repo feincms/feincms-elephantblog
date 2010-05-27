@@ -1,0 +1,59 @@
+{% extends "elephantblogbase.html" %}
+{% load feinheit_thumbnail feincms_tags i18n tagging_tags disqus_tags breadcrumbs %}
+
+
+{% block title %}{{ entry.title }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="elephantblog-header">
+    
+	{% block breadcrumbs %}
+        
+    {% breadcrumb_url 'Blog' elephantblog_all %}
+	{% breadcrumb_url entry.year elephantblog_year entry.year %}
+	{% breadcrumb_url entry.month elephantblog_month entry.year entry.month %}
+	{% breadcrumb_url entry.day elephantblog_day entry.year entry.month entry.day %}
+
+	<br /><br />
+	{% endblock %}
+
+</div>
+
+<div class="entry detail">
+    
+    <h1 class="inContent"><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h1>
+	<h3> {% trans 'By' %} <a href="#">{{ entry.user.get_full_name }}.</a> {% trans 'Posted on' %} {{ entry.published_on|date:"SHORT_DATE_FORMAT" }}
+	   {% trans 'at' %} {{ entry.published_on|time:"H:i" }}</h3>
+	   
+    {% feincms_render_region entry "main" request %}
+    <br />
+	
+    {% if entry.tags %}
+    {% tags_for_object entry as tag_list %}
+    <p id="tags">Tags:
+    {% for tag in tag_list %}
+        <a href="/elephantblog/tag/{{ tag.name }}/">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
+	<br /><br />
+	{% endif %}
+
+    <a href="{{ entry.get_absolute_url }}#disqus_thread">View Comments</a>
+    {% disqus_show_comments %}
+    
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

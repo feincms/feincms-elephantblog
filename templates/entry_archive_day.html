@@ -1,0 +1,36 @@
+ {% extends "blog/base.html" %}
+ {% load feincms_tags i18n disqus_tags breadcrumbs %}
+
+ 
+{% block extra-head %}
+    <link rel="stylesheet" href="/media/css/elephantblog.css" type="text/css" media="screen, projection" />
+   {{ object.extrahead|safe }}
+{% endblock %}
+
+{% block content %}
+ <h1 class="date-header">{{ object_list.0.published_on|date:"SHORT_DATE_FORMAT" }}</h1>
+    {% block breadcrumbs %}
+        
+	    {% breadcrumb_url 'Blog' elephantblog_all %}
+	    {% breadcrumb_url object_list.0.year elephantblog_year object_list.0.year %}
+	    {% breadcrumb_url object_list.0.month elephantblog_month object_list.0.year object_list.0.month %}
+		{% breadcrumb_url object_list.0.day elephantblog_day object_list.0.year object_list.0.month object_list.0.day %}
+	
+	    <br /><br />
+    {% endblock %}
+ {% for object in object_list %}
+        <div class="entry">
+		    <h1><a href="{{ object.get_absolute_url }}" title="{{ object.title }}">{{ object.title }}</a></h1>
+		    <h3> {% trans 'By' %} <a href="#">{{ object.user.get_full_name }}</a>. {% trans 'Posted at' %} {{ object.published_on|time:"H:i" }}</h3>
+		    <p style="font-weight:bold;"> {{ object.meta_description }} </p>
+		    {% feincms_render_region object "main" request %}
+			<br />
+            <a href="{{ object.get_absolute_url }}#disqus_thread">{% trans 'View Comments' %}</a>
+            {% disqus_num_replies %}
+        </div>
+		{% if not forloop.last %}
+		  <div class="separator"></div>
+		{% endif %}
+    {% endfor %}
+		
+{% endblock %}

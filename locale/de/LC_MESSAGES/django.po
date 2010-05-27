@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-05-19 13:51+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: models.py:28
+#, fuzzy
+msgid "category title"
+msgstr "Kategorien"
+
+#: models.py:30
+msgid "slug"
+msgstr "Slug"
+
+#: models.py:31
+msgid "ordering"
+msgstr "Sortierung"
+
+#: models.py:32
+msgid "description"
+msgstr "Beschreibung"
+
+#: models.py:42
+msgid "category"
+msgstr "Kategorie"
+
+#: models.py:43
+msgid "categories"
+msgstr "Kategorien"
+
+#: models.py:94
+msgid "INACTIVE"
+msgstr "INAKTIV"
+
+#: models.py:95
+msgid "CLEARED"
+msgstr "OK"
+
+#: models.py:96
+msgid "FRONT PAGE"
+msgstr "FRONTSEITE"
+
+#: models.py:97
+msgid "NEEDS RE-EDITING"
+msgstr "ZU ÜBERARBEITEN"
+
+#: models.py:98
+msgid "DELETED"
+msgstr "GELÖSCHT"
+
+#: models.py:104
+msgid "publish"
+msgstr "Veröffentlichung"
+
+#: models.py:105
+msgid "title"
+msgstr "Titel"
+
+#: models.py:106
+msgid "This is used for the generated navigation, too."
+msgstr "Dies wird auch für die Navigation verwendet."
+
+#: models.py:109
+msgid "published on"
+msgstr "Veröffentlicht am"
+
+#: models.py:110
+msgid ""
+"Will be updated automatically once you tick the `published` checkbox above."
+msgstr "Wird automatisch aktualisiert, wenn veröffentlicht."
+
+#: models.py:112
+msgid "last change"
+msgstr "letzte Änderung"
+
+#: models.py:117
+msgid "entry"
+msgstr "Eintrag"
+
+#: models.py:118
+msgid "entries"
+msgstr "Einträge"
+
+#: models.py:135
+msgid " again."
+msgstr " nochmals."
+
+#: models.py:150
+msgid "EXPIRED"
+msgstr "ABGELAUFEN"
+
+#: models.py:154
+msgid "ON HOLD"
+msgstr "WARTET"
+
+#: models.py:157
+msgid "Status"
+msgstr "Status"
+
+#: models.py:170
+msgid "active"
+msgstr "aktiv"
+
+#: extensions/datepublisher.py:29
+msgid "publication end date"
+msgstr "veröffentlichen bis"
+
+#: extensions/datepublisher.py:31
+msgid "Leave empty if the entry should stay active forever."
+msgstr "Leer lassen, wenn kein Enddatum."
+
+#: extensions/datepublisher.py:42
+msgid "visible from - to"
+msgstr "Sichtbar von, bis"
+
+#: extensions/tags.py:7
+msgid "Use commas to separate tags."
+msgstr "Tags mit Kommas separieren"
+
+#: extensions/tags.py:8
+msgid "tags"
+msgstr "Tags"
+
+#: extensions/translations.py:9
+msgid "language"
+msgstr "Sprache"
+
+#: extensions/translations.py:12
+msgid "translation of"
+msgstr "Übersetzung von"
+
+#: extensions/translations.py:15
+msgid "Leave this empty for entries in the primary language."
+msgstr "Leer lassen für Einträge in der Hauptsprache"
+
+#: extensions/translations.py:36
+msgid "available translations"
+msgstr "Übersetzungen"

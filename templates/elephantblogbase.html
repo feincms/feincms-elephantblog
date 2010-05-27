@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block extra-head %}
+{{ block.super }}
+<link rel="stylesheet" href="/media/css/elephantblog.css" type="text/css" media="screen, projection" />
+{% endblock extra-head %}
+
+{% block pagination %}
+    {% if page_obj.has_other_pages %}
+    <div class="separator"></div>
+    <div class="pagination">
+            <span class="current">
+                {% trans 'Page' %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
+            </span>
+            
+            {% if page_obj.has_previous %}
+                <a class="step-back" href="?page={{ page_obj.previous_page_number }}">{% trans 'previous' %}</a>
+            {% endif %}
+    
+            {% if page_obj.has_next %}
+                <a class="step-forward" href="?page={{ page_obj.next_page_number }}">{% trans 'next' %}</a>
+            {% endif %}
+    </div>
+    {% endif %}
+{% endblock pagination %}
