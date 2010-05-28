@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-19 13:51+0200\n"
+"POT-Creation-Date: 2010-05-28 11:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,103 +17,158 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: models.py:28
+#: feeds.py:10
+msgid "title undefined"
+msgstr "Unbenannt"
+
+#: feeds.py:12
+#, fuzzy
+msgid "description undefined"
+msgstr "Beschreibung"
+
+#: models.py:30
+msgid "ordering"
+msgstr "Sortierung"
+
+#: models.py:49
+msgid "Unnamed Category"
+msgstr "Unbenannte Kategorie"
+
+#: models.py:58
+msgid "category"
+msgstr "Kategorie"
+
+#: models.py:59
+msgid "categories"
+msgstr "Kategorien"
+
+#: models.py:64
 #, fuzzy
 msgid "category title"
 msgstr "Kategorien"
 
-#: models.py:30
+#: models.py:65
 msgid "slug"
 msgstr "Slug"
 
-#: models.py:31
-msgid "ordering"
-msgstr "Sortierung"
-
-#: models.py:32
+#: models.py:66
 msgid "description"
 msgstr "Beschreibung"
 
-#: models.py:42
-msgid "category"
-msgstr "Kategorie"
+#: models.py:69
+#, fuzzy
+msgid "media file translation"
+msgstr "Übersetzungen"
 
-#: models.py:43
-msgid "categories"
-msgstr "Kategorien"
+#: models.py:70
+#, fuzzy
+msgid "media file translations"
+msgstr "Übersetzungen"
 
-#: models.py:94
+#: models.py:139
 msgid "INACTIVE"
 msgstr "INAKTIV"
 
-#: models.py:95
+#: models.py:140
 msgid "CLEARED"
 msgstr "OK"
 
-#: models.py:96
+#: models.py:141
 msgid "FRONT PAGE"
 msgstr "FRONTSEITE"
 
-#: models.py:97
+#: models.py:142
 msgid "NEEDS RE-EDITING"
 msgstr "ZU ÜBERARBEITEN"
 
-#: models.py:98
+#: models.py:143
 msgid "DELETED"
 msgstr "GELÖSCHT"
 
-#: models.py:104
+#: models.py:149
+msgid "SLEEPING"
+msgstr "RUHEND"
+
+#: models.py:150
+msgid "QUEUED"
+msgstr "WARTEND"
+
+#: models.py:151
+msgid "SENT"
+msgstr "OK"
+
+#: models.py:152
+msgid "UNKNOWN"
+msgstr "UNBEKANNT"
+
+#: models.py:162
+msgid "author"
+msgstr "Author"
+
+#: models.py:163
 msgid "publish"
 msgstr "Veröffentlichung"
 
-#: models.py:105
+#: models.py:164
+msgid "ping"
+msgstr "Ping"
+
+#: models.py:165
+msgid "Shows the status of the entry for the pinging management command."
+msgstr "Zeigt den Status des Eintrags für das Pinging Management Tool."
+
+#: models.py:166
 msgid "title"
 msgstr "Titel"
 
-#: models.py:106
+#: models.py:167
 msgid "This is used for the generated navigation, too."
 msgstr "Dies wird auch für die Navigation verwendet."
 
-#: models.py:109
+#: models.py:170
 msgid "published on"
 msgstr "Veröffentlicht am"
 
-#: models.py:110
+#: models.py:171
 msgid ""
 "Will be updated automatically once you tick the `published` checkbox above."
 msgstr "Wird automatisch aktualisiert, wenn veröffentlicht."
 
-#: models.py:112
+#: models.py:173
 msgid "last change"
 msgstr "letzte Änderung"
 
-#: models.py:117
+#: models.py:178
 msgid "entry"
 msgstr "Eintrag"
 
-#: models.py:118
+#: models.py:179
 msgid "entries"
 msgstr "Einträge"
 
-#: models.py:135
+#: models.py:199
 msgid " again."
 msgstr " nochmals."
 
-#: models.py:150
+#: models.py:228
 msgid "EXPIRED"
 msgstr "ABGELAUFEN"
 
-#: models.py:154
+#: models.py:232
 msgid "ON HOLD"
 msgstr "WARTET"
 
-#: models.py:157
+#: models.py:235
 msgid "Status"
 msgstr "Status"
 
-#: models.py:170
+#: models.py:248
 msgid "active"
 msgstr "aktiv"
+
+#: models.py:274
+msgid "Main content area"
+msgstr "Hauptinhaltsbereich"
 
 #: extensions/datepublisher.py:29
 msgid "publication end date"
@@ -126,6 +181,15 @@ msgstr "Leer lassen, wenn kein Enddatum."
 #: extensions/datepublisher.py:42
 msgid "visible from - to"
 msgstr "Sichtbar von, bis"
+
+#: extensions/sites.py:11
+msgid "The sites where the blogpost should appear."
+msgstr "Die Webseiten (Sites), auf denen der Eintrag erscheint."
+
+#: extensions/sites.py:20
+#, fuzzy
+msgid "Sites"
+msgstr "Titel"
 
 #: extensions/tags.py:7
 msgid "Use commas to separate tags."
@@ -147,6 +211,84 @@ msgstr "Übersetzung von"
 msgid "Leave this empty for entries in the primary language."
 msgstr "Leer lassen für Einträge in der Hauptsprache"
 
-#: extensions/translations.py:36
+#: extensions/translations.py:37
 msgid "available translations"
 msgstr "Übersetzungen"
+
+#: templates/elephantblogbase.html:14
+msgid "Page"
+msgstr "Seite"
+
+#: templates/elephantblogbase.html:14
+msgid "of"
+msgstr "von"
+
+#: templates/elephantblogbase.html:18
+msgid "previous"
+msgstr "vorherige"
+
+#: templates/elephantblogbase.html:22
+msgid "next"
+msgstr "nächste"
+
+#: templates/entry_archive_day.html:24 templates/entry_archive_month.html:22
+#: templates/entry_archive_year.html:18 templates/entry_detail.html:25
+#: templates/entry_list.html:10 templates/entry_list_category.html:8
+#: templates/entry_list_tagged.html:9
+msgid "By"
+msgstr "von"
+
+#: templates/entry_archive_day.html:24
+msgid "Posted at"
+msgstr "Veröffentlicht um"
+
+#: templates/entry_archive_day.html:28 templates/entry_archive_month.html:27
+#: templates/entry_archive_year.html:23 templates/entry_list.html:15
+msgid "View Comments"
+msgstr "Zeige Kommentare"
+
+#: templates/entry_archive_month.html:22 templates/entry_archive_year.html:18
+#: templates/entry_detail.html:25 templates/entry_list.html:10
+#: templates/entry_list_category.html:8 templates/entry_list_tagged.html:9
+msgid "Posted on"
+msgstr "Veröffentlicht am"
+
+#: templates/entry_archive_month.html:23 templates/entry_archive_year.html:19
+#: templates/entry_detail.html:26 templates/entry_list.html:11
+#: templates/entry_list_category.html:9 templates/entry_list_tagged.html:10
+msgid "at"
+msgstr "um"
+
+#: templates/entry_list_tagged.html:5
+#, fuzzy
+msgid "tag"
+msgstr "Tag"
+
+#: templates/entry_list_tagged.html:20
+msgid "Related Tags"
+msgstr "Verwandte Tags"
+
+#: templates/admin/base.html:28
+msgid "Welcome,"
+msgstr "Willkommen"
+
+#: templates/admin/base.html:33
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: templates/admin/base.html:42
+msgid "Change password"
+msgstr "Passwort ändern"
+
+#: templates/admin/base.html:49
+msgid "Log out"
+msgstr "Ausloggen"
+
+#: templates/admin/base.html:56
+msgid "Home"
+msgstr "Hauptseite"
+
+#: templates/admin/change_language.html:2
+#, fuzzy
+msgid "Change language"
+msgstr "Sprache"
