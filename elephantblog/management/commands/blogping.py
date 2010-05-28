@@ -34,7 +34,7 @@ class Command(NoArgsCommand):
     
     def handle_noargs(self, **options):
         
-        if PingServer.objects.count() == 0:
+        if PingServer.objects.count() == 0:  # Test if a server is in the list.
             raise CommandError('No servers defined.\nAdd at least one server in the admin interface.')
         
         batch = Entry.objects.active().filter(pinging__lte=Entry.QUEUED) #gets Entries for batch
