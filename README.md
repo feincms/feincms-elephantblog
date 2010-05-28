@@ -1,29 +1,32 @@
 A full featrued blog for FeinCMS
+================================
 
 Elephantblog is easy to add to FeinCMS and has the following features:
 
-    ⁃   Disqus integration for comments
-    ⁃   Pings for new entries
-    ⁃   Pretty URLs
-    ⁃   Categories
-    ⁃   Tagging (optional)
-    ⁃   RSS Feed creation
-    ⁃   Multilingual (optional)
-    ⁃   Time based publishing
-    ⁃   Advanced time based publishing (optional)
-    ⁃   Pingback and Trackback support (optional)
-    ⁃   Spam protection
-    ⁃   Admin interface similar to FeinCMS Pages
-    ⁃   Additional content type widgets for the Page module
+* Disqus integration for comments
+* Pings for new entries
+* Pretty URLs
+* Categories
+* Tagging (optional)
+* RSS Feed creation
+* Multilingual (optional)
+* Time based publishing
+* Advanced time based publishing (optional)
+* Pingback and Trackback support (optional)
+* Spam protection
+* Admin interface similar to FeinCMS Pages
+* Additional content type widgets for the Page module
 
 The app is dependent on external django apps. The following apps are required:
-    •   Feincms (obviously)
-    •   Pinging
-    •   Django-disqus
+
+* [feincms](http://github.com/matthiask/feincms) (obviously) 
+* [pinging](http://github.com/matthiask/pinging)
+* [django-disqus](http://github.com/arthurk/django-disqus)
 
 The following apps are optional but recommended:
-    •   Django-tagging
-    •   Django-trackback
+
+* Django-tagging
+* Django-trackback
 
 Note that all comments are managed by Disqus. They are not stored on your server. It is possible to download them as JSON object from the disqus website.
 
@@ -52,14 +55,16 @@ Optionally add 'tagging' and 'trackback' as well.
 
 Add the following lines to settings.py:
 
+<pre><code>
 PINGING_WEBLOG_NAME = '<your blog name>'
 PINGING_WEBLOG_URL = '<your blog url>'
 DISQUS_API_KEY = '<api key>'
 DISQUS_WEBSITE_SHORTNAME = '<Disqus website shortname>'
-
+</code></pre>
 
 In your application/models.py register the blog module and content types:
 
+<pre><code>
 from feincms.content.richtext.models import RichTextContent
 from feincms.content.medialibrary.models import MediaFileContent
 from feincms.content.video.models import VideoContent
@@ -68,15 +73,16 @@ Elephantentry.register_extensions('translations', 'tags', 'datepublisher')
 Elephantentry.create_content_type(RichTextContent)
 MediaFileContent.default_create_content_type(Elephantentry)
 Elephantentry.create_content_type(VideoContent)
-
+</code></pre>
 
 Add the following lines to your urls.py:
 
+<pre><code>
 # Elephantblog urls
 urlpatterns += patterns('',
     url(r'^blog/', include('elephantblog.urls')),
 )
-
+</code></pre>
 
 run manage.py syncdb.
 
