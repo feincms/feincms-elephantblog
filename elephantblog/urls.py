@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import *
 from elephantblog.models import Entry
-from django.template import RequestContext
 from feincms.translations import short_language_code
 from django.conf import settings
 
@@ -27,18 +26,3 @@ if 'tagging' in settings.INSTALLED_APPS:
     urlpatterns += patterns('',url(r'^tag/(?P<tag>[^/]+)/$', 'tagging.views.tagged_object_list', 
         { 'template_name':'entry_list_tagged.html', 'queryset_or_model': entry_dict['queryset'], 'paginate_by':entry_dict['paginate_by']}, name='elephantblog_tag'),)
 
-
-
-"""
-    url(r'^blog/alle-eintrage/$', 'django.views.generic.simple.redirect_to', {'url':'1/'}),
-    url(r'^blog/alle-eintrage/(?P<page>[0-9]+)/$', 'feincms.views.generic.list_detail.object_list', dict(entry_dict, paginate_by=5)),
-
-    url(r'^blog/tag/(?P<tag>[^/]+)/$', 'django.views.generic.simple.redirect_to', {'url':'1/'}, name='get_entries_by_tag'),
-    url(r'^blog/tag/(?P<tag>[^/]+)/(?P<page>[0-9]+)/$', 'elephantblog.views.blog_entries_by_tag', entry_dict),
-
-    url(r'^blog/(?P<year>\d{4})/(?P<month>\d{2})/$', 'django.views.generic.simple.redirect_to', {'url':'1/'}, name='get_entries_by_month'),
-    url(r'^blog/(?P<year>\d{4})/(?P<month>\d{2})/(?P<page>[0-9]+)/$', 'elephantblog.views.blog_entries_by_month', entry_dict),
-
-    url(r'^blog/(?P<category>[^/]+)/$', 'django.views.generic.simple.redirect_to', {'url':'1/'}, name='get_entries_by_cat'),
-    url(r'^blog/(?P<category>[^/]+)/(?P<page>[0-9]+)/$', 'elephantblog.views.blog_entries_by_cat', entry_dict),
-"""

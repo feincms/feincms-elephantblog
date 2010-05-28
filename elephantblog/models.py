@@ -149,7 +149,7 @@ class Entry(Base):
     (SLEEPING, _('SLEEPING')),
     (QUEUED, _('QUEUED')),
     (SENT, _('SENT')),
-    (UNKNOWN, _('UNKNOWN'))
+    (UNKNOWN, _('UNKNOWN')),
     )
     
     published_status = {}
