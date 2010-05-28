@@ -100,15 +100,16 @@ class EntryManager(models.Manager):
     # Extended for example in the datepublisher extension (date-based publishing and
     # un-publishing of pages)        
     CLEARED = 50
-    active_filters = [
-        Q(published__gte=CLEARED),
-        Q(published_on__lte=datetime.now()),
-        ]
+    active_filters = {'cleared' : Q(published__gte=CLEARED),
+        'publish_start': Q(published_on__lte=datetime.now()),}
+        
     
     
     @classmethod
-    def apply_active_filters(cls, queryset):
-        for filt in cls.active_filters:
+    def apply_active_filters(cls, queryset, filter):
+        cls.filters = filter.values()         
+            
+        for filt in cls.filters:
             if callable(filt):
                 queryset = filt(queryset)
             else:
@@ -116,7 +117,7 @@ class EntryManager(models.Manager):
         return queryset
 
     def active(self):
-        return self.apply_active_filters(self)
+        return self.apply_active_filters(self, filter=self.active_filters)
     
         
     def featured(self):
@@ -249,6 +250,8 @@ class Entry(Base):
     isactive.boolean = True
     is_active = property(isactive)
 
+    
+
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
 
 
@@ -263,6 +266,62 @@ class EntryAdmin(editor.ItemEditor):
 
     show_on_top = ['title', 'published', 'categories']
     raw_id_fields = []
+    
+    def ping_again(self, request, queryset):
+        rows_updated = queryset.update(pinging=Entry.QUEUED)
+        if rows_updated == 1:
+            message_bit = _("1 entry was")
+        else:
+            message_bit = _("%s entries were") % rows_updated
+        self.message_user(request, _("%s successfully marked as queued.") % message_bit)
+    ping_again.short_description = _('ping again')
+    
+    def mark_publish(self, request, queryset):
+        rows_updated = queryset.update(published=Entry.CLEARED)
+        if rows_updated == 1:
+            message_bit = _("1 entry was")
+        else:
+            message_bit = _("%s entries were") % rows_updated
+        self.message_user(request, _("%s successfully marked as cleared.") % message_bit)
+    mark_publish.short_description = _('mark publish')
+    
+    def mark_frontpage(self, request, queryset):
+        rows_updated = queryset.update(published=Entry.FRONT_PAGE)
+        if rows_updated == 1:
+            message_bit = _("1 entry was")
+        else:
+            message_bit = _("%s entries were") % rows_updated
+        self.message_user(request, _("%s successfully marked as front-page.") % message_bit)
+    mark_frontpage.short_description = _('mark frontpage')
+    
+    def mark_needs_reediting(self, request, queryset):
+        rows_updated = queryset.update(published=Entry.NEEDS_REEDITING)
+        if rows_updated == 1:
+            message_bit = _("1 entry was")
+        else:
+            message_bit = _("%s entries were") % rows_updated
+        self.message_user(request, _("%s successfully marked as need re-editing.") % message_bit)
+    mark_needs_reediting.short_description = _('mark re-edit')
+    
+    def mark_inactive(self, request, queryset):
+        rows_updated = queryset.update(published=Entry.INACTIVE)
+        if rows_updated == 1:
+            message_bit = _("1 entry was")
+        else:
+            message_bit = _("%s entries were") % rows_updated
+        self.message_user(request, _("%s successfully marked as inactive.") % message_bit)
+    mark_inactive.short_description = _('mark inactive')
+    
+    def mark_delete(self, request, queryset):
+        rows_updated = queryset.update(published=Entry.DELETED)
+        if rows_updated == 1:
+            message_bit = _("1 entry was")
+        else:
+            message_bit = _("%s entries were") % rows_updated
+        self.message_user(request, _("%s successfully marked as deleted.") % message_bit)
+    mark_delete.short_description = _('remove')
+    
+    actions = (mark_publish, mark_frontpage, mark_needs_reediting, mark_inactive, mark_delete, ping_again)
 
 
     def save_model(self, request, obj, form, change):

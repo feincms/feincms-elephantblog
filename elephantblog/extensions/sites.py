@@ -3,14 +3,14 @@ Allows the blog to use the sites framework.
 """
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
-from django.db.models import ManyToManyField
+from django.db.models import ManyToManyField, CharField
 from django.db.models import Q
 
 def register(cls, admin_cls, *args):
     cls.add_to_class('sites', ManyToManyField(Site, blank=True, 
         help_text=_('The sites where the blogpost should appear.'), default=Site.objects.get_current()))
 
-    cls.objects.active_filters.append(Q(sites=Site.objects.get_current()))
+    cls.objects.active_filters.update({'sites': Q(sites=Site.objects.get_current())})
 
     def sites_admin(self):
         available_sites = self.sites.all()

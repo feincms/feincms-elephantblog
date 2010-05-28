@@ -30,8 +30,8 @@ def register(cls, admin_cls, *args):
         blank=True, null=True,
         help_text=_('Leave empty if the entry should stay active forever.')))
 
-    cls.objects.active_filters.append(
-            (Q(publication_end_date__isnull=True) | Q(publication_end_date__gt=datetime.now)))
+    cls.objects.active_filters.update(
+            {'publish_end': (Q(publication_end_date__isnull=True) | Q(publication_end_date__gt=datetime.now))})
 
     def datepublisher_admin(self, entry):
         return u'%s &ndash; %s' % (

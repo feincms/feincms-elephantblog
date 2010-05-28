@@ -52,7 +52,6 @@ def archive_year(request, year, queryset, page=0, paginate_by=10, template_name=
       **kwargs)
 
 def category_object_list(request, category, queryset, page=0, paginate_by=10, template_name='entry_list_category.html', **kwargs):
-    print 'category list'
     return list_detail.object_list(
       request,
       queryset = queryset.filter(categories__translations__title=category).order_by('-published_on',),
