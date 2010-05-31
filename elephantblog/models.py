@@ -192,7 +192,7 @@ class Entry(Base):
         if self.published >= self.CLEARED and self._old_published < self.CLEARED and self.published_on.date() <= datetime.now().date(): # only sets the publish date if the entry is published
             self.published_on = datetime.now()
             self.pinging = self.QUEUED
-        elif self.isactive and self.pinging < self.QUEUED:
+        elif self.is_active and self.pinging < self.QUEUED:
             self.pinging = self.QUEUED
         try:
             self.full_clean() # kicks in if there are two entries that have the same title and are published on the same date.
