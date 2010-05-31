@@ -1,4 +1,4 @@
-A full featrued blog for FeinCMS
+A full featured blog for FeinCMS
 ================================
 
 Elephantblog is easy to add to FeinCMS and has the following features:
