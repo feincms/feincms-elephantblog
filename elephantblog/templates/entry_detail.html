@@ -9,10 +9,7 @@
     
 	{% block breadcrumbs %}
         
-    {% breadcrumb_url 'Blog' elephantblog_all %}
-	{% breadcrumb_url entry.year elephantblog_year entry.year %}
-	{% breadcrumb_url entry.month elephantblog_month entry.year entry.month %}
-	{% breadcrumb_url entry.day elephantblog_day entry.year entry.month entry.day %}
+    {% drilldown date 'day' %}
 
 	<br /><br />
 	{% endblock %}

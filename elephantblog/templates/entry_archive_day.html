@@ -1,20 +1,13 @@
- {% extends "blog/base.html" %}
+ {% extends "elephantblogbase.html" %}
  {% load feincms_tags i18n disqus_tags breadcrumbs %}
 
- 
-{% block extra-head %}
-    <link rel="stylesheet" href="/media/css/elephantblog.css" type="text/css" media="screen, projection" />
-   {{ object.extrahead|safe }}
-{% endblock %}
+
 
 {% block content %}
  <h1 class="date-header">{{ object_list.0.published_on|date:"SHORT_DATE_FORMAT" }}</h1>
     {% block breadcrumbs %}
         
-	    {% breadcrumb_url 'Blog' elephantblog_all %}
-	    {% breadcrumb_url object_list.0.year elephantblog_year object_list.0.year %}
-	    {% breadcrumb_url object_list.0.month elephantblog_month object_list.0.year object_list.0.month %}
-		{% breadcrumb_url object_list.0.day elephantblog_day object_list.0.year object_list.0.month object_list.0.day %}
+	    {% drilldown date 'day' %}
 	
 	    <br /><br />
     {% endblock %}

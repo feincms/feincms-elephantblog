@@ -1,123 +1,38 @@
 from django import template
-from django.template import loader, Node, Variable
-from django.utils.encoding import smart_str, smart_unicode
-from django.template.defaulttags import url
-from django.template import VariableDoesNotExist
-from django.conf import settings
+from django.template import TemplateSyntaxError
+import datetime
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
+
+
+
 
 register = template.Library()
 
-@register.tag
-def breadcrumb(parser, token):
-    """
-    Renders the breadcrumb.
-    Examples:
-        {% breadcrumb "Title of breadcrumb" url_var %}
-        {% breadcrumb context_var  url_var %}
-        {% breadcrumb "Just the title" %}
-        {% breadcrumb just_context_var %}
-
-    Parameters:
-    -First parameter is the title of the crumb,
-    -Second (optional) parameter is the url variable to link to, produced by url tag, i.e.:
-        {% url person_detail object.id as person_url %}
-        then:
-        {% breadcrumb person.name person_url %}
-
-    @author Andriy Drozdyuk
-    """
-    return BreadcrumbNode(token.split_contents()[1:])
-
-
-@register.tag
-def breadcrumb_url(parser, token):
-    """
-    Same as breadcrumb
-    but instead of url context variable takes in all the
-    arguments URL tag takes.
-        {% breadcrumb "Title of breadcrumb" person_detail person.id %}
-        {% breadcrumb person.name person_detail person.id %}
-    """
-
-    bits = token.split_contents()
-    if len(bits)==2:
-        return breadcrumb(parser, token)
-
-    # Extract our extra title parameter
-    title = bits.pop(1)
-    token.contents = ' '.join(bits)
-
-    url_node = url(parser, token)
-
-    return UrlBreadcrumbNode(title, url_node)
-
-
-class BreadcrumbNode(Node):
+class Link(object):
+    def __init__(self, name):
+        self.name = name
+        self.url = ""
     
-    
-    def __init__(self, vars):
-        """
-        First var is title, second var is url context variable
-        """
-        
 
-    def render(self, context):
-        title = self.vars[0].var
+""" Creates a date-based drilldown as in the admin interface """
+@register.inclusion_tag('date_drilldown.html')
+def drilldown(date, mode):
+    if not isinstance(date, datetime.date):
+        raise TemplateSyntaxError('date must be a datetime.date instance.')
+    if not mode in ['all','year','month','day']:
+        raise TemplateSyntaxError('mode must be one of [all, year, month, day].')
+    all, year, month, day = None, None, None, None
+    if mode == 'day':
+        day = Link('%02d'%date.day)
+        day.url = reverse('elephantblog_day', kwargs={'year':date.year, 'month':'%02d'%date.month, 'day':'%02d'%date.day}, current_app='elephantblog')
+    if mode in ['month', 'day']:
+        month = Link(date.strftime('%B')) #Locale full month name
+        month.url =  reverse('elephantblog_month', kwargs={'year':date.year, 'month':'%02d'%date.month}, current_app='elephantblog')
+    if mode in ['year', 'month', 'day']:
+        year = Link(date.year)
+        year.url = reverse('elephantblog_year', args=[date.year], current_app='elephantblog') 
+    root = Link(_('All'))  #Needs ugettext    
+    root.url = reverse('elephantblog_all', current_app='elephantblog')
+    return {'root': root, 'year':year, 'month':month, 'day':day}
 
-        if title.find("'")==-1 and title.find('"')==-1:
-            try:
-                val = self.vars[0]
-                title = val.resolve(context)
-            except:
-                title = ''
-
-        else:
-            title=title.strip("'").strip('"')
-            title=smart_unicode(title)
-
-        url = None
-
-        if len(self.vars)>1:
-            val = self.vars[1]
-            try:
-                url = val.resolve(context)
-            except VariableDoesNotExist:
-                print 'URL does not exist', val
-                url = None
-
-        return create_crumb(title, url, self.arrow)
-
-
-class UrlBreadcrumbNode(Node):
-    def __init__(self, title, url_node):
-        self.title = Variable(title)
-        self.url_node = url_node
-
-    def render(self, context):
-        title = self.title.var
-
-        if title.find("'")==-1 and title.find('"')==-1:
-            try:
-                val = self.title
-                title = val.resolve(context)
-            except:
-                title = ''
-        else:
-            title=title.strip("'").strip('"')
-            title=smart_unicode(title)
-
-        url = self.url_node.render(context)
-        return create_crumb(title, url)
-
-
-def create_crumb(title, url=None, arrow=True):
-    """
-    Helper function
-    """
-    crumb = '<img src="' + settings.MEDIA_URL + 'images/arrow.gif" alt="/ ">' if arrow else ''
-    if url:
-        crumb =    "%s<a href='%s'>%s</a>" % (crumb, url, title)
-    else:
-        crumb = "%s&nbsp;&nbsp;%s" % (crumb, title)
-
-    return crumb

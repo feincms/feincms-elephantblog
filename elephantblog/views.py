@@ -11,12 +11,16 @@ import datetime
 
 
 def blog_detail(request, queryset, year, month, day, slug, **kwargs):
-    entry = Entry.objects.select_related().get(published_on__year=year,
-            published_on__month=month, published_on__day=day, slug=slug[:50])
+    try:
+        entry = Entry.objects.select_related().get(published_on__year=year,
+                published_on__month=month, published_on__day=day, slug=slug[:50])
+    except Entry.DoesNotExist:
+        raise Http404
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
     else:     
-        return render_to_response('entry_detail.html', {'entry':entry}, context_instance=RequestContext(request))
+        return render_to_response('entry_detail.html', {'entry':entry, 'date': datetime.date(int(year),int(month),int(day))}, context_instance=RequestContext(request))
+
 
 def archive_day(request, year, month, day, queryset, page=0, paginate_by=10, template_name='entry_archive_day.html', **kwargs):
     # Convert date to numeric format
@@ -27,6 +31,7 @@ def archive_day(request, year, month, day, queryset, page=0, paginate_by=10, tem
       paginate_by = paginate_by,
       page = page,
       template_name = template_name,
+      extra_context = {'date':datetime.date(int(year), int(month), int(day))},
       **kwargs)
 
 def archive_month(request, year, month, queryset, page=0, paginate_by=10, template_name='entry_archive_month.html', **kwargs):
@@ -38,6 +43,7 @@ def archive_month(request, year, month, queryset, page=0, paginate_by=10, templa
       paginate_by = paginate_by,
       page = page,
       template_name = template_name,
+      extra_context = {'date':datetime.date(int(year), int(month), 1)},
       **kwargs)
     
 def archive_year(request, year, queryset, page=0, paginate_by=10, template_name='entry_archive_year.html', **kwargs):
@@ -49,6 +55,7 @@ def archive_year(request, year, queryset, page=0, paginate_by=10, template_name=
       paginate_by = paginate_by,
       page = page,
       template_name = template_name,
+      extra_context = {'date':datetime.date(int(year), 1, 1)},
       **kwargs)
 
 def category_object_list(request, category, queryset, page=0, paginate_by=10, template_name='entry_list_category.html', **kwargs):

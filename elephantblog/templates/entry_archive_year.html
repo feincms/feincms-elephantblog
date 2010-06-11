@@ -4,11 +4,10 @@
 
 
 {% block content %}
- <h1 class="date-header">{{ object_list.0.published_on|date:"Y" }}</h1>
+ <h1 class="date-header">{{ year }}</h1>
     {% block breadcrumbs %}
         
-    {% breadcrumb_url 'Blog' elephantblog_all %}
-    {% breadcrumb_url object_list.0.year elephantblog_year object_list.0.year %}
+    {% drilldown date 'year' %}
 
     <br /><br />
     {% endblock %}
