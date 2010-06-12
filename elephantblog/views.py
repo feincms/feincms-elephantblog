@@ -21,6 +21,7 @@ def blog_detail(request, queryset, year, month, day, slug, **kwargs):
     else:     
         return render_to_response('entry_detail.html', {'entry':entry, 'date': datetime.date(int(year),int(month),int(day))}, context_instance=RequestContext(request))
 
+""" Date views use object_list generic view due to pagination """
 
 def archive_day(request, year, month, day, queryset, page=0, paginate_by=10, template_name='entry_archive_day.html', **kwargs):
     # Convert date to numeric format

@@ -30,6 +30,11 @@ class Command(NoArgsCommand):
             action='store_true',
             dest='dryrun',
             default=False,
+            help='Does not send out any pings and does not change the database'),
+        make_option('--nosend','-n',
+            action='store_true',
+            dest='nosend',
+            default=False,
             help='Does not send out any pings'),
         )
     help = 'Sends out a ping for new entries'
@@ -63,7 +68,8 @@ class Command(NoArgsCommand):
                              'weblogurl': site.domain + ':/' + PINGING_WEBLOG_URI,
                              'changesurl': site.domain + ':/' + entry.get_absolute_url(),
                              }
-                    PingedURL.objects.create_for_servers(**create_kwargs)
+                    if not options.get('dryrun'):  
+                        PingedURL.objects.create_for_servers(**create_kwargs)
             else:                
                 create_kwargs = {
                              'content_object': entry,
@@ -71,10 +77,11 @@ class Command(NoArgsCommand):
                              'weblogurl': PINGING_WEBLOG_URL,
                              'changesurl': domain + ':/' + entry.get_absolute_url(),
                              }
-                PingedURL.objects.create_for_servers(**create_kwargs)
+                if not options.get('dryrun'):
+                    PingedURL.objects.create_for_servers(**create_kwargs)
             entry_id.append(entry.id)
                       
-        if not options.get('dryrun'):   
+        if not (options.get('dryrun') or options.get('nosend')):   
             Entry.objects.filter(id__in=entry_id).update(pinging=Entry.UNKNOWN)     
             PingedURL.objects.process_pending()            
             
