@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', 'elephantblog.views.archive_day', entry_dict, name='elephantblog_day'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/$', 'elephantblog.views.archive_month', entry_dict, name='elephantblog_month'),
     url(r'^(?P<year>\d{4})/$', 'elephantblog.views.archive_year', entry_dict, name='elephantblog_year'),
-    url(r'^$', 'django.views.generic.list_detail.object_list', dict(entry_dict, **{ 'template_name':'entry_list.html'}), name='elephantblog_all' ),
+    url(r'^$', 'django.views.generic.list_detail.object_list', dict(entry_dict, **{ 'template_name':'blog/entry_list.html'}), name='elephantblog_all' ),
     
     
 

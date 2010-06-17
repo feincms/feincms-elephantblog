@@ -1,17 +1,16 @@
- {% extends "elephantblogbase.html" %}
- {% load feincms_tags i18n disqus_tags breadcrumbs %}
+ {% extends "blog/elephantblogbase.html" %}
+ {% load feincms_tags i18n breadcrumbs disqus_tags %}
+ 
 
 
 {% block content %}
- <h1 class="date-header">{{ month|date:"M Y" }}</h1>
- <div class="elephantblog-header">
+ <h1 class="date-header">{{ year }}</h1>
     {% block breadcrumbs %}
-    {% drilldown date 'month' %}
+        
+    {% drilldown date 'year' %}
 
     <br /><br />
     {% endblock %}
-
-</div>
  {% for object in object_list %}
         <div class="entry">
 		    <h1><a href="{{ object.get_absolute_url }}" title="{{ object.title }}">{{ object.title }}</a></h1>

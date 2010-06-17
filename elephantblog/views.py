@@ -19,11 +19,11 @@ def blog_detail(request, queryset, year, month, day, slug, **kwargs):
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
     else:     
-        return render_to_response('entry_detail.html', {'entry':entry, 'date': datetime.date(int(year),int(month),int(day))}, context_instance=RequestContext(request))
+        return render_to_response('blog/entry_detail.html', {'entry':entry, 'date': datetime.date(int(year),int(month),int(day))}, context_instance=RequestContext(request))
 
 """ Date views use object_list generic view due to pagination """
 
-def archive_day(request, year, month, day, queryset, page=0, paginate_by=10, template_name='entry_archive_day.html', **kwargs):
+def archive_day(request, year, month, day, queryset, page=0, paginate_by=10, template_name='blog/entry_archive_day.html', **kwargs):
     # Convert date to numeric format
     date = datetime.datetime.strptime('%s-%s-%s' %(year, month, day), '%Y-%m-%d')
     return list_detail.object_list(
@@ -35,7 +35,7 @@ def archive_day(request, year, month, day, queryset, page=0, paginate_by=10, tem
       extra_context = {'date':datetime.date(int(year), int(month), int(day))},
       **kwargs)
 
-def archive_month(request, year, month, queryset, page=0, paginate_by=10, template_name='entry_archive_month.html', **kwargs):
+def archive_month(request, year, month, queryset, page=0, paginate_by=10, template_name='blog/entry_archive_month.html', **kwargs):
     # Convert date to numeric format
     date = datetime.datetime.strptime('%s-%s' %(year, month), '%Y-%m')
     return list_detail.object_list(
@@ -47,7 +47,7 @@ def archive_month(request, year, month, queryset, page=0, paginate_by=10, templa
       extra_context = {'date':datetime.date(int(year), int(month), 1)},
       **kwargs)
     
-def archive_year(request, year, queryset, page=0, paginate_by=10, template_name='entry_archive_year.html', **kwargs):
+def archive_year(request, year, queryset, page=0, paginate_by=10, template_name='blog/entry_archive_year.html', **kwargs):
     # Convert date to numeric format
     date = datetime.datetime.strptime('%s' %year, '%Y')
     return list_detail.object_list(
@@ -59,7 +59,7 @@ def archive_year(request, year, queryset, page=0, paginate_by=10, template_name=
       extra_context = {'date':datetime.date(int(year), 1, 1)},
       **kwargs)
 
-def category_object_list(request, category, queryset, page=0, paginate_by=10, template_name='entry_list_category.html', **kwargs):
+def category_object_list(request, category, queryset, page=0, paginate_by=10, template_name='blog/entry_list_category.html', **kwargs):
     return list_detail.object_list(
       request,
       queryset = queryset.filter(categories__translations__title=category).order_by('-published_on',),

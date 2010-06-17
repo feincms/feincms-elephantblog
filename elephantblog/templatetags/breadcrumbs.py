@@ -16,7 +16,7 @@ class Link(object):
     
 
 """ Creates a date-based drilldown as in the admin interface """
-@register.inclusion_tag('date_drilldown.html')
+@register.inclusion_tag('blog/date_drilldown.html')
 def drilldown(date, mode):
     if not isinstance(date, datetime.date):
         raise TemplateSyntaxError('date must be a datetime.date instance.')
