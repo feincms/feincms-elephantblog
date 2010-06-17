@@ -1,8 +1,10 @@
-from django.conf.urls.defaults import *
-from elephantblog.models import Entry
-from feincms.translations import short_language_code
 from django.conf import settings
+from django.conf.urls.defaults import *
 
+from feincms.translations import short_language_code
+
+from models import Entry
+from feeds import EntryFeed
 
 
 entry_dict = {
@@ -11,15 +13,9 @@ entry_dict = {
     }
 
 urlpatterns = patterns('',
-    url(r'^category/(?P<category>[^/]+)/$', 'elephantblog.views.category_object_list', entry_dict, name='elephantblog_category'),
-    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[^/]+)/$', 'elephantblog.views.blog_detail', entry_dict, name='elephantblog_entry_detail'),
-    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', 'elephantblog.views.archive_day', entry_dict, name='elephantblog_day'),
-    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/$', 'elephantblog.views.archive_month', entry_dict, name='elephantblog_month'),
-    url(r'^(?P<year>\d{4})/$', 'elephantblog.views.archive_year', entry_dict, name='elephantblog_year'),
-    url(r'^$', 'django.views.generic.list_detail.object_list', dict(entry_dict, **{ 'template_name':'blog/entry_list.html'}), name='elephantblog_all' ),
-    
-    
-
+    (r'^feed/$', EntryFeed()),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[^/]+)/$', 'elephantblog.views.entry', entry_dict, name='elephantblog_entry_detail'),
+    url(r'^(category/(?P<category>[^/]+)/)?((?P<year>\d{4})/)?((?P<month>\d{2})/)?((?P<day>\d{2})/)?$', 'elephantblog.views.list', entry_dict, name='elephantblog_list'),
 )
 
 if 'tagging' in settings.INSTALLED_APPS:

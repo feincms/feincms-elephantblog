@@ -1,21 +1,14 @@
-{% extends "blog/elephantblogbase.html" %}
+{% extends "base.html" %}
 {% load feinheit_thumbnail feincms_tags i18n tagging_tags disqus_tags breadcrumbs %}
 
 
 {% block title %}{{ entry.title }} - {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+	{% drilldown date 'day' %}
+{% endblock %}
+
 {% block content %}
-<div class="elephantblog-header">
-    
-	{% block breadcrumbs %}
-        
-    {% drilldown date 'day' %}
-
-	<br /><br />
-	{% endblock %}
-
-</div>
-
 <div class="entry detail">
     
     <h1 class="inContent"><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h1>
@@ -40,17 +33,4 @@
     
 
 </div>
-
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
