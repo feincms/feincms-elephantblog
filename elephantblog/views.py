@@ -1,10 +1,10 @@
 from datetime import date
 
 from django.http import Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
-
+from feincms.translations import short_language_code
 # from tagging.models import Tag, TaggedItem
 
 from elephantblog.models import Entry
@@ -12,12 +12,16 @@ from elephantblog.models import Entry
 from feincms.views.generic import list_detail
 
 
-def entry(request, queryset, year, month, day, slug, **kwargs):
-    try:
-        entry = Entry.objects.select_related().get(published_on__year=year,
-                published_on__month=month, published_on__day=day, slug=slug[:50])
-    except Entry.DoesNotExist:
-        raise Http404
+def entry(request, year, month, day, slug, language_code=None, **kwargs):
+    context={}
+
+    entry = get_object_or_404(Entry.objects.select_related(), 
+                              published_on__year=year,
+                               published_on__month=month,
+                               published_on__day=day,
+                               slug=slug)
+
+    
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
     else:     
@@ -25,10 +29,13 @@ def entry(request, queryset, year, month, day, slug, **kwargs):
 
 """ Date views use object_list generic view due to pagination """
 
-def list(request, category, year, month, day, queryset, page=0, 
-                paginate_by=10, template_name='blog/entry_list.html', **kwargs):
+def list(request, category, year, month, day, page=0, paginate_by=10,
+         template_name='blog/entry_list.html', language_code=None, **kwargs):
     extra_context = {}
-    
+    if language_code:
+        queryset = Entry.objects.active().filter(language=language_code)
+    else:
+        queryset = Entry.objects.active()
     if category:
         queryset = queryset.filter(categories__translations__title=category)
         extra_context.update({'category': category})
