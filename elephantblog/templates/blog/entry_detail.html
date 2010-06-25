@@ -1,6 +1,8 @@
 {% extends "base.html" %}
-{% load feinheit_thumbnail feincms_tags i18n tagging_tags disqus_tags breadcrumbs %}
-
+{% load feinheit_thumbnail feincms_tags i18n disqus_tags breadcrumbs %}
+{% comment %}
+{% load tagging_tags %}
+{% endcomment %}
 
 {% block title %}{{ entry.title }} - {{ block.super }}{% endblock %}
 
@@ -18,15 +20,15 @@
     {% feincms_render_region entry "main" request %}
     <br />
 	
-    {% if entry.tags %}
-    {% tags_for_object entry as tag_list %}
-    <p id="tags">Tags:
-    {% for tag in tag_list %}
-        <a href="/elephantblog/tag/{{ tag.name }}/">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-    </p>
-	<br /><br />
-	{% endif %}
+    {% comment %}
+        {% tags_for_object entry as tag_list %}
+        <p id="tags">Tags:
+        {% for tag in tag_list %}
+            <a href="/elephantblog/tag/{{ tag.name }}/">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        </p>
+    	<br /><br />
+	{% endcomment %}
 
     <a href="{{ entry.get_absolute_url }}#disqus_thread">View Comments</a>
     {% disqus_show_comments %}

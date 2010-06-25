@@ -204,11 +204,13 @@ class Entry(Base):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('elephantblog_entry_detail', (), {
-                                          'year': "%04d" %self.published_on.year,
-                                          'month': "%02d" %self.published_on.month,
-                                          'day': "%02d" %self.published_on.day,
-                                          'slug': self.slug})
+        entry_dict = {'year': "%04d" %self.published_on.year,
+                      'month': "%02d" %self.published_on.month,
+                      'day': "%02d" %self.published_on.day,
+                      'slug': self.slug}
+        if hasattr(self, 'language'):
+            entry_dict.update({'language_code': self.language})
+        return ('elephantblog_entry_detail', (), entry_dict)
 
     @classmethod
     def register_extension(cls, register_fn):
