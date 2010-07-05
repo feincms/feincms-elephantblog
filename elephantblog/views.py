@@ -36,7 +36,11 @@ def list(request, category=None, year=None, month=None, day=None, page=0, pagina
     if language_code:
         queryset = Entry.objects.active().filter(language=language_code)
     else:
-        queryset = Entry.objects.active()
+        try:
+            language_code = request._feincms_page.language 
+            queryset = Entry.objects.active().filter(language=language_code)
+        except AttributeError:
+            queryset = Entry.objects.active()
     if category:
         queryset = queryset.filter(categories__translations__title=category)
         extra_context.update({'category': category})
