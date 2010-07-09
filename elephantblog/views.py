@@ -37,7 +37,7 @@ def list(request, category=None, year=None, month=None, day=None, page=0, pagina
         queryset = Entry.objects.active().filter(language=language_code)
     else:
         try:
-            language_code = request._feincms_page.language 
+            language_code = request._feincms_page.language
             queryset = Entry.objects.active().filter(language=language_code)
         except AttributeError:
             queryset = Entry.objects.active()
