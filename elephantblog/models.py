@@ -210,15 +210,6 @@ class Entry(Base):
     def register_extension(cls, register_fn):
         register_fn(cls, EntryAdmin, Category)
 
-    def year(self):
-        return "%04d" %self.published_on.year
-
-    def month(self):
-        return "%02d" %self.published_on.month
-
-    def day(self):
-        return "%02d" %self.published_on.day
-
     def active_status(self):
         try:
             if self.publication_end_date < datetime.now():
@@ -230,7 +221,6 @@ class Entry(Base):
         else:
             return self.PUBLISHED_STATUS_DICT[self.published]
     active_status.short_description = _('Status')
-
 
     def isactive(self):
         try:
