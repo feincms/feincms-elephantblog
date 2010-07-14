@@ -129,37 +129,31 @@ Entries with a published status of greater than 50 are displayed. If the current
 """
 
 class Entry(Base):
-
     DELETED = 10
     INACTIVE = 30
     NEEDS_REEDITING = 40
     CLEARED = 50
     FRONT_PAGE = 60
 
-
     PUBLISHED_STATUS = (
-    (INACTIVE,_('INACTIVE')),
-    (CLEARED,_('CLEARED')),
-    (FRONT_PAGE,_('FRONT PAGE')),
-    (NEEDS_REEDITING,_('NEEDS RE-EDITING')),
-    (DELETED,_('DELETED')),
-    )
+        (INACTIVE,_('inactive')),
+        (CLEARED,_('cleared')),
+        (FRONT_PAGE,_('front page')),
+        (NEEDS_REEDITING,_('needs re-editing')),
+        (DELETED,_('deleted')),
+        )
 
     SLEEPING, QUEUED, SENT, UNKNOWN = 10, 20, 30, 0
 
     PINGING_STATUS = (
-    (SLEEPING, _('SLEEPING')),
-    (QUEUED, _('QUEUED')),
-    (SENT, _('SENT')),
-    (UNKNOWN, _('UNKNOWN')),
-    )
+        (SLEEPING, _('sleeping')),
+        (QUEUED, _('queued')),
+        (SENT, _('sent')),
+        (UNKNOWN, _('unknown')),
+        )
 
-    published_status = {}
-    for status in PUBLISHED_STATUS: # generate Tuple with status for display in admin interface.
-        published_status.update({status[0]:status[1]})
-    pinging_status = {}
-    for status in PINGING_STATUS:
-        pinging_status.update({status[0]:status[1]})
+    PUBLISHED_STATUS_DICT = dict(PUBLISHED_STATUS)
+    PINGING_STATUS_DICT = dict(PINGING_STATUS)
 
     user = models.ForeignKey(User, editable=False, blank=True, related_name="user_entry", verbose_name=_('author'))
     published = models.SmallIntegerField(_('publish'), choices=PUBLISHED_STATUS, default=CLEARED)
@@ -209,7 +203,7 @@ class Entry(Base):
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
         return reverse('elephantblog.views.entry', urlconf='elephantblog.urls', kwargs=entry_dict)
-       
+
 
 
     @classmethod
@@ -234,7 +228,7 @@ class Entry(Base):
         if self.published_on > datetime.now() and self.published >= self.CLEARED:
             return ugettext('ON HOLD')
         else:
-            return self.published_status[self.published]
+            return self.PUBLISHED_STATUS_DICT[self.published]
     active_status.short_description = _('Status')
 
 
