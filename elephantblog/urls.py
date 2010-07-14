@@ -20,8 +20,8 @@ urlpatterns = patterns('',
     url(r'^(category/(?P<category>[^/]+)/)?((?P<year>\d{4})/)?((?P<month>\d{2})/)?((?P<day>\d{2})/)?$', 'elephantblog.views.entry_list', entry_dict, name='elephantblog_list'),
 )
 
-if 'tagging' in settings.INSTALLED_APPS:
-    urlpatterns += patterns('',url(r'^tag/(?P<tag>[^/]+)/$', 'tagging.views.tagged_object_list', 
-        { 'template_name':'entry_list_tagged.html', 'queryset_or_model': entry_dict['queryset'], 'paginate_by':entry_dict['paginate_by']}, name='elephantblog_tag'),
-)
+#if 'tagging' in settings.INSTALLED_APPS:
+#    urlpatterns += patterns('',url(r'^tag/(?P<tag>[^/]+)/$', 'tagging.views.tagged_object_list', 
+#        { 'template_name':'entry_list_tagged.html', 'paginate_by':entry_dict['paginate_by']}, name='elephantblog_tag'),
+#)
 
