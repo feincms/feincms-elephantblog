@@ -208,7 +208,7 @@ class Entry(Base):
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-        return reverse('elephantblog.views.entry', urlconf='elephantblog.urls', kwargs=entry_dict)
+        return reverse('elephantblog.views.entry', kwargs=entry_dict)
        
 
 
