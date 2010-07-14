@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-28 11:45+0200\n"
+"POT-Creation-Date: 2010-07-14 15:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,149 +26,206 @@ msgstr "Unbenannt"
 msgid "description undefined"
 msgstr "Beschreibung"
 
-#: models.py:30
+#: models.py:33
 msgid "ordering"
 msgstr "Sortierung"
 
-#: models.py:49
+#: models.py:52
 msgid "Unnamed Category"
 msgstr "Unbenannte Kategorie"
 
-#: models.py:58
+#: models.py:56
+msgid "Blog entries in category"
+msgstr ""
+
+#: models.py:61
 msgid "category"
 msgstr "Kategorie"
 
-#: models.py:59
+#: models.py:62
 msgid "categories"
 msgstr "Kategorien"
 
-#: models.py:64
+#: models.py:67
 #, fuzzy
 msgid "category title"
 msgstr "Kategorien"
 
-#: models.py:65
+#: models.py:68
 msgid "slug"
 msgstr "Slug"
 
-#: models.py:66
+#: models.py:69
 msgid "description"
 msgstr "Beschreibung"
 
-#: models.py:69
+#: models.py:72
 #, fuzzy
 msgid "media file translation"
 msgstr "Übersetzungen"
 
-#: models.py:70
+#: models.py:73
 #, fuzzy
 msgid "media file translations"
 msgstr "Übersetzungen"
 
-#: models.py:139
-msgid "INACTIVE"
-msgstr "INAKTIV"
+#: models.py:141 models.py:282
+#, fuzzy
+msgid "inactive"
+msgstr "aktiv"
 
-#: models.py:140
-msgid "CLEARED"
-msgstr "OK"
-
-#: models.py:141
-msgid "FRONT PAGE"
-msgstr "FRONTSEITE"
-
-#: models.py:142
-msgid "NEEDS RE-EDITING"
-msgstr "ZU ÜBERARBEITEN"
+#: models.py:142 models.py:273
+msgid "cleared"
+msgstr ""
 
 #: models.py:143
-msgid "DELETED"
-msgstr "GELÖSCHT"
+msgid "front page"
+msgstr ""
 
-#: models.py:149
-msgid "SLEEPING"
-msgstr "RUHEND"
+#: models.py:144
+msgid "needs re-editing"
+msgstr ""
 
-#: models.py:150
-msgid "QUEUED"
-msgstr "WARTEND"
+#: models.py:145 models.py:285
+msgid "deleted"
+msgstr ""
 
 #: models.py:151
-msgid "SENT"
-msgstr "OK"
+#, fuzzy
+msgid "sleeping"
+msgstr "Ping"
 
-#: models.py:152
-msgid "UNKNOWN"
-msgstr "UNBEKANNT"
+#: models.py:152 models.py:270
+msgid "queued"
+msgstr ""
 
-#: models.py:162
+#: models.py:153
+#, fuzzy
+msgid "sent"
+msgstr "Eintrag"
+
+#: models.py:154
+msgid "unknown"
+msgstr ""
+
+#: models.py:160
 msgid "author"
 msgstr "Author"
 
-#: models.py:163
+#: models.py:161
 msgid "publish"
 msgstr "Veröffentlichung"
 
-#: models.py:164
+#: models.py:162
 msgid "ping"
 msgstr "Ping"
 
-#: models.py:165
+#: models.py:163
 msgid "Shows the status of the entry for the pinging management command."
 msgstr "Zeigt den Status des Eintrags für das Pinging Management Tool."
 
-#: models.py:166
+#: models.py:164
 msgid "title"
 msgstr "Titel"
 
-#: models.py:167
+#: models.py:165
 msgid "This is used for the generated navigation, too."
 msgstr "Dies wird auch für die Navigation verwendet."
 
-#: models.py:170
+#: models.py:168
 msgid "published on"
 msgstr "Veröffentlicht am"
 
-#: models.py:171
+#: models.py:169
 msgid ""
 "Will be updated automatically once you tick the `published` checkbox above."
 msgstr "Wird automatisch aktualisiert, wenn veröffentlicht."
 
-#: models.py:173
+#: models.py:171
 msgid "last change"
 msgstr "letzte Änderung"
 
-#: models.py:178
+#: models.py:176
 msgid "entry"
 msgstr "Eintrag"
 
-#: models.py:179
+#: models.py:177
 msgid "entries"
 msgstr "Einträge"
 
-#: models.py:199
+#: models.py:197
 msgid " again."
 msgstr " nochmals."
 
-#: models.py:228
+#: models.py:218
 msgid "EXPIRED"
 msgstr "ABGELAUFEN"
 
-#: models.py:232
+#: models.py:222
 msgid "ON HOLD"
 msgstr "WARTET"
 
-#: models.py:235
+#: models.py:225
 msgid "Status"
 msgstr "Status"
 
-#: models.py:248
+#: models.py:237
 msgid "active"
 msgstr "aktiv"
 
+#: models.py:251
+#, python-format
+msgid "One entry was successfully marked as %(state)s"
+msgid_plural "%(count)s entries were successfully marked as %(state)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: models.py:271
+#, fuzzy
+msgid "ping again"
+msgstr " nochmals."
+
 #: models.py:274
+#, fuzzy
+msgid "mark publish"
+msgstr "Veröffentlichung"
+
+#: models.py:276
+msgid "front-page"
+msgstr ""
+
+#: models.py:277
+msgid "mark frontpage"
+msgstr ""
+
+#: models.py:279
+msgid "need re-editing"
+msgstr ""
+
+#: models.py:280
+msgid "mark re-edit"
+msgstr ""
+
+#: models.py:283
+#, fuzzy
+msgid "mark inactive"
+msgstr "aktiv"
+
+#: models.py:286
+msgid "remove"
+msgstr ""
+
+#: models.py:296
 msgid "Main content area"
 msgstr "Hauptinhaltsbereich"
+
+#: views.py:49 views.py:59
+msgid "entries of the year"
+msgstr ""
+
+#: views.py:54
+msgid "entries of the month"
+msgstr ""
 
 #: extensions/datepublisher.py:29
 msgid "publication end date"
@@ -215,59 +272,6 @@ msgstr "Leer lassen für Einträge in der Hauptsprache"
 msgid "available translations"
 msgstr "Übersetzungen"
 
-#: templates/elephantblogbase.html:14
-msgid "Page"
-msgstr "Seite"
-
-#: templates/elephantblogbase.html:14
-msgid "of"
-msgstr "von"
-
-#: templates/elephantblogbase.html:18
-msgid "previous"
-msgstr "vorherige"
-
-#: templates/elephantblogbase.html:22
-msgid "next"
-msgstr "nächste"
-
-#: templates/entry_archive_day.html:24 templates/entry_archive_month.html:22
-#: templates/entry_archive_year.html:18 templates/entry_detail.html:25
-#: templates/entry_list.html:10 templates/entry_list_category.html:8
-#: templates/entry_list_tagged.html:9
-msgid "By"
-msgstr "von"
-
-#: templates/entry_archive_day.html:24
-msgid "Posted at"
-msgstr "Veröffentlicht um"
-
-#: templates/entry_archive_day.html:28 templates/entry_archive_month.html:27
-#: templates/entry_archive_year.html:23 templates/entry_list.html:15
-msgid "View Comments"
-msgstr "Zeige Kommentare"
-
-#: templates/entry_archive_month.html:22 templates/entry_archive_year.html:18
-#: templates/entry_detail.html:25 templates/entry_list.html:10
-#: templates/entry_list_category.html:8 templates/entry_list_tagged.html:9
-msgid "Posted on"
-msgstr "Veröffentlicht am"
-
-#: templates/entry_archive_month.html:23 templates/entry_archive_year.html:19
-#: templates/entry_detail.html:26 templates/entry_list.html:11
-#: templates/entry_list_category.html:9 templates/entry_list_tagged.html:10
-msgid "at"
-msgstr "um"
-
-#: templates/entry_list_tagged.html:5
-#, fuzzy
-msgid "tag"
-msgstr "Tag"
-
-#: templates/entry_list_tagged.html:20
-msgid "Related Tags"
-msgstr "Verwandte Tags"
-
 #: templates/admin/base.html:28
 msgid "Welcome,"
 msgstr "Willkommen"
@@ -292,3 +296,55 @@ msgstr "Hauptseite"
 #, fuzzy
 msgid "Change language"
 msgstr "Sprache"
+
+#: templates/blog/entry_detail.html:17 templates/blog/entry_headlines.html:16
+#: templates/blog/entry_list.html:16 templates/blog/entry_list_tagged.html:9
+msgid "By"
+msgstr "von"
+
+#: templates/blog/entry_detail.html:17 templates/blog/entry_headlines.html:16
+#: templates/blog/entry_list.html:16 templates/blog/entry_list_tagged.html:9
+msgid "Posted on"
+msgstr "Veröffentlicht am"
+
+#: templates/blog/entry_detail.html:18 templates/blog/entry_headlines.html:17
+#: templates/blog/entry_list.html:17 templates/blog/entry_list_tagged.html:10
+msgid "at"
+msgstr "um"
+
+#: templates/blog/entry_headlines.html:20
+msgid "more..."
+msgstr ""
+
+#: templates/blog/entry_headlines.html:31 templates/blog/entry_list.html:33
+msgid "Page"
+msgstr "Seite"
+
+#: templates/blog/entry_headlines.html:31 templates/blog/entry_list.html:33
+msgid "of"
+msgstr "von"
+
+#: templates/blog/entry_headlines.html:35 templates/blog/entry_list.html:37
+msgid "previous"
+msgstr "vorherige"
+
+#: templates/blog/entry_headlines.html:39 templates/blog/entry_list.html:41
+msgid "next"
+msgstr "nächste"
+
+#: templates/blog/entry_list.html:21
+msgid "View Comments"
+msgstr "Zeige Kommentare"
+
+#: templates/blog/entry_list_tagged.html:5
+#, fuzzy
+msgid "tag"
+msgstr "Tag"
+
+#: templates/blog/entry_list_tagged.html:20
+msgid "Related Tags"
+msgstr "Verwandte Tags"
+
+#: templatetags/breadcrumbs.py:39
+msgid "All"
+msgstr ""

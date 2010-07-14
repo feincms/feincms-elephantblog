@@ -248,8 +248,8 @@ def entry_admin_update_fn(new_state, new_state_dict):
         rows_updated = queryset.update(**new_state)
 
         self.message_user(request, ungettext(
-            _('One entry was successfully marked as %(state)s'),
-            _('%(count)s entries were successfully marked as %(state)s'),
+            'One entry was successfully marked as %(state)s',
+            '%(count)s entries were successfully marked as %(state)s',
             rows_updated) % {'state': new_state, 'count': rows_updated})
     return _fn
 
