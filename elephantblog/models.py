@@ -13,6 +13,7 @@ from django.core.validators import ValidationError
 from feincms.translations import TranslatedObjectMixin, Translation, \
     TranslatedObjectManager
 from django.template.defaultfilters import slugify
+from feincms.content.application.models import reverse
 
 
 """
@@ -202,15 +203,14 @@ class Entry(Base):
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
 
-    @models.permalink
     def get_absolute_url(self):
         entry_dict = {'year': "%04d" %self.published_on.year,
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-        if hasattr(self, 'language'):
-            entry_dict.update({'language_code': self.language})
-        return ('elephantblog_entry_detail', (), entry_dict)
+        return reverse('elephantblog.views.entry', urlconf='elephantblog.urls', kwargs=entry_dict)
+       
+
 
     @classmethod
     def register_extension(cls, register_fn):

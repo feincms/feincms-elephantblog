@@ -29,13 +29,18 @@ def entry(request, year, month, day, slug, language_code=None, **kwargs):
 
 """ Date views use object_list generic view due to pagination """
 
-def list(request, category, year, month, day, page=0, paginate_by=10,
+
+def entry_list(request, category=None, year=None, month=None, day=None, page=0, paginate_by=10,
          template_name='blog/entry_list.html', language_code=None, **kwargs):
     extra_context = {}
     if language_code:
         queryset = Entry.objects.active().filter(language=language_code)
     else:
-        queryset = Entry.objects.active()
+        try:
+            language_code = request._feincms_page.language
+            queryset = Entry.objects.active().filter(language=language_code)
+        except AttributeError:
+            queryset = Entry.objects.active()
     if category:
         queryset = queryset.filter(categories__translations__title=category)
         extra_context.update({'category': category})
@@ -65,3 +70,4 @@ def list(request, category, year, month, day, page=0, paginate_by=10,
       template_name = template_name,
       extra_context = extra_context,
       **kwargs)
+    
