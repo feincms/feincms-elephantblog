@@ -1,19 +1,23 @@
 from django.conf import settings
 from django.contrib.syndication.views import Feed
-from django.utils.translation import ugettext_lazy as _
 
 from feincms.translations import short_language_code
 
 from models import Entry
 
+import settings
+
 class EntryFeed(Feed):
-    title = _('title undefined')
+    title = settings.BLOG_TITLE
     link = '/blog/'
-    description = _('description undefined')
+    description = settings.BLOG_DESCRIPTION
     
     def items(self):
-        return Entry.objects.active().filter(language=short_language_code).order_by('-published_on')
-
+        if 'translations' in Entry._feincms_extensions:
+            return Entry.objects.active().filter(language=short_language_code).order_by('-published_on')
+        else:
+            return Entry.objects.active().order_by('-published_on')
+        
     def item_title(self, item):
         return item.title
     
