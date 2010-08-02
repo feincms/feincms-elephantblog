@@ -17,8 +17,10 @@
                  {% trans 'at' %} {{ object.published_on|time:"H:i" }}</h3>
             <p style="font-weight:bold;"> {{ object.meta_description }} </p>
             {{ object.richtextcontent_set.all.0.render }}
+			{% if object.richtextcontent_set.all.1 %}
             <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" class="entry_more">{% trans 'more...' %}</a>
-        </div>
+        	{% endif %}
+		</div>
         {% if not forloop.last %}
           <div class="separator"></div>
         {% endif %}
