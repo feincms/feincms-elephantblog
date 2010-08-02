@@ -213,7 +213,6 @@ class Entry(Base):
         register_fn(cls, EntryAdmin, Category)
 
     def active_status(self):
-        """
         try:
             if self.publication_end_date < datetime.now():
                 return ugettext('EXPIRED')
@@ -223,8 +222,7 @@ class Entry(Base):
             return ugettext('ON HOLD')
         else:
             return self.PUBLISHED_STATUS_DICT[self.published]
-        """
-        return self.objects.all()
+        
     active_status.short_description = _('Status')
 
     def isactive(self):
