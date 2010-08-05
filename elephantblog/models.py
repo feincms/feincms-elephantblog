@@ -16,6 +16,8 @@ from feincms.models import Base
 from feincms.translations import TranslatedObjectMixin, Translation, \
     TranslatedObjectManager
 from feincms.content.application.models import reverse
+from feincms.module.page.extensions.navigation import NavigationExtension,\
+    PagePretender
 
 
 """
@@ -54,6 +56,7 @@ class Category(models.Model, TranslatedObjectMixin):
     def entries(self):
         return Entry.objects.filter(categories=self, language=get_language()).count()
     entries.short_description = _('Blog entries in category')
+        
 
     objects = TranslatedObjectManager()
 
@@ -295,4 +298,14 @@ class EntryAdmin(editor.ItemEditor):
 
 Entry.register_regions(
                 ('main', _('Main content area')),
+                )
+
+class CategoriesNavigationExtension(NavigationExtension):
+    name = _('blog categories')
+    
+    def children(self, page, **kwargs):
+        for category in Category.objects.all():
+            yield PagePretender(
+                title=category.translation.title,
+                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug)
                 )
