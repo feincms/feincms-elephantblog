@@ -307,5 +307,8 @@ class CategoriesNavigationExtension(NavigationExtension):
         for category in Category.objects.all():
             yield PagePretender(
                 title=category.translation.title,
-                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug)
+                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
+                tree_id = page.tree_id, # pretty funny tree hack
+                lft = 0,
+                rght = 0,
                 )
