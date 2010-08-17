@@ -207,9 +207,7 @@ class Entry(Base):
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-                      # TODO support application content integration:
-        #return reverse('elephantblog.urls/elephantblog.views.entry', kwargs=entry_dict)
-        return reverse('elephantblog.views.entry', kwargs=entry_dict)
+        return reverse('elephantblog.urls/elephantblog.views.entry', kwargs=entry_dict)
 
     @classmethod
     def register_extension(cls, register_fn):
