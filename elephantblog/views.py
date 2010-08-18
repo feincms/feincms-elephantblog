@@ -71,6 +71,9 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     extra_context.update({'date':date(int(year), int(month), int(day)),
                           'comments' : settings.BLOG_COMMENTS})
     
+    if settings.BLOG_LIST_PAGINATION:
+        paginate_by = settings.BLOG_LIST_PAGINATION
+    
     return list_detail.object_list(
       request,
       queryset = queryset,
