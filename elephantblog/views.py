@@ -38,7 +38,7 @@ def entry(request, year, month, day, slug, language_code=None, **kwargs):
 
 
 def entry_list(request, category=None, year=None, month=None, day=None, page=0, 
-               paginate_by=10, template_name='blog/entry_list.html', 
+               paginate_by=10, template_name='blog/entry_list.html', limit=None,
                language_code=None, **kwargs):
     extra_context = {}
     if language_code:
@@ -49,6 +49,8 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
             queryset = Entry.objects.active().filter(language=language_code)
         except (AttributeError, FieldError):
             queryset = Entry.objects.active()
+    if limit:
+        queryset = queryset[:limit]
     if category:
         queryset = queryset.filter(categories__translations__title=category)
         extra_context.update({'category': category})
