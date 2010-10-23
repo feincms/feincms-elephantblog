@@ -16,6 +16,7 @@ from feincms.models import Base
 from feincms.translations import TranslatedObjectMixin, Translation, \
     TranslatedObjectManager
 from feincms.content.application.models import reverse
+from django.core.exceptions import FieldError
 
 
 """
@@ -52,7 +53,10 @@ class Category(models.Model, TranslatedObjectMixin):
             return _('Unnamed Category')
 
     def entries(self):
-        return Entry.objects.filter(categories=self, language=get_language()).count()
+        try:
+            return Entry.objects.filter(categories=self, language=get_language()).count()
+        except FieldError: #Translation Extention not active
+            return Entry.objects.filter(categories=self)
     entries.short_description = _('Blog entries in category')
 
     objects = TranslatedObjectManager()
