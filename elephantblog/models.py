@@ -187,7 +187,7 @@ class Entry(Base):
         self._old_published = self.published # stores if the entry has been published before it is being edited.
 
     def __unicode__(self):
-        return self.title
+        return unicode(self.title)
 
     def save(self, *args, **kwargs):
         if self.published >= self.CLEARED and self._old_published < self.CLEARED and self.published_on.date() <= datetime.now().date(): # only sets the publish date if the entry is published

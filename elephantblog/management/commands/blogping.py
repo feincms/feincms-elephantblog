@@ -46,7 +46,7 @@ class Command(NoArgsCommand):
         if 'sites' in Entry._feincms_extensions:
             self.use_sites = True
         
-        if self.use_sites:
+        if getattr(self, 'use_sites', False):
             active_filter = EntryManager.active_filters.copy()
             del active_filter['sites']
             active_filter.update({'pinging': Q(pinging__lte=Entry.QUEUED)})
@@ -60,12 +60,12 @@ class Command(NoArgsCommand):
         entry_id=[]
         
         for entry in batch:
-            if self.use_sites:
+            if getattr(self, 'use_sites', False):
                 for site in entry.sites.all():
                     create_kwargs = {
                              'content_object': entry,
                              'weblogname': site.name,
-                             'weblogurl': site.domain + ':/' + PINGING_WEBLOG_URI,
+                             'weblogurl': site.domain + ':/' + PINGING_WEBLOG_URL,
                              'changesurl': site.domain + ':/' + entry.get_absolute_url(),
                              }
                     if not options.get('dryrun'):  
@@ -100,6 +100,3 @@ class Command(NoArgsCommand):
                 sys.stdout.write(log.encode('ascii', 'ignore'))
         else:
             sys.stdout.write('All pings successfull\n')
-        
-                
-        
