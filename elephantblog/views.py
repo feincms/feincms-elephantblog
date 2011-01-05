@@ -6,12 +6,13 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from feincms.translations import short_language_code
 # from tagging.models import Tag, TaggedItem
-
+from django.core.exceptions import FieldError
 
 from feincms.views.generic import list_detail
 
 from models import Entry
 import settings
+
 
 def entry(request, year, month, day, slug, language_code=None, **kwargs):
     context={}
@@ -37,7 +38,7 @@ def entry(request, year, month, day, slug, language_code=None, **kwargs):
 
 
 def entry_list(request, category=None, year=None, month=None, day=None, page=0, 
-               paginate_by=10, template_name='blog/entry_list.html', 
+               paginate_by=10, template_name='blog/entry_list.html', limit=None,
                language_code=None, **kwargs):
     
     extra_context = {}
@@ -47,8 +48,10 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
         try:
             language_code = request._feincms_page.language
             queryset = Entry.objects.active().filter(language=language_code)
-        except AttributeError:
+        except (AttributeError, FieldError):
             queryset = Entry.objects.active()
+    if limit:
+        queryset = queryset[:limit]
     if category:
         queryset = queryset.filter(categories__translations__slug=category)
         extra_context.update({'category': category})
