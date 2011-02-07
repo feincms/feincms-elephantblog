@@ -203,14 +203,13 @@ class Entry(Base):
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
 
+    @models.permalink
     def get_absolute_url(self):
         entry_dict = {'year': "%04d" %self.published_on.year,
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-                      # TODO support application content integration:
-        #return reverse('elephantblog.urls/elephantblog.views.entry', kwargs=entry_dict)
-        return reverse('elephantblog.views.entry', kwargs=entry_dict)
+        return ('elephantblog.urls/elephantblog.views.entry',() , entry_dict)
 
     @classmethod
     def register_extension(cls, register_fn):
@@ -226,7 +225,7 @@ class Entry(Base):
             return ugettext('ON HOLD')
         else:
             return self.PUBLISHED_STATUS_DICT[self.published]
-        
+
     active_status.short_description = _('Status')
 
     def isactive(self):
