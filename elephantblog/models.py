@@ -19,6 +19,7 @@ from feincms.content.application.models import reverse
 from django.core.exceptions import FieldError
 
 
+
 """
 Category is language-aware and connected to the Entry model via a many to many relationship.
 It's easy to change the language of the models if the templates in admin/templates are copied to the application directory.
@@ -202,15 +203,14 @@ class Entry(Base):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
-
+    
+    @models.permalink
     def get_absolute_url(self):
         entry_dict = {'year': "%04d" %self.published_on.year,
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-                      # TODO support application content integration:
-        #return reverse('elephantblog.urls/elephantblog.views.entry', kwargs=entry_dict)
-        return reverse('elephantblog.views.entry', kwargs=entry_dict)
+        return ('elephantblog.urls/elephantblog.views.entry',() , entry_dict)
 
     @classmethod
     def register_extension(cls, register_fn):
