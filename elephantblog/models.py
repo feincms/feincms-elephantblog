@@ -203,7 +203,7 @@ class Entry(Base):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
-    
+
     @models.permalink
     def get_absolute_url(self):
         entry_dict = {'year': "%04d" %self.published_on.year,
@@ -226,7 +226,7 @@ class Entry(Base):
             return ugettext('ON HOLD')
         else:
             return self.PUBLISHED_STATUS_DICT[self.published]
-        
+
     active_status.short_description = _('Status')
 
     def isactive(self):

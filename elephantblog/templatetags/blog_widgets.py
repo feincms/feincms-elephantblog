@@ -8,6 +8,7 @@ from django.core.exceptions import FieldError
 from django.views.generic import list_detail
 
 register = template.Library()
+""" These tags require Django >=1.3 and request context """
 
 @register.simple_tag(takes_context=True)
 def get_entries(context, limit):
@@ -21,6 +22,7 @@ def get_entries(context, limit):
     context['entries'] = queryset
     return ''
 
+
 @register.simple_tag(takes_context=True)
 def get_frontpage(context):
     try:
@@ -31,6 +33,7 @@ def get_frontpage(context):
     context['entries'] = queryset
     return ''
 
+""" Legacy Tags for Django 1.2 """
 
 class GetEntries(template.Node):
     def __init__(self, limit):
@@ -45,7 +48,7 @@ class GetEntries(template.Node):
             queryset = queryset[:self.limit]
         context['entries'] = queryset
         return ''
-            
+
 
 def do_get_entries(parser, token):
     try:
