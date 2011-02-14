@@ -36,10 +36,12 @@ def entry(request, year, month, day, slug, language_code=None, **kwargs):
 
 """ Date views use object_list generic view due to pagination """
 
+""" Define the options in the entry_dict of the url file. Copy the url file into your project. """
+
 
 def entry_list(request, category=None, year=None, month=None, day=None, page=0, 
                paginate_by=10, template_name='blog/entry_list.html', limit=None,
-               language_code=None, **kwargs):
+               language_code=None, exclude=None, **kwargs):
     extra_context = {}
     if language_code:
         queryset = Entry.objects.active().filter(language=language_code)
@@ -49,6 +51,9 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
             queryset = Entry.objects.active().filter(language=language_code)
         except (AttributeError, FieldError):
             queryset = Entry.objects.active()
+        """ You can define a dict of fields and values to exclude. """
+    if exclude:
+        queryset = queryset.exclude(**exclude)
     if limit:
         queryset = queryset[:limit]
     if category:

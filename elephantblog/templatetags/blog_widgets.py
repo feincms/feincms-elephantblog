@@ -24,12 +24,14 @@ def get_entries(context, limit):
 
 
 @register.simple_tag(takes_context=True)
-def get_frontpage(context):
+def get_frontpage(context, category=None):
     try:
         language_code = context['request']._feincms_page.language
         queryset = Entry.objects.active().filter(language=language_code, published__gt=50)
     except (AttributeError, FieldError):
         queryset = Entry.objects.active()
+    if category:
+        queryset = queryset.filter(categories__translations__title=category)
     context['entries'] = queryset
     return ''
 

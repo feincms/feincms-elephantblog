@@ -210,7 +210,8 @@ class Entry(Base):
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-        return ('elephantblog.urls/elephantblog.views.entry',() , entry_dict)
+        #return ('elephantblog.urls/elephantblog.views.entry',() , entry_dict)
+        return ('elephantblog.views.entry',() , entry_dict)
 
     @classmethod
     def register_extension(cls, register_fn):
