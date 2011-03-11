@@ -26,7 +26,7 @@ def entry(request, year, month, day, slug, language_code=None, template_name='bl
     the template extends from the basic_template so we prepend 'standalone/'
     to the template_name
     '''
-    if not getattr(request, '_feincms_appcontent_parameters'):
+    if getattr(request, '_feincms_appcontent_parameters', False) == False:
         template_name = '/'.join('standalone', template_name)
     
     if not entry.isactive() and not request.user.is_authenticated():
@@ -90,8 +90,8 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     the template extends from the basic_template so we prepend 'standalone/'
     to the template_name
     '''
-    if not getattr(request, '_feincms_appcontent_parameters'):
-        template_name = '/'.join('standalone', template_name)
+    if getattr(request, '_feincms_appcontent_parameters', False) == False:
+        template_name = '/'.join(['standalone', template_name,])
     
     return list_detail.object_list(
       request,
