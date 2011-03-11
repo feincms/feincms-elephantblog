@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load feincms_tags breadcrumbs i18n disqus_tags %}
 
- 
+
 {% block breadcrumbs %}
     {% if drilldown_mode %}
         {% drilldown date drilldown_mode %}
@@ -25,20 +25,20 @@
           <div class="separator"></div>
         {% endif %}
     {% endfor %}
-    
+
     {% if page_obj.has_other_pages %}
     <div class="separator"></div>
     <div class="pagination">
             <span class="current">
                 {% trans 'Page' %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
             </span>
-            
+
             {% if page_obj.has_previous %}
-                <a class="step-back" href="?page={{ page_obj.previous_page_number }}">{% trans 'previous' %}</a>
+                <a class="step-back" href="?page={{ page_obj.previous_page_number }}" rel="prev">{% trans 'previous' %}</a>
             {% endif %}
-    
+
             {% if page_obj.has_next %}
-                <a class="step-forward" href="?page={{ page_obj.next_page_number }}">{% trans 'next' %}</a>
+                <a class="step-forward" href="?page={{ page_obj.next_page_number }}" rel="next">{% trans 'next' %}</a>
             {% endif %}
     </div>
     {% endif %}
