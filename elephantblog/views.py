@@ -13,8 +13,7 @@ from feincms.views.generic import list_detail
 from models import Entry
 import settings
 
-
-def entry(request, year, month, day, slug, language_code=None, **kwargs):
+def entry(request, year, month, day, slug, language_code=None, template_name='blog/entry_detail.html', **kwargs):
     context={}
 
     entry = get_object_or_404(Entry.objects.select_related(), 
@@ -22,27 +21,35 @@ def entry(request, year, month, day, slug, language_code=None, **kwargs):
                                published_on__month=month,
                                published_on__day=day,
                                slug=slug)
-
+    '''
+    if this app runs without ApplicationContent integration we have to make sure
+    the template extends from the basic_template so we prepend 'standalone/'
+    to the template_name
+    '''
+    if not getattr(request, '_feincms_appcontent_parameters'):
+        template_name = '/'.join('standalone', template_name)
     
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
     else:
-        extra_contest = {'entry':entry, 
+        extra_context = {
+                         'entry':entry, 
                          'date': date(int(year), int(month),int(day)),
-                         'comments' : settings.BLOG_COMMENTS
+                         'comments' : settings.BLOG_COMMENTS,
                          }
-        return render_to_response('blog/entry_detail.html', extra_contest, 
+
+        return render_to_response(template_name, extra_context, 
                                   context_instance=RequestContext(request))
 
 """ Date views use object_list generic view due to pagination """
 
 """ Define the options in the entry_dict of the url file. Copy the url file into your project. """
 
-
 def entry_list(request, category=None, year=None, month=None, day=None, page=0, 
                paginate_by=10, template_name='blog/entry_list.html', limit=None,
                language_code=None, exclude=None, **kwargs):
     extra_context = {}
+
     if language_code:
         queryset = Entry.objects.active().filter(language=language_code)
     else:
@@ -77,6 +84,14 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     
     extra_context.update({'date':date(int(year), int(month), int(day)),
                           'comments' : settings.BLOG_COMMENTS})
+    
+    '''
+    if this app runs without ApplicationContent integration we have to make sure
+    the template extends from the basic_template so we prepend 'standalone/'
+    to the template_name
+    '''
+    if not getattr(request, '_feincms_appcontent_parameters'):
+        template_name = '/'.join('standalone', template_name)
     
     return list_detail.object_list(
       request,

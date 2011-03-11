@@ -1,4 +1,3 @@
-{% extends "base.html" %}
 {% load feincms_tags breadcrumbs i18n disqus_tags %}
 
 
@@ -29,6 +28,8 @@
 		{% if not forloop.last %}
 		  <div class="separator"></div>
 		{% endif %}
+    {% empty %}
+    <p>{% trans "No entries found." %}</p>
     {% endfor %}
 
 	{% if page_obj.has_other_pages %}
