@@ -3,7 +3,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import NoReverseMatch
 from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import signals, Q
@@ -73,9 +73,9 @@ class Category(models.Model, TranslatedObjectMixin):
                       'category': self.translation.slug,
                       }
         try:
-            return reverse(view_name, (), entry_dict)
+            return reverse(view_name, args=(), kwargs=entry_dict)
         except NoReverseMatch:
-            return reverse('elephantblog.urls/%s' % view_name,() , entry_dict)
+            return reverse('elephantblog.urls/%s' % view_name, args=(), kwargs=entry_dict)
 
     objects = TranslatedObjectManager()
 
@@ -246,9 +246,9 @@ class Entry(Base):
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
         try:
-            return reverse(view_name,() , entry_dict)
+            return reverse(view_name, args=(), kwargs=entry_dict)
         except NoReverseMatch:
-            return reverse('elephantblog.urls/%s' % view_name,() , entry_dict)
+            return reverse('elephantblog.urls/%s' % view_name, args=() , kwargs=entry_dict)
         
 
     @classmethod
