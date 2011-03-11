@@ -14,6 +14,7 @@ from django.utils.translation import ugettext_lazy as _, ugettext, \
 from feincms.admin import editor
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
+from feincms.module.page.extensions.navigation import NavigationExtension, PagePretender
 from feincms.translations import TranslatedObjectMixin, Translation, \
     TranslatedObjectManager
 from feincms.content.application.models import reverse
@@ -115,7 +116,20 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields     = ['translations__title']
     inlines           = [CategoryTranslationInline]
 
+'''
+navigation extension for feincms
 
+lists all categories
+'''
+class BlogCategoriesNavigationExtension(NavigationExtension):
+    name = _('blog categories')
+
+    def children(self, page, **kwargs):
+        for category in Category.objects.all():
+            yield PagePretender(
+                title=category.translation.title,
+                url=category.get_absolute_url(),
+                )
 
 
 class EntryManager(models.Manager):
