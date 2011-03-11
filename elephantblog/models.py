@@ -3,6 +3,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import signals, Q
@@ -59,6 +60,21 @@ class Category(models.Model, TranslatedObjectMixin):
         except FieldError: #Translation Extention not active
             return Entry.objects.filter(categories=self)
     entries.short_description = _('Blog entries in category')
+
+    '''
+    returns the url of a blog category depending on wheter
+    the blog is integrated as ApplicationContent or 
+    runs standalone 
+    '''
+    def get_absolute_url(self):
+        view_name = 'elephantblog_category_list'
+        entry_dict = {
+                      'category': self.translation.slug,
+                      }
+        try:
+            return reverse(view_name, (), entry_dict)
+        except NoReverseMatch:
+            return reverse('elephantblog.urls/%s' % view_name,() , entry_dict)
 
     objects = TranslatedObjectManager()
 
@@ -204,14 +220,22 @@ class Entry(Base):
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
 
-    @models.permalink
+    '''
+    returns the url of a blog entry depending on wheter
+    the blog is integrated as ApplicationContent or 
+    runs standalone 
+    '''
     def get_absolute_url(self):
+        view_name = 'elephantblog.views.entry'
         entry_dict = {'year': "%04d" %self.published_on.year,
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-        #return ('elephantblog.urls/elephantblog.views.entry',() , entry_dict)
-        return ('elephantblog.views.entry',() , entry_dict)
+        try:
+            return reverse(view_name,() , entry_dict)
+        except NoReverseMatch:
+            return reverse('elephantblog.urls/%s' % view_name,() , entry_dict)
+        
 
     @classmethod
     def register_extension(cls, register_fn):

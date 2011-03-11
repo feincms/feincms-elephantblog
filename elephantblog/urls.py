@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^feed/$', EntryFeed()),
     url(r'^headlines/$', 'elephantblog.views.entry_list',dict(entry_dict, template_name='blog/entry_headlines.html'), name='elephantblog_headlines'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[^/]+)/$', 'elephantblog.views.entry', name='elephantblog_entry_detail'),
+    url(r'^category/(?P<category>[^/]+)/$', 'elephantblog.views.entry_list', name='elephantblog_category_list'),
     url(r'^(category/(?P<category>[^/]+)/)?((?P<year>\d{4})/)?((?P<month>\d{2})/)?((?P<day>\d{2})/)?$', 'elephantblog.views.entry_list', entry_dict, name='elephantblog_list'),
 )
 
