@@ -1,9 +1,9 @@
-{% load feinheit_thumbnail feincms_tags i18n disqus_tags breadcrumbs %}
+{% load feincms_thumbnail feincms_tags i18n disqus_tags breadcrumbs %}
 {% comment %}
 {% load tagging_tags %}
 {% endcomment %}
 
-{% block title %}{{ entry.title }} - {{ block.super }}{% endblock %}
+{% if block %}{% block title %}{{ entry.title }} - {{ block.super }}{% endblock %}{% endif %}
 
 {% block breadcrumbs %}
 	{% drilldown date 'day' %}
@@ -23,7 +23,7 @@
 	   
     {% feincms_render_region entry "main" request %}
     <br />
-	
+	{% include "blog/social_media.html" %}
     {% comment %}
         {% tags_for_object entry as tag_list %}
         <p id="tags">Tags:
