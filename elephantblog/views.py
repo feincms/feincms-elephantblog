@@ -26,7 +26,7 @@ def entry(request, year, month, day, slug, language_code=None, template_name='bl
     the template extends from the basic_template so we prepend 'standalone/'
     to the template_name
     '''
-    if getattr(request, '_feincms_appcontent_parameters', False) == False:
+    if recognize_app_content(request):
         template_name = '/'.join('standalone', template_name)
     
     if not entry.isactive() and not request.user.is_authenticated():
@@ -90,8 +90,9 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     the template extends from the basic_template so we prepend 'standalone/'
     to the template_name
     '''
-    if getattr(request, '_feincms_appcontent_parameters', False) == False:
+    if recognize_app_content(request):
         template_name = '/'.join(['standalone', template_name,])
+        print request._feincms_extra_context
     
     return list_detail.object_list(
       request,
@@ -101,4 +102,6 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
       template_name = template_name,
       extra_context = extra_context,
       **kwargs)
-    
+
+def recognize_app_content(request):
+    return getattr(request, '_feincms_appcontent_parameters', False) == False and not getattr(request, '_feincms_extra_context',{}).has_key('in_appcontent_subpage')
