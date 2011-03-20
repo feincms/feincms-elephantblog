@@ -52,6 +52,23 @@ Add the following lines to your urls.py::
 
 run manage.py syncdb.
 
+FeinCMS Integration as ApplicationContent
+-----------------------------------------
+
+You can easily add the blog to your FeinCMS Page based app.
+
+Just import and add the ApplicationContent to your Page object.
+	
+	from feincms.content..application.models import ApplicationContent
+	
+	# init your Page object here
+	
+	Page.create_content_type(ApplicationContent, APPLICATIONS=(
+	        ('elephantblog.urls', 'Blog'),
+	))
+	
+Elephantblog also provides a navigation extension for FeinCMS.
+Just make sure you have registered the 'navigation' extension on your Page object.
 
 Pinging
 -------
