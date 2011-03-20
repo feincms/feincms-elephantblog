@@ -1,4 +1,4 @@
-{% load feincms_tags breadcrumbs i18n disqus_tags %}
+{% load feincms_tags breadcrumbs i18n disqus_tags blog_tags %}
 
 
 {% block breadcrumbs %}
@@ -20,7 +20,7 @@
                 <a href="{{ category.get_absolute_url }}">{{ category.translation.title }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}.</span>{% endif %}
             </p>
-		    {% feincms_render_region object "main" request %}
+            {% blog_render_list_detail feincms_page "main" request %}
 			<br />
             <a href="{{ object.get_absolute_url }}#disqus_thread">{% trans 'View Comments' %}</a>
             {% disqus_num_replies %}
