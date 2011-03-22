@@ -1,14 +1,6 @@
-{% load feincms_tags breadcrumbs i18n disqus_tags blog_tags %}
+{% load feincms_tags breadcrumbs i18n %}
 
-
-{% block breadcrumbs %}
-    {% if drilldown_mode %}
-    	{% drilldown date drilldown_mode %}
-	{% endif %}
-{% endblock %}
-
-{% block content %}
- <h1>{{ title }}</h1>
+ <h2>{{ title }}</h2>
  {% for object in object_list %}
         <div class="entry">
             <h2><a href="{{ object.get_absolute_url }}" title="{{ object.title }}">{{ object.title }}</a></h2>
@@ -20,32 +12,28 @@
                 <a href="{{ category.get_absolute_url }}">{{ category.translation.title }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}.</span>{% endif %}
             </p>
-            {% blog_render_list_detail feincms_page "main" request %}
-			<br />
-            <a href="{{ object.get_absolute_url }}#disqus_thread">{% trans 'View Comments' %}</a>
-            {% disqus_num_replies %}
-        </div>
-		{% if not forloop.last %}
-		  <div class="separator"></div>
-		{% endif %}
-    {% empty %}
-    <p>{% trans "No entries found." %}</p>
-    {% endfor %}
+            {% feincms_render_region object "main" request %}
+            <br />
 
-	{% if page_obj.has_other_pages %}
+        </div>
+        {% if not forloop.last %}
+          <div class="separator"></div>
+        {% endif %}
+    {% endfor %}
+    
+    {% if page_obj.has_other_pages %}
     <div class="separator"></div>
     <div class="pagination">
             <span class="current">
                 {% trans 'Page' %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
             </span>
-
+            
             {% if page_obj.has_previous %}
-                <a class="step-back" href="?page={{ page_obj.previous_page_number }}" rel="prev">{% trans 'previous' %}</a>
+                <a class="step-back" href="?page={{ page_obj.previous_page_number }}">{% trans 'previous' %}</a>
             {% endif %}
-
+    
             {% if page_obj.has_next %}
-                <a class="step-forward" href="?page={{ page_obj.next_page_number }}" rel="next">{% trans 'next' %}</a>
+                <a class="step-forward" href="?page={{ page_obj.next_page_number }}">{% trans 'next' %}</a>
             {% endif %}
     </div>
     {% endif %}
-{% endblock %}

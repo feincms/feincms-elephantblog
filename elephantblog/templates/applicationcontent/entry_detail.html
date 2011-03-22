@@ -1,0 +1,45 @@
+{% load feinheit_thumbnail applicationcontent_tags feincms_tags i18n disqus_tags breadcrumbs %}
+{% comment %}
+{% load tagging_tags %}
+{% endcomment %}
+
+{% fragment request "title" %}{{ entry.title }} - {% endfragment %}
+
+{% fragment request "extra-css" %}
+<style type="text/css">
+.contenttitle { display: none; }
+</style>
+{% endfragment %}
+
+<div class="entry detail">
+    <h1 class="inContent">{{ entry.title }}</h1>
+    <p class="byline"> {% if entry.user %}{% trans 'By' %} <a href="#">{{ entry.user.get_full_name }}</a>. {% endif %}{% trans 'Posted on' %} {{ entry.published_on|date:"SHORT_DATE_FORMAT" }}
+         {% trans 'at' %} {{ entry.published_on|time:"H:i" }}
+    {% if entry.categories.all %}
+    <span class="blogcategories">{% trans 'in' %} 
+        {% for category in entry.categories.all %}
+        <a href="{{ category.get_absolute_url }}">{{ category.translation.title }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}.</span>{% endif %}
+    </p>
+
+    {% feincms_render_region entry "main" request %}
+    <br />
+    
+    {% comment %}
+        {% tags_for_object entry as tag_list %}
+        <p id="tags">Tags:
+        {% for tag in tag_list %}
+            <a href="/elephantblog/tag/{{ tag.name }}/">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        </p>
+        <br /><br />
+    {% endcomment %}
+
+    {% disqus_show_comments %}
+    
+
+</div>
+
+{% fragment request "admin-link" %}
+<a class="edit-link" href="/admin/elephantblog/entry/{{ entry.id }}/">{{ entry.title }} (Edit)</a>
+{% endfragment %}

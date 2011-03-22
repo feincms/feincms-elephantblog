@@ -3,6 +3,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.core.urlresolvers import NoReverseMatch
 from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import signals, Q
@@ -13,6 +14,7 @@ from django.utils.translation import ugettext_lazy as _, ugettext, \
 from feincms.admin import editor
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
+from feincms.module.page.extensions.navigation import NavigationExtension, PagePretender
 from feincms.translations import TranslatedObjectMixin, Translation, \
     TranslatedObjectManager
 from feincms.content.application.models import reverse
@@ -65,6 +67,21 @@ class Category(models.Model, TranslatedObjectMixin):
     entries.short_description = _('Blog entries in category')
         
 
+    '''
+    returns the url of a blog category depending on wheter
+    the blog is integrated as ApplicationContent or 
+    runs standalone 
+    '''
+    def get_absolute_url(self):
+        view_name = 'elephantblog_category_list'
+        entry_dict = {
+                      'category': self.translation.slug,
+                      }
+        try:
+            return reverse(view_name, args=(), kwargs=entry_dict)
+        except NoReverseMatch:
+            return reverse('elephantblog.urls/%s' % view_name, args=(), kwargs=entry_dict)
+
     objects = TranslatedObjectManager()
 
     class Meta:
@@ -104,7 +121,20 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields     = ['translations__title']
     inlines           = [CategoryTranslationInline]
 
+'''
+navigation extension for feincms
 
+lists all categories
+'''
+class BlogCategoriesNavigationExtension(NavigationExtension):
+    name = _('blog categories')
+
+    def children(self, page, **kwargs):
+        for category in Category.objects.all():
+            yield PagePretender(
+                title=category.translation.title,
+                url=category.get_absolute_url(),
+                )
 
 
 class EntryManager(models.Manager):
@@ -209,12 +239,22 @@ class Entry(Base):
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
 
+    '''
+    returns the url of a blog entry depending on wheter
+    the blog is integrated as ApplicationContent or 
+    runs standalone 
+    '''
     def get_absolute_url(self):
+        view_name = 'elephantblog.views.entry'
         entry_dict = {'year': "%04d" %self.published_on.year,
                       'month': "%02d" %self.published_on.month,
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
-        return reverse('elephantblog.urls/elephantblog.views.entry', kwargs=entry_dict)
+        try:
+            return reverse(view_name, args=(), kwargs=entry_dict)
+        except NoReverseMatch:
+            return reverse('elephantblog.urls/%s' % view_name, args=() , kwargs=entry_dict)
+        
 
     @classmethod
     def register_extension(cls, register_fn):
@@ -230,7 +270,7 @@ class Entry(Base):
             return ugettext('ON HOLD')
         else:
             return self.PUBLISHED_STATUS_DICT[self.published]
-        
+
     active_status.short_description = _('Status')
 
     def isactive(self):
