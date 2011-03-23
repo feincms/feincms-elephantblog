@@ -16,7 +16,7 @@ class BlogListRenderRegionNode(RenderRegionNode):
         
         try:
             list_detail_content_object = feincms_object.content.all_of_type(RichTextContent)[0]
-            list_detail_content = _render_content(list_detail_content, request=request, context=context)
+            list_detail_content = _render_content(list_detail_content_object, request=request, context=context)
         except IndexError:
             list_detail_content = u''
         
