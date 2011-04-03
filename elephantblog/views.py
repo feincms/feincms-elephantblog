@@ -57,7 +57,7 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     if limit:
         queryset = queryset[:limit]
     if category:
-        queryset = queryset.filter(categories__translations__title=category)
+        queryset = queryset.filter(categories__translations__slug=category)
         extra_context.update({'category': category})
     if year:
         queryset = queryset.filter(published_on__year=int(year))
