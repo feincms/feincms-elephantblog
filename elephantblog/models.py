@@ -68,7 +68,7 @@ class Category(models.Model, TranslatedObjectMixin):
         
 
     '''
-    returns the url of a blog category depending on wheter
+    returns the url of a blog category depending on whether
     the blog is integrated as ApplicationContent or 
     runs standalone 
     '''
@@ -126,16 +126,19 @@ navigation extension for feincms
 
 lists all categories
 '''
+
 class BlogCategoriesNavigationExtension(NavigationExtension):
     name = _('blog categories')
-
+    
     def children(self, page, **kwargs):
         for category in Category.objects.all():
             yield PagePretender(
                 title=category.translation.title,
-                url=category.get_absolute_url(),
+                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
+                tree_id = page.tree_id, # pretty funny tree hack
+                lft = 0,
+                rght = 0,
                 )
-
 
 class EntryManager(models.Manager):
 
@@ -240,7 +243,7 @@ class Entry(Base):
         super(Entry, self).save(*args, **kwargs)
 
     '''
-    returns the url of a blog entry depending on wheter
+    returns the url of a blog entry depending on whether
     the blog is integrated as ApplicationContent or 
     runs standalone 
     '''
@@ -343,17 +346,4 @@ class EntryAdmin(editor.ItemEditor):
 
 Entry.register_regions(
                 ('main', _('Main content area')),
-                )
-
-class CategoriesNavigationExtension(NavigationExtension):
-    name = _('blog categories')
-    
-    def children(self, page, **kwargs):
-        for category in Category.objects.all():
-            yield PagePretender(
-                title=category.translation.title,
-                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
-                tree_id = page.tree_id, # pretty funny tree hack
-                lft = 0,
-                rght = 0,
                 )
