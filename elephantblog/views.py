@@ -92,8 +92,8 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     '''
     if recognize_app_content(request):
         template_name = '/'.join(['standalone', template_name,])
-        print request._feincms_extra_context
-    
+        #print request._feincms_extra_context
+
     return list_detail.object_list(
       request,
       queryset = queryset,

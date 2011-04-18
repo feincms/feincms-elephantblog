@@ -51,5 +51,5 @@ def blog_render_list_detail(parser, token):
 
 @register.simple_tag
 def add_media_to_feincms_object(request, media):
-    print request._feincms_appcontent_parameters
-    return u''    
+    #print request._feincms_appcontent_parameters
+    return u''
