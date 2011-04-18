@@ -281,7 +281,13 @@ class Entry(Base):
     isactive.short_description = _('active')
     isactive.boolean = True
     is_active = property(isactive)
-
+    
+    """ Function needed for ct_tracker """
+    def get_descendants(self, include_self=False, *args, **kwargs):
+        if include_self:
+            return Entry.objects.none()
+        else:
+            return Entry.objects.filter(id=self.id)
 
 
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
