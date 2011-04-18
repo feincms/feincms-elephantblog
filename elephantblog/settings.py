@@ -15,3 +15,7 @@ BLOG_TITLE = getattr(settings, 'BLOG_TITLE', _('title undefined'))
 # Description of the blog, currently used for feed description
 BLOG_DESCRIPTION = getattr(settings, 'BLOG_DESCRIPTION', 
                            _('description undefined'))
+
+# Set pagination for elephantblog.views.entry_list, None to use default from 
+# entry_dict
+BLOG_LIST_PAGINATION = getattr(settings, 'BLOG_LIST_PAGINATION', None)

@@ -18,6 +18,10 @@ from feincms.module.page.extensions.navigation import NavigationExtension, PageP
 from feincms.translations import TranslatedObjectMixin, Translation, \
     TranslatedObjectManager
 from feincms.content.application.models import reverse
+
+from feincms.module.page.extensions.navigation import NavigationExtension,\
+    PagePretender
+
 from django.core.exceptions import FieldError
 
 
@@ -61,9 +65,10 @@ class Category(models.Model, TranslatedObjectMixin):
         except FieldError: #Translation Extention not active
             return Entry.objects.filter(categories=self)
     entries.short_description = _('Blog entries in category')
+        
 
     '''
-    returns the url of a blog category depending on wheter
+    returns the url of a blog category depending on whether
     the blog is integrated as ApplicationContent or 
     runs standalone 
     '''
@@ -121,16 +126,19 @@ navigation extension for feincms
 
 lists all categories
 '''
+
 class BlogCategoriesNavigationExtension(NavigationExtension):
     name = _('blog categories')
-
+    
     def children(self, page, **kwargs):
         for category in Category.objects.all():
             yield PagePretender(
                 title=category.translation.title,
-                url=category.get_absolute_url(),
+                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
+                tree_id = page.tree_id, # pretty funny tree hack
+                lft = 0,
+                rght = 0,
                 )
-
 
 class EntryManager(models.Manager):
 
@@ -235,7 +243,7 @@ class Entry(Base):
         super(Entry, self).save(*args, **kwargs)
 
     '''
-    returns the url of a blog entry depending on wheter
+    returns the url of a blog entry depending on whether
     the blog is integrated as ApplicationContent or 
     runs standalone 
     '''
