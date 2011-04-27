@@ -27,7 +27,7 @@ def entry(request, year, month, day, slug, language_code=None, template_name='bl
     to the template_name
     '''
     if recognize_app_content(request):
-        template_name = '/'.join('standalone', template_name)
+        template_name = '/'.join(['standalone', template_name,])
     
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
