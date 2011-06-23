@@ -1,11 +1,5 @@
-{% load feincms_tags breadcrumbs i18n disqus_tags blog_tags %}
+{% load feincms_tags breadcrumbs i18n %}
 
-
-{% block breadcrumbs %}
-    {% if drilldown_mode %}
-    	{% drilldown date drilldown_mode %}
-	{% endif %}
-{% endblock %}
 
 {% block content %}
  <h1>{{ title }}</h1>
@@ -20,19 +14,17 @@
                 <a href="{{ category.get_absolute_url }}">{{ category.translation.title }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}.</span>{% endif %}
             </p>
-            {% blog_render_list_detail feincms_page "main" request %}
-			<br />
-            <a href="{{ object.get_absolute_url }}#disqus_thread">{% trans 'View Comments' %}</a>
-            {% disqus_num_replies %}
+            <br />
+
         </div>
-		{% if not forloop.last %}
-		  <div class="separator"></div>
-		{% endif %}
+        {% if not forloop.last %}
+          <div class="separator"></div>
+        {% endif %}
     {% empty %}
     <p>{% trans "No entries found." %}</p>
     {% endfor %}
 
-	{% if page_obj.has_other_pages %}
+    {% if page_obj.has_other_pages %}
     <div class="separator"></div>
     <div class="pagination">
             <span class="current">
