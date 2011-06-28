@@ -207,7 +207,7 @@ class Entry(Base):
     title = models.CharField(_('title'), max_length=100, unique_for_date='published_on', #needs a concrete date in the field published_on.
         help_text=_('This is used for the generated navigation, too.'))
     slug = models.SlugField(max_length=100)
-    categories = models.ManyToManyField(Category, related_name="blogpost", null=True, blank=True)
+    categories = models.ManyToManyField(Category, related_name="blogposts", null=True, blank=True)
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now(),
         help_text=_('Will be updated automatically once you tick the `published` checkbox above.'))
 
