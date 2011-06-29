@@ -68,17 +68,20 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
         extra_context.update({'category': category})
     if year:
         queryset = queryset.filter(published_on__year=int(year))
-        extra_context.update({'drilldown_mode': 'year', 'title' : _('entries of the year')})
+        extra_context.update({'drilldown_mode': 'year', 'title' : year })
     else:
         year=1
     if month:
+        # display month as full word.
+        from django.template import defaultfilters
         queryset = queryset.filter(published_on__month=int(month))
-        extra_context.update({'drilldown_mode': 'month', 'title' : _('entries of the month')})
+        extra_context.update({'drilldown_mode': 'month', 'title' : defaultfilters.date(date(int(year), int(month), 1), 'E Y')})
     else:
         month=1
     if day:
+        from django.contrib.humanize.templatetags.humanize import naturalday
         queryset = queryset.filter(published_on__day=int(day))
-        extra_context.update({'drilldown_mode': 'day', 'title' : _('entries of the year')})
+        extra_context.update({'drilldown_mode': 'day', 'title' : naturalday(date(int(year), int(month), int(day))) })
     else:
         day=1
     
