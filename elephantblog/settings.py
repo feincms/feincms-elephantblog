@@ -23,4 +23,4 @@ BLOG_LIST_PAGINATION = getattr(settings, 'BLOG_LIST_PAGINATION', None)
 # Regions like Page regions:
 
 
-BLOG_REGIONS = getattr(settings, 'BLOG_REGIONS', ('main', _('Main content area')),)
+BLOG_REGIONS = getattr(settings, 'BLOG_REGIONS', (('main', _('Main content area')),))

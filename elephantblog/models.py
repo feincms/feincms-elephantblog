@@ -169,7 +169,7 @@ class EntryManager(models.Manager):
 
 
     def featured(self):
-        return self.published().filter(published=self.model.FRONT_PAGE)
+        return self.active().filter(published=self.model.FRONT_PAGE)
 
 """
 Entries with a published status of greater than 50 are displayed. If the current date is within the published date range.
@@ -350,4 +350,4 @@ class EntryAdmin(editor.ItemEditor):
         obj.save()
 
 
-Entry.register_regions(settings.BLOG_REGIONS)
+Entry.register_regions(*settings.BLOG_REGIONS)
