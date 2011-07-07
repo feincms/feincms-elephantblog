@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from django.conf import settings
+from django.conf import settings as djangosettings
+from elephantblog import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import NoReverseMatch
@@ -111,7 +112,7 @@ class CategoryTranslation(Translation(Category)):
 
 class CategoryTranslationInline(admin.StackedInline):
     model   = CategoryTranslation
-    max_num = len(settings.LANGUAGES)
+    max_num = len(djangosettings.LANGUAGES)
     prepopulated_fields = {
         'slug': ('title',),
         }
@@ -277,6 +278,7 @@ class Entry(Base):
 
     active_status.short_description = _('Status')
 
+
     def isactive(self):
         try:
             if self.publication_end_date < datetime.now():
@@ -290,6 +292,11 @@ class Entry(Base):
     isactive.short_description = _('active')
     isactive.boolean = True
     is_active = property(isactive)
+
+    @property
+    def featured(self):  #fits page extension featured
+        return self.published >= FRONT_PAGE
+    
 
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
 
@@ -343,6 +350,4 @@ class EntryAdmin(editor.ItemEditor):
         obj.save()
 
 
-Entry.register_regions(
-                ('main', _('Main content area')),
-                )
+Entry.register_regions(settings.BLOG_REGIONS)
