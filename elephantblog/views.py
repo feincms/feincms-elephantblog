@@ -8,9 +8,9 @@ from django.utils.translation import ugettext_lazy as _
 from feincms.translations import short_language_code
 # from tagging.models import Tag, TaggedItem
 from django.core.exceptions import FieldError
+from django.utils.datetime_safe import datetime
 
-from feincms.views.generic import list_detail
-
+from django.conf import settings as djangosettings
 from models import Entry
 import settings
 
@@ -50,10 +50,11 @@ def entry(request, year, month, day, slug, language_code=None, template_name='bl
 
 def entry_list(request, category=None, year=None, month=None, day=None, page=0, 
                paginate_by=10, template_name='blog/entry_list.html', limit=None,
-               language_code=None, exclude=None, **kwargs):
+               exclude=None, **kwargs):
     extra_context = { 'request' : request }
 
-    if language_code:
+    if getattr(djangosettings, 'LANGUAGES', False) and len(djangosettings.LANGUAGES)>1:
+        language_code = short_language_code()
         queryset = Entry.objects.active().filter(language=language_code)
     else:
         try:
@@ -73,20 +74,20 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
         queryset = queryset.filter(published_on__year=int(year))
         extra_context.update({'drilldown_mode': 'year', 'title' : year })
     else:
-        year=1
+        year = datetime.now().year
     if month:
         # display month as full word.
         from django.template import defaultfilters
         queryset = queryset.filter(published_on__month=int(month))
         extra_context.update({'drilldown_mode': 'month', 'title' : defaultfilters.date(date(int(year), int(month), 1), 'E Y')})
     else:
-        month=1
+        month = datetime.now().month
     if day:
         from django.contrib.humanize.templatetags.humanize import naturalday
         queryset = queryset.filter(published_on__day=int(day))
         extra_context.update({'drilldown_mode': 'day', 'title' : naturalday(date(int(year), int(month), int(day))) })
     else:
-        day=1
+        day = 1
     
     extra_context.update({'date':date(int(year), int(month), int(day)),
                           'comments' : settings.BLOG_COMMENTS})
@@ -99,6 +100,9 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     if recognize_app_content(request):
         template_name = '/'.join(['standalone', template_name,])
         #print request._feincms_extra_context
+        from django.views.generic import list_detail
+    else:
+        from feincms.views.generic import list_detail
 
     return list_detail.object_list(
       request,
