@@ -3,6 +3,7 @@ from datetime import date
 from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from feincms.translations import short_language_code
 # from tagging.models import Tag, TaggedItem
@@ -32,6 +33,8 @@ def entry(request, year, month, day, slug, language_code=None, template_name='bl
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
     else:
+        if getattr(entry, 'language', False):
+            translation.activate(entry.language)
         extra_context = {
                          'entry':entry, 
                          'date': date(int(year), int(month),int(day)),
