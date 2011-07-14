@@ -1,0 +1,29 @@
+/*
+ * blog social media integration styling
+ */
+div.comment-box {
+    display: inline;
+    margin-left: 10px;
+}
+
+*.twitter-share-button {
+    margin-right: 20px;
+}
+
+div.comment-box {
+    float: left;
+}
+
+div.comment-box a {
+    background: url("../img/comment-sharebox.png") no-repeat scroll left top transparent;
+    float: left;
+    height: 0 !important;
+    overflow: hidden;
+    padding: 6px 0 60px 28px;
+    text-decoration: none;
+    width: 40px;
+    margin-right: 10px;
+}
+div.comment-box a:hover {
+   background-position: 0 -67px;
+}    
