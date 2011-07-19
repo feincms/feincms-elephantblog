@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.db.models.fields import FieldDoesNotExist
 from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -17,7 +18,7 @@ import settings
 def entry(request, year, month, day, slug, language_code=None, template_name='blog/entry_detail.html', **kwargs):
     context={}
 
-    entry = get_object_or_404(Entry.objects.select_related(), 
+    entry = get_object_or_404(Entry.objects.select_related(),
                               published_on__year=year,
                                published_on__month=month,
                                published_on__day=day,
@@ -29,40 +30,45 @@ def entry(request, year, month, day, slug, language_code=None, template_name='bl
     '''
     if recognize_app_content(request):
         template_name = '/'.join(['standalone', template_name,])
-    
+
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
     else:
         if getattr(entry, 'language', False):
             translation.activate(entry.language)
         extra_context = {
-                         'entry':entry, 
+                         'entry':entry,
                          'date': date(int(year), int(month),int(day)),
                          'comments' : settings.BLOG_COMMENTS,
                          }
 
-        return render_to_response(template_name, extra_context, 
+        return render_to_response(template_name, extra_context,
                                   context_instance=RequestContext(request))
 
 """ Date views use object_list generic view due to pagination """
 
 """ Define the options in the entry_dict of the url file. Copy the url file into your project. """
 
-def entry_list(request, category=None, year=None, month=None, day=None, page=0, 
+def entry_list(request, category=None, year=None, month=None, day=None, page=0,
                paginate_by=10, template_name='blog/entry_list.html', limit=None,
                exclude=None, **kwargs):
     extra_context = { 'request' : request }
 
-    if getattr(djangosettings, 'LANGUAGES', False) and len(djangosettings.LANGUAGES)>1:
-        language_code = short_language_code()
-        queryset = Entry.objects.active().filter(language=language_code)
-    else:
-        try:
-            language_code = request._feincms_page.language
-            queryset = Entry.objects.active().filter(language=language_code)
-        except (AttributeError, FieldError):
-            queryset = Entry.objects.active()
-        """ You can define a dict of fields and values to exclude. """
+    # blargh. rewrite this as soon as possible
+    queryset = Entry.objects.active()
+    try:
+        field = Entry._meta.get_field('language')
+        if len(getattr(djangosettings, 'LANGUAGES', ())) > 1:
+            queryset = queryset.filter(language=short_language_code())
+        else:
+            try:
+                queryset = queryset.filter(language=request._feincms_page.language)
+            except AttributeError:
+                pass
+    except FieldDoesNotExist:
+        pass
+
+    """ You can define a dict of fields and values to exclude. """
     if exclude:
         queryset = queryset.exclude(**exclude)
     if limit:
@@ -88,7 +94,7 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
         extra_context.update({'drilldown_mode': 'day', 'title' : naturalday(date(int(year), int(month), int(day))) })
     else:
         day = 1
-    
+
     extra_context.update({'date':date(int(year), int(month), int(day)),
                           'comments' : settings.BLOG_COMMENTS})
 
