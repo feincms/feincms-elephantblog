@@ -1,10 +1,10 @@
 from datetime import datetime
 
 from django.conf import settings as djangosettings
-from elephantblog import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.core.urlresolvers import NoReverseMatch
+from django.core.exceptions import FieldError
+from django.core.urlresolvers import NoReverseMatch, reverse
 from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import signals, Q
@@ -18,12 +18,13 @@ from feincms.models import Base
 from feincms.module.page.extensions.navigation import NavigationExtension, PagePretender
 from feincms.translations import TranslatedObjectMixin, Translation, \
     TranslatedObjectManager
-from feincms.content.application.models import reverse
+from feincms.content.application.models import app_reverse
 
 from feincms.module.page.extensions.navigation import NavigationExtension,\
     PagePretender
 
-from django.core.exceptions import FieldError
+from elephantblog import settings
+
 
 
 
@@ -66,12 +67,12 @@ class Category(models.Model, TranslatedObjectMixin):
         except FieldError: #Translation Extention not active
             return Entry.objects.filter(categories=self)
     entries.short_description = _('Blog entries in category')
-        
+
 
     '''
     returns the url of a blog category depending on whether
-    the blog is integrated as ApplicationContent or 
-    runs standalone 
+    the blog is integrated as ApplicationContent or
+    runs standalone
     '''
     def get_absolute_url(self):
         view_name = 'elephantblog_category_list'
@@ -79,9 +80,9 @@ class Category(models.Model, TranslatedObjectMixin):
                       'category': self.translation.slug,
                       }
         try:
-            return reverse(view_name, args=(), kwargs=entry_dict)
+            return reverse(view_name, kwargs=entry_dict)
         except NoReverseMatch:
-            return reverse('elephantblog.urls/%s' % view_name, args=(), kwargs=entry_dict)
+            return app_reverse(view_name, 'elephantblog.urls', kwargs=entry_dict)
 
     objects = TranslatedObjectManager()
 
@@ -130,7 +131,7 @@ lists all categories
 
 class BlogCategoriesNavigationExtension(NavigationExtension):
     name = _('blog categories')
-    
+
     def children(self, page, **kwargs):
         for category in Category.objects.all():
             yield PagePretender(
@@ -246,8 +247,8 @@ class Entry(Base):
 
     '''
     returns the url of a blog entry depending on whether
-    the blog is integrated as ApplicationContent or 
-    runs standalone 
+    the blog is integrated as ApplicationContent or
+    runs standalone
     '''
     def get_absolute_url(self):
         view_name = 'elephantblog.views.entry'
@@ -256,10 +257,10 @@ class Entry(Base):
                       'day': "%02d" %self.published_on.day,
                       'slug': self.slug}
         try:
-            return reverse(view_name, args=(), kwargs=entry_dict)
+            return reverse(view_name, kwargs=entry_dict)
         except NoReverseMatch:
-            return reverse('elephantblog.urls/%s' % view_name, args=() , kwargs=entry_dict)
-        
+            return app_reverse(view_name, 'elephantblog.urls', kwargs=entry_dict)
+
 
     @classmethod
     def register_extension(cls, register_fn):
@@ -296,7 +297,7 @@ class Entry(Base):
     @property
     def featured(self):  #fits page extension featured
         return self.published >= FRONT_PAGE
-    
+
 
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
 
