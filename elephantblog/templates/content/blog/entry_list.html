@@ -1,0 +1,5 @@
+{% for entry in content.entries %}
+<h3><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h3>
+
+{{ entry.richtextcontent_set.all.0.render }}
+{% endfor %}
