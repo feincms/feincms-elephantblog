@@ -1,28 +1,29 @@
 from datetime import date
 
+from django.conf import settings as djangosettings
+from django.core.exceptions import FieldError
 from django.db.models.fields import FieldDoesNotExist
 from django.http import Http404
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import render, get_object_or_404
 from django.utils import translation
-from django.utils.translation import ugettext_lazy as _
-from feincms.translations import short_language_code
-# from tagging.models import Tag, TaggedItem
-from django.core.exceptions import FieldError
 from django.utils.datetime_safe import datetime
+from django.utils.translation import ugettext_lazy as _
 
-from django.conf import settings as djangosettings
+from feincms.translations import short_language_code
+
 from models import Entry
 import settings
+
+
 
 def entry(request, year, month, day, slug, language_code=None, template_name='blog/entry_detail.html', **kwargs):
     context={}
 
+    published_on = date(int(year), int(month), int(day))
+
     entry = get_object_or_404(Entry.objects.select_related(),
-                              published_on__year=year,
-                               published_on__month=month,
-                               published_on__day=day,
-                               slug=slug)
+        published_on=published_on, slug=slug)
+
     '''
     if this app runs without ApplicationContent integration we have to make sure
     the template extends from the basic_template so we prepend 'standalone/'
@@ -33,17 +34,18 @@ def entry(request, year, month, day, slug, language_code=None, template_name='bl
 
     if not entry.isactive() and not request.user.is_authenticated():
         raise Http404
-    else:
-        if getattr(entry, 'language', False):
-            translation.activate(entry.language)
-        extra_context = {
-                         'entry':entry,
-                         'date': date(int(year), int(month),int(day)),
-                         'comments' : settings.BLOG_COMMENTS,
-                         }
 
-        return render_to_response(template_name, extra_context,
-                                  context_instance=RequestContext(request))
+    if getattr(entry, 'language', None):
+        translation.activate(entry.language)
+
+    extra_context = {
+                     'entry': entry,
+                     'date': published_on,
+                     'comments' : settings.BLOG_COMMENTS,
+                     }
+
+    return render(request, template_name, extra_context)
+
 
 """ Date views use object_list generic view due to pagination """
 
@@ -118,6 +120,7 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
       template_name = template_name,
       extra_context = extra_context,
       **kwargs)
+
 
 def recognize_app_content(request):
     return getattr(request, '_feincms_appcontent_parameters', False) == False and not getattr(request, '_feincms_extra_context',{}).has_key('in_appcontent_subpage')
