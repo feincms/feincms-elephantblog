@@ -19,10 +19,16 @@ import settings
 def entry(request, year, month, day, slug, language_code=None, template_name='blog/entry_detail.html', **kwargs):
     context={}
 
-    published_on = date(int(year), int(month), int(day))
+    try:
+        published_on = date(int(year), int(month), int(day))
+    except ValueError:
+        raise Http404
 
     entry = get_object_or_404(Entry.objects.select_related(),
-        published_on=published_on, slug=slug)
+        published_on__year=published_on.year,
+        published_on__month=published_on.month,
+        published_on__day=published_on.day,
+        slug=slug)
 
     '''
     if this app runs without ApplicationContent integration we have to make sure
@@ -112,14 +118,8 @@ def entry_list(request, category=None, year=None, month=None, day=None, page=0,
     else:
         from feincms.views.generic import list_detail
 
-    return list_detail.object_list(
-      request,
-      queryset = queryset,
-      paginate_by = paginate_by,
-      page = page,
-      template_name = template_name,
-      extra_context = extra_context,
-      **kwargs)
+    return list_detail.object_list(request, queryset=queryset, paginate_by=paginate_by,
+        page=page, template_name=template_name, extra_context=extra_context, **kwargs)
 
 
 def recognize_app_content(request):
