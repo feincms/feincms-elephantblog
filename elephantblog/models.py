@@ -39,8 +39,14 @@ Tagging: http://code.google.com/p/django-tagging/
 """
 
 class Category(models.Model, TranslatedObjectMixin):
-
     ordering = models.SmallIntegerField(_('ordering'), default=0)
+
+    class Meta:
+        verbose_name = _('category')
+        verbose_name_plural = _('categories')
+        ordering = ['-ordering',]
+
+    objects = TranslatedObjectManager()
 
     def __unicode__(self):
         trans = None
@@ -83,13 +89,6 @@ class Category(models.Model, TranslatedObjectMixin):
             return reverse(view_name, kwargs=entry_dict)
         except NoReverseMatch:
             return app_reverse(view_name, 'elephantblog.urls', kwargs=entry_dict)
-
-    objects = TranslatedObjectManager()
-
-    class Meta:
-        verbose_name = _('category')
-        verbose_name_plural = _('categories')
-        ordering = ['-ordering',]
 
 
 class CategoryTranslation(Translation(Category)):
