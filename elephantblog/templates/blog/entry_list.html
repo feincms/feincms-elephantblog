@@ -1,7 +1,6 @@
 {% load feincms_tags breadcrumbs i18n %}
 
 
-{% block content %}
  <h1>{{ title }}</h1>
  {% for object in object_list %}
         <div class="entry">
@@ -9,7 +8,7 @@
             <p class="byline"> {% if object.user %}{% trans 'By' %} <a href="#">{{ object.user.get_full_name }}</a>. {% endif %}{% trans 'Posted on' %} {{ object.published_on|date:"SHORT_DATE_FORMAT" }}
                  {% trans 'at' %} {{ object.published_on|time:"H:i" }}
             {% if object.categories.all %}
-            <span class="blogcategories">{% trans 'in' %} 
+            <span class="blogcategories">{% trans 'in' %}
                 {% for category in object.categories.all %}
                 <a href="{{ category.get_absolute_url }}">{{ category.translation.title }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}.</span>{% endif %}
@@ -40,4 +39,4 @@
             {% endif %}
     </div>
     {% endif %}
-{% endblock %}
+

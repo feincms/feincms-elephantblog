@@ -11,18 +11,17 @@
     {% drilldown date 'day' %}
 {% endblock %}
 
-{% block content %}
 <div class="entry detail">
     <h1 class="inContent"><a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}">{{ entry.title }}</a></h1>
     <p class="byline"> {% if entry.user %}{% trans 'By' %} <a href="#">{{ entry.user.get_full_name }}</a>. {% endif %}{% trans 'Posted on' %} {{ entry.published_on|date:"SHORT_DATE_FORMAT" }}
          {% trans 'at' %} {{ entry.published_on|time:"H:i" }}
     {% if entry.categories.all %}
-    <span class="blogcategories">{% trans 'in' %} 
+    <span class="blogcategories">{% trans 'in' %}
         {% for category in entry.categories.all %}
         <a href="{{ category.get_absolute_url }}">{{ category.translation.title }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}.</span>{% endif %}
     </p>
-       
+
     {% feincms_render_region entry "main" request %}
     <br />
         {% comment %}
@@ -36,7 +35,6 @@
         {% endif %}
         <br /><br />
         {% endcomment %}
-    
+
 
 </div>
-{% endblock %}

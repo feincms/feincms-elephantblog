@@ -1,6 +1,5 @@
 {% load feincms_tags i18n %}
- 
-{% block content %}
+
  <h1 class="tag-header">{% trans 'tag' %}: {{ tag }}</h1>
  {% for object in object_list %}
         <div class="entry">
@@ -18,6 +17,3 @@
 {% if related_tags %}
     <h2> {% trans 'Related Tags' %}: {{ related_tags }} </h2>
 {% endif %}
-
-	
-{% endblock %}
