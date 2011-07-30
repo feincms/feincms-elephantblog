@@ -315,7 +315,7 @@ def entry_admin_update_fn(new_state, new_state_dict):
 class EntryAdmin(editor.ItemEditor):
     date_hierarchy = 'published_on'
     list_display = ['__unicode__', 'published', 'last_changed', 'isactive', 'active_status', 'published_on', 'user', 'pinging']
-    list_filter = ('published','published_on')
+    list_filter = ('published', 'published_on', 'categories')
     search_fields = ('title', 'slug',)
     prepopulated_fields = {
         'slug': ('title',),
