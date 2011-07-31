@@ -1,13 +1,18 @@
 #coding=utf-8
 
 from django import forms
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import models
 from django.template.context import RequestContext
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from elephantblog.models import Category
+
+try:
+    # Load paginator with additional goodies form towel if possible
+    from towel.paginator import Paginator, EmptyPage, PageNotAnInteger
+except ImportError:
+    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class BlogGalleryTeaserWidget(models.Model):
@@ -68,7 +73,7 @@ class BlogEntryListContent(models.Model):
             entries = entries.filter(categories=self.category)
 
         if self.paginate_by:
-            paginator = Paginator(entries, paginate_by=self.paginate_by)
+            paginator = Paginator(entries, self.paginate_by)
             page = request.GET.get('page')
             try:
                 self.entries = paginator.page(page)
