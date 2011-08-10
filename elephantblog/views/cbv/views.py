@@ -1,4 +1,7 @@
+from django.shortcuts import get_object_or_404
 from django.views.generic import dates, list as list_
+
+from elephantblog.models import Category
 
 
 class ApplicationContentInheritanceMixin(object):
@@ -37,3 +40,18 @@ class DayArchiveView(ApplicationContentInheritanceMixin, dates.DayArchiveView):
 
 class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
     pass
+
+
+class CategoryListView(ApplicationContentInheritanceMixin, list_.ListView):
+    template_name_suffix = '_archive_category'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, translations__slug=self.kwargs['slug'])
+
+        queryset = super(CategoryListView, self).get_queryset()
+        return queryset.filter(categories=self.category)
+
+    def get_context_data(self, **kwargs):
+        return super(CategoryListView, self).get_context_data(
+            category=self.category,
+            **kwargs)
