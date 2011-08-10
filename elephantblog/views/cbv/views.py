@@ -14,12 +14,7 @@ class ApplicationContentInheritanceMixin(object):
     """
 
     def render_to_response(self, context, **response_kwargs):
-        use_inheritance_20 = False
-
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
-            use_inheritance_20 = True
-
-        if use_inheritance_20:
             return self.get_template_names(), context
 
         return super(ApplicationContentInheritanceMixin, self).render_to_response(
