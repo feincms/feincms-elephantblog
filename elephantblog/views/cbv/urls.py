@@ -48,24 +48,31 @@ except ImportError:
     from django.core import paginator
 
 
-view_kwargs = dict(queryset=Entry.objects.active())
-list_view_kwargs = dict(view_kwargs, paginator_class=paginator.Paginator)
-dates_view_kwargs = dict(view_kwargs, month_format='%m')
+view_kw = {'queryset': Entry.objects.active()}
+paginate_kw = {'paginator_class': paginator.Paginator, 'paginate_by': 10}
+date_kw = {'month_format': '%m', 'date_field': 'published_on'}
+
+def combine(*dicts):
+    ret = {}
+    for d in dicts:
+        ret.update(d)
+    return ret
 
 
 urlpatterns = patterns('elephantblog.views.cbv',
     url(r'^feed/$', EntryFeed()),
-    url(r'^$', views.ListView.as_view(**list_view_kwargs), name='elephantblog_entry_list'),
+    url(r'^$', views.ListView.as_view(**combine(view_kw, paginate_kw)), name='elephantblog_entry_list'),
     url(r'^(?P<year>\d{4})/$',
-        views.YearArchiveView.as_view(**list_view_kwargs),
+        views.YearArchiveView.as_view(**combine(view_kw, paginate_kw, {
+            'date_field': 'published_on', 'make_object_list': True})),
         name='elephantblog_entry_archive_year'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/$',
-        views.MonthArchiveView.as_view(**dates_view_kwargs),
+        views.MonthArchiveView.as_view(**combine(view_kw, paginate_kw, date_kw)),
         name='elephantblog_entry_archive_month'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
-        views.DayArchiveView.as_view(**dates_view_kwargs),
+        views.DayArchiveView.as_view(**combine(view_kw, paginate_kw, date_kw)),
         name='elephantblog_entry_archive_day'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-        views.DateDetailView.as_view(**dates_view_kwargs),
+        views.DateDetailView.as_view(**combine(view_kw, date_kw)),
         name='elephantblog_entry_detail'),
 )

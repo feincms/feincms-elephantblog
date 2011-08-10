@@ -1,0 +1,14 @@
+{% for entry in object_list %}
+    <article>
+        <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
+        <small>
+            {% for category in entry.categories.all %}
+                <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
+            {% endfor %}
+            {{ entry.published_on|date:"j F Y" }}
+        </small>
+
+        {{ entry.richtextcontent_set.all.0.render }}
+    </article>
+{% endfor %}
+

@@ -1,0 +1,17 @@
+{% extends feincms_page.template.path|default:"base.html" %}
+
+{% load feincms_tags i18n %}
+
+{% block title %}{% trans "News" %} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>{{ object }}</h1>
+<small>
+    {% for category in entry.categories.all %}
+        <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
+    {% endfor %}
+    {{ entry.published_on|date:"j F Y" }}
+</small>
+
+{% feincms_render_region object "main" request %}
+{% endblock %}
