@@ -1,7 +1,12 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import dates, list as list_
 
-from elephantblog.models import Category
+from elephantblog.models import Category, Entry
+
+try:
+    from towel import paginator
+except ImportError:
+    from django.core import paginator
 
 
 class ApplicationContentInheritanceMixin(object):
@@ -22,22 +27,45 @@ class ApplicationContentInheritanceMixin(object):
 
 
 class ListView(ApplicationContentInheritanceMixin, list_.ListView):
-    pass
+    queryset = Entry.objects.active()
+    paginator_class = paginator.Paginator
+    paginate_by = 10
+
 
 class YearArchiveView(ApplicationContentInheritanceMixin, dates.YearArchiveView):
-    pass
+    queryset = Entry.objects.active()
+    paginator_class = paginator.Paginator
+    paginate_by = 10
+    date_field = 'published_on'
+    make_object_list = True
+
 
 class MonthArchiveView(ApplicationContentInheritanceMixin, dates.MonthArchiveView):
-    pass
+    queryset = Entry.objects.active()
+    paginator_class = paginator.Paginator
+    paginate_by = 10
+    month_format = '%m'
+    date_field = 'published_on'
+
 
 class DayArchiveView(ApplicationContentInheritanceMixin, dates.DayArchiveView):
-    pass
+    queryset = Entry.objects.active()
+    paginator_class = paginator.Paginator
+    paginate_by = 10
+    month_format = '%m'
+    date_field = 'published_on'
+
 
 class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
-    pass
+    queryset = Entry.objects.active()
+    paginator_class = paginator.Paginator
+    paginate_by = 10
+    month_format = '%m'
+    date_field = 'published_on'
 
 
 class CategoryListView(ApplicationContentInheritanceMixin, list_.ListView):
+    queryset = Entry.objects.active()
     template_name_suffix = '_archive_category'
 
     def get_queryset(self):
