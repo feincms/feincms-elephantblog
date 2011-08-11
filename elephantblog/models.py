@@ -23,8 +23,6 @@ from feincms.admin import editor
 from feincms.content.application.models import app_reverse
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
-from feincms.module.page.extensions.navigation import (NavigationExtension,
-    PagePretender)
 from feincms.utils.queryset_transform import TransformQuerySet
 
 from elephantblog import settings
@@ -85,25 +83,6 @@ class CategoryTranslation(translations.Translation(Category)):
             self.slug = slugify(self.title)
 
         super(CategoryTranslation, self).save(*args, **kwargs)
-
-
-class BlogCategoriesNavigationExtension(NavigationExtension):
-    """
-    Navigation extension for FeinCMS which lists all available categories
-    """
-
-    name = _('blog categories')
-
-    def children(self, page, **kwargs):
-        for category in Category.objects.all():
-            yield PagePretender(
-                title=category.translation.title,
-                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
-                tree_id=page.tree_id, # pretty funny tree hack
-                lft=0,
-                rght=0,
-                slug=category.translation.slug,
-                )
 
 
 class EntryManager(models.Manager):
