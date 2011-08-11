@@ -137,7 +137,7 @@ class EntryManager(models.Manager):
 
 class Entry(Base):
     """
-    Entries with a published status of greater than 50 are displayed
+    Entries with a published status of greater equal 50 are displayed
     if the current date is within the published date range.
     """
 
