@@ -43,13 +43,12 @@ class Command(NoArgsCommand):
 
         self.use_sites = 'sites' in getattr(Entry, '_feincms_extensions', ())
 
-        if self.use_sites:
-            active_filters = EntryManager.active_filters.copy()
-            del active_filters['sites']
-            active_filters.update({'pinging': Q(pinging__lte=Entry.QUEUED)})
-            batch = EntryManager.apply_active_filters(Entry.objects.all(), filter=active_filters)
-        else:
-            batch = Entry.objects.active().filter(pinging__lte=Entry.QUEUED)
+        if self.use_sites and 'sites' in EntryManager.active_filters:
+            # Process entries from all sites
+            del EntryManager.active_filters['sites']
+
+        EntryManager.active_filters['pinging'] = Q(pinging__lte=Entry.QUEUED)
+        batch = Entry.objects.active()
 
         if len(batch) > MAX_POSTS:
             print 'More than ' + MAX_POSTS + 'posts. Aborting.'

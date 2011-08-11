@@ -99,18 +99,17 @@ class EntryManager(models.Manager):
         return TransformQuerySet(self.model, using=self._db)
 
     @classmethod
-    def apply_active_filters(cls, queryset, filter):
-        cls.filters = filter.values()
-
-        for filt in cls.filters:
+    def apply_active_filters(cls, queryset):
+        for filt in cls.active_filters.values():
             if callable(filt):
                 queryset = filt(queryset)
             else:
                 queryset = queryset.filter(filt)
+
         return queryset
 
     def active(self):
-        return self.apply_active_filters(self, filter=self.active_filters)
+        return self.apply_active_filters(self)
 
     def featured(self):
         return self.active().filter(published=self.model.FRONT_PAGE)
