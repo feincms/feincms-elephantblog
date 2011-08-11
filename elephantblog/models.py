@@ -90,9 +90,10 @@ class EntryManager(models.Manager):
     # A list of filters which are used to determine whether a page is active or not.
     # Extended for example in the datepublisher extension (date-based publishing and
     # un-publishing of pages)
-    CLEARED = 50
-    active_filters = {'cleared' : Q(published__gte=CLEARED),
-        'publish_start': Q(published_on__lte=datetime.now),}
+    active_filters = {
+        'cleared': lambda queryset: queryset.filter(published__gte=Entry.CLEARED),
+        'publish_start': Q(published_on__lte=datetime.now),
+        }
 
     def get_query_set(self):
         return TransformQuerySet(self.model, using=self._db)
