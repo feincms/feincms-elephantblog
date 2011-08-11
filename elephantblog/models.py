@@ -1,3 +1,10 @@
+"""
+You need the following modules to use this blog:
+Disqus: http://github.com/arthurk/django-disqus
+Pinging: http://github.com/matthiask/pinging
+Tagging: http://code.google.com/p/django-tagging/
+"""
+
 from datetime import datetime
 
 from django.contrib import admin
@@ -8,35 +15,27 @@ from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
-from django.utils.translation import ugettext_lazy as _, ugettext, \
-    get_language, ungettext
+from django.utils.translation import (ugettext_lazy as _, ugettext,
+    get_language, ungettext)
 
+from feincms import translations
 from feincms.admin import editor
+from feincms.content.application.models import app_reverse
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
-from feincms.module.page.extensions.navigation import NavigationExtension, PagePretender
-from feincms.translations import TranslatedObjectMixin, Translation, \
-    TranslatedObjectManager
-from feincms.content.application.models import app_reverse
-
-from feincms.module.page.extensions.navigation import NavigationExtension,\
-    PagePretender
+from feincms.module.page.extensions.navigation import (NavigationExtension,
+    PagePretender)
 
 from elephantblog import settings
 
 
 
-"""
-Category is language-aware and connected to the Entry model via a many to many relationship.
-It's easy to change the language of the models if the templates in admin/templates are copied to the application directory.
+class Category(models.Model, translations.TranslatedObjectMixin):
+    """
+    Category is language-aware and connected to the Entry model via
+    a many to many relationship.
+    """
 
-You need the following modules to use this blog:
-Disqus: http://github.com/arthurk/django-disqus
-Pinging: http://github.com/matthiask/pinging
-Tagging: http://code.google.com/p/django-tagging/
-"""
-
-class Category(models.Model, TranslatedObjectMixin):
     ordering = models.SmallIntegerField(_('ordering'), default=0)
 
     class Meta:
@@ -44,18 +43,20 @@ class Category(models.Model, TranslatedObjectMixin):
         verbose_name_plural = _('categories')
         ordering = ['-ordering',]
 
-    objects = TranslatedObjectManager()
+    objects = translations.TranslatedObjectManager()
 
     def __unicode__(self):
-        trans = TranslatedObjectMixin.__unicode__(self)
+        trans = translations.TranslatedObjectMixin.__unicode__(self)
         return trans or _('Unnamed category')
 
-    '''
-    returns the url of a blog category depending on whether
-    the blog is integrated as ApplicationContent or
-    runs standalone
-    '''
     def get_absolute_url(self):
+        """
+        Return the URL of a blog category
+
+        Tries standalone first and falls back to ApplicationContent if
+        the URL could not be reversed.
+        """
+
         view_name = 'elephantblog_category_list'
         entry_dict = {
                       'category': self.translation.slug,
@@ -66,7 +67,7 @@ class Category(models.Model, TranslatedObjectMixin):
             return app_reverse(view_name, 'elephantblog.urls', kwargs=entry_dict)
 
 
-class CategoryTranslation(Translation(Category)):
+class CategoryTranslation(translations.Translation(Category)):
     title = models.CharField(_('category title'), max_length=100)
     slug = models.SlugField(_('slug'),)
     description = models.CharField(_('description'), max_length=250, blank=True)
@@ -86,13 +87,11 @@ class CategoryTranslation(Translation(Category)):
         super(CategoryTranslation, self).save(*args, **kwargs)
 
 
-'''
-navigation extension for feincms
-
-lists all categories
-'''
-
 class BlogCategoriesNavigationExtension(NavigationExtension):
+    """
+    Navigation extension for FeinCMS which lists all available categories
+    """
+
     name = _('blog categories')
 
     def children(self, page, **kwargs):
@@ -135,11 +134,13 @@ class EntryManager(models.Manager):
     def featured(self):
         return self.active().filter(published=self.model.FRONT_PAGE)
 
-"""
-Entries with a published status of greater than 50 are displayed. If the current date is within the published date range.
-"""
 
 class Entry(Base):
+    """
+    Entries with a published status of greater than 50 are displayed
+    if the current date is within the published date range.
+    """
+
     DELETED = 10
     INACTIVE = 30
     NEEDS_REEDITING = 40
@@ -208,12 +209,14 @@ class Entry(Base):
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
 
-    '''
-    returns the url of a blog entry depending on whether
-    the blog is integrated as ApplicationContent or
-    runs standalone
-    '''
     def get_absolute_url(self):
+        """
+        Return the URL of a blog entry
+
+        Tries standalone first and falls back to ApplicationContent if
+        the URL could not be reversed.
+        """
+
         view_name = 'elephantblog.views.entry'
         entry_dict = {'year': "%04d" %self.published_on.year,
                       'month': "%02d" %self.published_on.month,
@@ -224,7 +227,6 @@ class Entry(Base):
         except NoReverseMatch:
             return app_reverse(view_name, 'elephantblog.urls', kwargs=entry_dict)
 
-
     @classmethod
     def register_extension(cls, register_fn):
         register_fn(cls, EntryAdmin, Category)
@@ -232,11 +234,11 @@ class Entry(Base):
     def active_status(self):
         try:
             if self.publication_end_date < datetime.now():
-                return ugettext('EXPIRED')
+                return ugettext('expired')
         except:
             pass
         if self.published_on > datetime.now() and self.published >= self.CLEARED:
-            return ugettext('ON HOLD')
+            return ugettext('on hold')
         else:
             return self.PUBLISHED_STATUS_DICT[self.published]
 
@@ -265,7 +267,7 @@ class Entry(Base):
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
 
 
-def entry_admin_update_fn(new_state, new_state_dict):
+def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
     def _fn(self, request, queryset):
         rows_updated = queryset.update(**new_state)
 
@@ -273,14 +275,18 @@ def entry_admin_update_fn(new_state, new_state_dict):
             'One entry was successfully marked as %(state)s',
             '%(count)s entries were successfully marked as %(state)s',
             rows_updated) % {'state': new_state, 'count': rows_updated})
+
+    if short_description:
+        _fn.short_description = short_description
     return _fn
 
 
 class EntryAdmin(editor.ItemEditor):
     date_hierarchy = 'published_on'
-    list_display = ['__unicode__', 'published', 'last_changed', 'isactive', 'active_status', 'published_on', 'user', 'pinging']
-    list_filter = ('published', 'published_on', 'categories')
-    search_fields = ('title', 'slug',)
+    list_display = ['__unicode__', 'published', 'last_changed', 'isactive',
+        'active_status', 'published_on', 'user', 'pinging']
+    list_filter = ['published', 'published_on', 'categories']
+    search_fields = ['title', 'slug']
     prepopulated_fields = {
         'slug': ('title',),
         }
@@ -289,25 +295,32 @@ class EntryAdmin(editor.ItemEditor):
     raw_id_fields = []
 
 
-    ping_again = entry_admin_update_fn(_('queued'), {'pinging': Entry.QUEUED})
-    ping_again.short_description = _('ping again')
+    ping_again = entry_admin_update_fn(_('queued'), {'pinging': Entry.QUEUED},
+        short_description=_('ping again'))
 
-    mark_publish = entry_admin_update_fn(_('cleared'), {'published': Entry.CLEARED})
-    mark_publish.short_description = _('mark publish')
+    mark_publish = entry_admin_update_fn(_('cleared'), {'published': Entry.CLEARED},
+        short_description=_('mark publish'))
 
-    mark_frontpage = entry_admin_update_fn(_('front-page'), {'published': Entry.FRONT_PAGE})
-    mark_frontpage.short_description = _('mark frontpage')
+    mark_frontpage = entry_admin_update_fn(_('front-page'), {'published': Entry.FRONT_PAGE},
+        short_description=_('mark frontpage'))
 
-    mark_needs_reediting = entry_admin_update_fn(_('need re-editing'), {'published': Entry.NEEDS_REEDITING})
-    mark_needs_reediting.short_description = _('mark re-edit')
+    mark_needs_reediting = entry_admin_update_fn(_('need re-editing'), {'published': Entry.NEEDS_REEDITING},
+        short_description=_('mark re-edit'))
 
-    mark_inactive = entry_admin_update_fn(_('inactive'), {'published': Entry.INACTIVE})
-    mark_inactive.short_description = _('mark inactive')
+    mark_inactive = entry_admin_update_fn(_('inactive'), {'published': Entry.INACTIVE},
+        short_description=_('mark inactive'))
 
-    mark_delete = entry_admin_update_fn(_('deleted'), {'published': Entry.DELETED})
-    mark_delete.short_description = _('remove')
+    mark_delete = entry_admin_update_fn(_('deleted'), {'published': Entry.DELETED},
+        short_description=_('remove'))
 
-    actions = (mark_publish, mark_frontpage, mark_needs_reediting, mark_inactive, mark_delete, ping_again)
+    actions = [
+        mark_publish,
+        mark_frontpage,
+        mark_needs_reediting,
+        mark_inactive,
+        mark_delete,
+        ping_again,
+        ]
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
