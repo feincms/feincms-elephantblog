@@ -291,9 +291,7 @@ class EntryAdmin(editor.ItemEditor):
         'slug': ('title',),
         }
 
-    show_on_top = ['title', 'published', 'categories']
     raw_id_fields = []
-
 
     ping_again = entry_admin_update_fn(_('queued'), {'pinging': Entry.QUEUED},
         short_description=_('ping again'))
