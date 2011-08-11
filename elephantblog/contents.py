@@ -6,7 +6,7 @@ from django.template.context import RequestContext
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
-from elephantblog.models import Category
+from elephantblog.models import Category, Entry
 
 try:
     # Load paginator with additional goodies form towel if possible
@@ -53,6 +53,28 @@ class BlogGalleryTeaserWidget(models.Model):
                                 context_instance=RequestContext(request))
 
 
+def _lookup_related(entry_qs):
+    entry_dict = dict((e.pk, e) for e in entry_qs)
+
+    for content in Entry.richtextcontent_set.related.model.objects.filter(
+            parent__in=entry_dict.keys()).reverse():
+        entry_dict[content.parent_id].first_richtext = content
+
+    for content in Entry.mediafilecontent_set.related.model.objects.filter(
+            parent__in=entry_dict.keys(),
+            mediafile__type='image').reverse():
+        entry_dict[content.parent_id].first_image = content
+
+    m2mfield = Entry._meta.get_field('categories')
+    for category in Category.objects.filter(blogposts__in=entry_dict.keys()).extra(
+            select={
+                'entry_id': '%s.%s' % (m2mfield.m2m_db_table(), m2mfield.m2m_column_name()),
+            }):
+        entry = entry_dict[category.entry_id]
+        if not hasattr(entry, 'fetched_categories'): entry.fetched_categories = []
+        entry.fetched_categories.append(category)
+
+
 class BlogEntryListContent(models.Model):
     category = models.ForeignKey(Category, blank=True, null=True, related_name='+',
         verbose_name=_('category'), help_text=_('Only show entries from this category.'))
@@ -62,12 +84,8 @@ class BlogEntryListContent(models.Model):
     class Meta:
         abstract = True
 
-    @classmethod
-    def initialize_type(cls, queryset):
-        cls.queryset = queryset
-
     def process(self, request, **kwargs):
-        entries = self.queryset._clone()
+        entries = Entry.objects.active().transform(_lookup_related)
 
         if self.category:
             entries = entries.filter(categories=self.category)

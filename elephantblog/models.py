@@ -25,9 +25,9 @@ from feincms.management.checker import check_database_schema
 from feincms.models import Base
 from feincms.module.page.extensions.navigation import (NavigationExtension,
     PagePretender)
+from feincms.utils.queryset_transform import TransformQuerySet
 
 from elephantblog import settings
-
 
 
 class Category(models.Model, translations.TranslatedObjectMixin):
@@ -105,6 +105,7 @@ class BlogCategoriesNavigationExtension(NavigationExtension):
                 slug=category.translation.slug,
                 )
 
+
 class EntryManager(models.Manager):
 
     # A list of filters which are used to determine whether a page is active or not.
@@ -114,7 +115,8 @@ class EntryManager(models.Manager):
     active_filters = {'cleared' : Q(published__gte=CLEARED),
         'publish_start': Q(published_on__lte=datetime.now),}
 
-
+    def get_query_set(self):
+        return TransformQuerySet(self.model, using=self._db)
 
     @classmethod
     def apply_active_filters(cls, queryset, filter):
@@ -129,7 +131,6 @@ class EntryManager(models.Manager):
 
     def active(self):
         return self.apply_active_filters(self, filter=self.active_filters)
-
 
     def featured(self):
         return self.active().filter(published=self.model.FRONT_PAGE)
