@@ -271,6 +271,12 @@ class EntryAdmin(editor.ItemEditor):
         'slug': ('title',),
         }
 
+    fieldsets = [
+        [None, {
+            'fields': ['title', 'slug', 'categories', 'published_on']
+        }],
+    ]
+
     raw_id_fields = []
 
     ping_again = entry_admin_update_fn(_('queued'), {'pinging': Entry.QUEUED},
