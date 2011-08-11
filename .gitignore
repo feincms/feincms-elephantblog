@@ -3,6 +3,5 @@
 .*.swp
 \#*#
 *.mo
-
-
 build/
+/docs/_build
