@@ -1,5 +1,2 @@
-{% for entry in content.entries %}
-<h3><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h3>
+{% include "elephantblog/_entry_list.html" with object_list=content.entries %}
 
-{{ entry.richtextcontent_set.all.0.render }}
-{% endfor %}
