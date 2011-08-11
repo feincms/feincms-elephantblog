@@ -27,7 +27,6 @@ from elephantblog import settings
 
 
 
-
 """
 Category is language-aware and connected to the Entry model via a many to many relationship.
 It's easy to change the language of the models if the templates in admin/templates are copied to the application directory.
@@ -49,31 +48,8 @@ class Category(models.Model, TranslatedObjectMixin):
     objects = TranslatedObjectManager()
 
     def __unicode__(self):
-        trans = None
-
-        # This might be provided using a .extra() clause to avoid hundreds of extra queries:
-        if hasattr(self, "preferred_translation"):
-            trans = getattr(self, "preferred_translation", u"")
-        else:
-            try:
-                trans = unicode(self.translation)
-            except models.ObjectDoesNotExist:
-                pass
-            except AttributeError:
-                pass
-
-        if trans:
-            return trans
-        else:
-            return _('Unnamed Category')
-
-    def entries(self):
-        try:
-            return Entry.objects.filter(categories=self, language=get_language()).count()
-        except FieldError: #Translation Extention not active
-            return Entry.objects.filter(categories=self)
-    entries.short_description = _('Blog entries in category')
-
+        trans = TranslatedObjectMixin.__unicode__(self)
+        return trans or _('Unnamed category')
 
     '''
     returns the url of a blog category depending on whether
@@ -121,6 +97,14 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['__unicode__', 'entries']
     search_fields     = ['translations__title']
     inlines           = [CategoryTranslationInline]
+
+    def entries(self, obj):
+        try:
+            return Entry.objects.filter(categories=obj, language=get_language()).count()
+        except FieldError: #Translation Extention not active
+            return Entry.objects.filter(categories=self)
+    entries.short_description = _('Blog entries in category')
+
 
 '''
 navigation extension for feincms
