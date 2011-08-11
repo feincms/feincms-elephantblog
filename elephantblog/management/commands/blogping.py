@@ -41,7 +41,7 @@ class Command(NoArgsCommand):
         if not PingServer.objects.count():
             raise CommandError('No servers defined.\nAdd at least one server in the admin interface.')
 
-        self.use_sites = 'sites' in Entry._feincms_extensions
+        self.use_sites = 'sites' in getattr(Entry, '_feincms_extensions', ())
 
         if self.use_sites:
             active_filters = EntryManager.active_filters.copy()
