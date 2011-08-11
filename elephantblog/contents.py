@@ -62,7 +62,7 @@ def _lookup_related(entry_qs):
 
     for content in Entry.mediafilecontent_set.related.model.objects.filter(
             parent__in=entry_dict.keys(),
-            mediafile__type='image').reverse():
+            mediafile__type='image').reverse().select_related('mediafile'):
         entry_dict[content.parent_id].first_image = content
 
     m2mfield = Entry._meta.get_field('categories')
