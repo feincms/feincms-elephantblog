@@ -10,7 +10,5 @@ def register(cls, admin_cls):
     # use another name for the tag descriptor
     # See http://code.google.com/p/django-tagging/issues/detail?id=95 for the reason why
     tagging.register(cls, tag_descriptor_attr='etags')
-    admin_cls.search_fields += ('tags',)
-    admin_cls.show_on_top.append('tags')
-    # admin_cls.show_on_top.remove('categories')
+    admin_cls.search_fields.append('tags')
 
