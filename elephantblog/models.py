@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from django.conf import settings as djangosettings
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.core.exceptions import FieldError
@@ -85,25 +84,6 @@ class CategoryTranslation(Translation(Category)):
             self.slug = slugify(self.title)
 
         super(CategoryTranslation, self).save(*args, **kwargs)
-
-class CategoryTranslationInline(admin.StackedInline):
-    model   = CategoryTranslation
-    max_num = len(djangosettings.LANGUAGES)
-    prepopulated_fields = {
-        'slug': ('title',),
-        }
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['__unicode__', 'entries']
-    search_fields     = ['translations__title']
-    inlines           = [CategoryTranslationInline]
-
-    def entries(self, obj):
-        try:
-            return Entry.objects.filter(categories=obj, language=get_language()).count()
-        except FieldError: #Translation Extention not active
-            return Entry.objects.filter(categories=self)
-    entries.short_description = _('Blog entries in category')
 
 
 '''
