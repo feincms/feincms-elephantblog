@@ -3,7 +3,7 @@ import tagging
 from tagging.fields import TagField
 
 
-def register(cls, admin_cls, *args):    
+def register(cls, admin_cls):
     TagField.help_text = _('Use commas to separate tags.')
     cls.add_to_class('tags', TagField(_('tags')))
 
@@ -12,5 +12,5 @@ def register(cls, admin_cls, *args):
     tagging.register(cls, tag_descriptor_attr='etags')
     admin_cls.search_fields += ('tags',)
     admin_cls.show_on_top.append('tags')
-    # admin_cls.show_on_top.remove('categories') 
-    
+    # admin_cls.show_on_top.remove('categories')
+

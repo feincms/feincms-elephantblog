@@ -229,7 +229,7 @@ class Entry(Base):
 
     @classmethod
     def register_extension(cls, register_fn):
-        register_fn(cls, EntryAdmin, Category)
+        register_fn(cls, EntryAdmin)
 
     def active_status(self):
         try:
