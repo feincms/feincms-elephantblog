@@ -151,8 +151,7 @@ class Entry(Base):
     published = models.SmallIntegerField(_('publish'), choices=PUBLISHED_STATUS, default=CLEARED)
     pinging = models.SmallIntegerField(_('ping'), editable=False, default=SLEEPING, choices=PINGING_STATUS,
         help_text=_('Shows the status of the entry for the pinging management command.'))
-    title = models.CharField(_('title'), max_length=100, unique_for_date='published_on', #needs a concrete date in the field published_on.
-        help_text=_('This is used for the generated navigation, too.'))
+    title = models.CharField(_('title'), max_length=100, unique_for_date='published_on')
     slug = models.SlugField(max_length=100)
     categories = models.ManyToManyField(Category, related_name="blogposts", null=True, blank=True)
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now(),
