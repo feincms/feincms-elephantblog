@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from elephantblog.models import Entry, EntryAdmin, Category, CategoryTranslation
 
-from feincms.translations import admin_translationinline
+from feincms.translations import admin_translationinline, short_language_code
 
 
 CategoryTranslationInline = admin_translationinline(CategoryTranslation, prepopulated_fields={
@@ -17,7 +17,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     def entries(self, obj):
         if 'translations' in getattr(Entry, '_feincms_extensions', ()):
-            return Entry.objects.filter(categories=obj, language=get_language()).count()
+            return Entry.objects.filter(categories=obj, language=short_language_code()).count()
         return Entry.objects.filter(categories=obj)
     entries.short_description = _('Blog entries in category')
 

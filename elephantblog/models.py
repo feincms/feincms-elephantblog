@@ -15,8 +15,7 @@ from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
-from django.utils.translation import (ugettext_lazy as _, ugettext,
-    get_language, ungettext)
+from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
 
 from feincms import translations
 from feincms.admin import editor
