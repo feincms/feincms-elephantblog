@@ -37,7 +37,7 @@ class BlogGalleryTeaserWidget(models.Model):
 
     def render(self, **kwargs):
         request = kwargs.get('request')
-        entries = self.category.blogposts.select_related('gallerycontent', 'richtextcontent')
+        entries = self.category.blogentries.select_related('gallerycontent', 'richtextcontent')
         for entry in entries:
             if entry.is_active:
                 try:
@@ -66,7 +66,7 @@ def _lookup_related(entry_qs):
         entry_dict[content.parent_id].first_image = content
 
     m2mfield = Entry._meta.get_field('categories')
-    for category in Category.objects.filter(blogposts__in=entry_dict.keys()).extra(
+    for category in Category.objects.filter(blogentries__in=entry_dict.keys()).extra(
             select={
                 'entry_id': '%s.%s' % (m2mfield.m2m_db_table(), m2mfield.m2m_column_name()),
             }):

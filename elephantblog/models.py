@@ -52,6 +52,8 @@ class Category(models.Model, translations.TranslatedObjectMixin):
 
         Tries standalone first and falls back to ApplicationContent if
         the URL could not be reversed.
+
+        # TODO: Move this method to CategoryTranslation?
         """
 
         view_name = 'elephantblog_category_list'
@@ -146,13 +148,13 @@ class Entry(Base):
     PUBLISHED_STATUS_DICT = dict(PUBLISHED_STATUS)
     PINGING_STATUS_DICT = dict(PINGING_STATUS)
 
-    user = models.ForeignKey(User, editable=False, blank=True, related_name="user_entry", verbose_name=_('author'))
-    published = models.SmallIntegerField(_('publish'), choices=PUBLISHED_STATUS, default=CLEARED)
+    user = models.ForeignKey(User, editable=False, blank=True, related_name='blogentries', verbose_name=_('author'))
+    published = models.SmallIntegerField(_('published'), choices=PUBLISHED_STATUS, default=CLEARED)
     pinging = models.SmallIntegerField(_('ping'), editable=False, default=SLEEPING, choices=PINGING_STATUS,
         help_text=_('Shows the status of the entry for the pinging management command.'))
     title = models.CharField(_('title'), max_length=100, unique_for_date='published_on')
     slug = models.SlugField(max_length=100)
-    categories = models.ManyToManyField(Category, related_name="blogposts", null=True, blank=True)
+    categories = models.ManyToManyField(Category, related_name='blogentries', null=True, blank=True)
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now(),
         help_text=_('Will be updated automatically once you tick the `published` checkbox above.'))
 
