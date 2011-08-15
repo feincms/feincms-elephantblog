@@ -66,7 +66,7 @@ class Category(models.Model, translations.TranslatedObjectMixin):
 
 class CategoryTranslation(translations.Translation(Category)):
     title = models.CharField(_('category title'), max_length=100)
-    slug = models.SlugField(_('slug'),)
+    slug = models.SlugField(_('slug'), unique=True)
     description = models.CharField(_('description'), max_length=250, blank=True)
 
     class Meta:
