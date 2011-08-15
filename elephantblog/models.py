@@ -70,8 +70,8 @@ class CategoryTranslation(translations.Translation(Category)):
     description = models.CharField(_('description'), max_length=250, blank=True)
 
     class Meta:
-        verbose_name = _('media file translation')
-        verbose_name_plural = _('media file translations')
+        verbose_name = _('category translation')
+        verbose_name_plural = _('category translations')
         ordering = ['title']
 
     def __unicode__(self):
