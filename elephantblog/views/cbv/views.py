@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import dates, list as list_
 
 from elephantblog.models import Category, Entry
+from elephantblog.utils import entry_list_lookup_related
 
 try:
     from towel import paginator
@@ -27,13 +28,13 @@ class ApplicationContentInheritanceMixin(object):
 
 
 class ListView(ApplicationContentInheritanceMixin, list_.ListView):
-    queryset = Entry.objects.active()
+    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
 
 
 class YearArchiveView(ApplicationContentInheritanceMixin, dates.YearArchiveView):
-    queryset = Entry.objects.active()
+    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
     date_field = 'published_on'
@@ -41,7 +42,7 @@ class YearArchiveView(ApplicationContentInheritanceMixin, dates.YearArchiveView)
 
 
 class MonthArchiveView(ApplicationContentInheritanceMixin, dates.MonthArchiveView):
-    queryset = Entry.objects.active()
+    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
     month_format = '%m'
@@ -49,7 +50,7 @@ class MonthArchiveView(ApplicationContentInheritanceMixin, dates.MonthArchiveVie
 
 
 class DayArchiveView(ApplicationContentInheritanceMixin, dates.DayArchiveView):
-    queryset = Entry.objects.active()
+    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
     month_format = '%m'
@@ -65,7 +66,7 @@ class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
 
 
 class CategoryListView(ApplicationContentInheritanceMixin, list_.ListView):
-    queryset = Entry.objects.active()
+    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     template_name_suffix = '_archive_category'
 
     def get_queryset(self):

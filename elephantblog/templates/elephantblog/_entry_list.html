@@ -7,8 +7,8 @@
             {% endfor %}
             {{ entry.published_on|date:"j F Y" }}
         </small>
-
-        {{ entry.richtextcontent_set.all.0.render }}
+        {{ entry.first_image.render }}
+        {{ entry.first_richtext.render }}
     </article>
 {% endfor %}
 
