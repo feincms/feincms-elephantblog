@@ -1,0 +1,12 @@
+include AUTHORS
+include LICENSE
+include README.md
+recursive-include elephantblog/static *.png
+recursive-include elephantblog/static *.jpg
+recursive-include elephantblog/static *.gif
+recursive-include elephantblog/static *.js
+recursive-include elephantblog/static *.css
+recursive-include elephantblog/locale *.po
+recursive-include elephantblog/locale *.mo
+recursive-include elephantblog/templates *.html
+recursive-include elephantblog/templates *.txt
