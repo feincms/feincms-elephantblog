@@ -19,7 +19,7 @@ Elephantblog is easy to add to FeinCMS and has the following features:
 
 The app is dependent on external django apps. The following apps are required:
 
-* [feincms](http://github.com/matthiask/feincms) (obviously) 
+* [feincms](http://github.com/matthiask/feincms) (obviously)
 * [pinging](http://github.com/matthiask/pinging)
 * [django-disqus](http://github.com/arthurk/django-disqus)
 
@@ -28,14 +28,17 @@ The following apps are optional but recommended:
 * Django-tagging
 * Django-trackback
 
-Note that all comments are managed by Disqus. They are not stored on your server. It is possible to download them as JSON object from the disqus website.
+Note that all comments are managed by Disqus. They are not stored on your
+server. It is possible to download them as JSON object from the disqus website.
 
 Optional Functions:
 Tagging
-Allows to add tags to your entries. Tags can be separated by commas or spaces. This function needs to be added as extension and as app.
+Allows to add tags to your entries. Tags can be separated by commas or spaces.
+This function needs to be added as extension and as app.
 
 Trackback
-Allows automatic inter-blog communication. Lets you know when someone posted something about your entry on a different website.
+Allows automatic inter-blog communication. Lets you know when someone posted
+something about your entry on a different website.
 
 Translations
 If your blog has entries in different languages, use this extension.
@@ -66,13 +69,15 @@ In your application/models.py register the blog module and content types:
 
 <pre><code>
 from feincms.content.richtext.models import RichTextContent
-from feincms.content.medialibrary.models import MediaFileContent
+from feincms.content.medialibrary.v2 import MediaFileContent
 from feincms.content.video.models import VideoContent
-from elephantblog.models import Entry as Elephantentry
-Elephantentry.register_extensions('translations', 'tags', 'datepublisher') 
-Elephantentry.create_content_type(RichTextContent)
-MediaFileContent.default_create_content_type(Elephantentry)
-Elephantentry.create_content_type(VideoContent)
+from elephantblog.models import Entry
+Entry.register_extensions('translations', 'tags', 'datepublisher')
+Entry.create_content_type(RichTextContent)
+Entry.create_content_type(MediaFileContent, TYPE_CHOICES=(
+    ('default', 'default'),
+    ))
+Entry.create_content_type(VideoContent)
 </code></pre>
 
 Add the following lines to your urls.py:
@@ -89,9 +94,11 @@ run manage.py syncdb.
 
 Pinging:
 
-The Pinging app uses the management command manage.py blogping to generate the pings for the search engines. Set it up to run as a cron job. 
+The Pinging app uses the management command manage.py blogping to generate the
+pings for the search engines. Set it up to run as a cron job.
 
-Here is a list of servers that can be used for pinging: http://www.netlupe.de/2006/08/18/url-zum-pingen-blog-n-ping-urls/
+Here is a list of servers that can be used for pinging:
+http://www.netlupe.de/2006/08/18/url-zum-pingen-blog-n-ping-urls/
 
 
 

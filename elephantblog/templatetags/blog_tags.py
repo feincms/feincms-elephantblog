@@ -22,7 +22,7 @@ class BlogListRenderRegionNode(RenderRegionNode):
         
         '''
         first we try to find a mediafile in a MediaFileContent
-        if we have no luck, we try to find a mediafiel in a GalleryContent
+        if we have no luck, we try to find a mediafile in a GalleryContent
         '''
         try:
             media_file_content = feincms_object.content.all_of_type(MediaFileContent)[0].mediafile
@@ -51,5 +51,4 @@ def blog_render_list_detail(parser, token):
 
 @register.simple_tag
 def add_media_to_feincms_object(request, media):
-    #print request._feincms_appcontent_parameters
     return u''

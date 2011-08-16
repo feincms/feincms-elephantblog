@@ -1,0 +1,33 @@
+{% for entry in content.entries %}
+    <article>
+        <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
+        <small>
+            {% for category in entry.fetched_categories %}
+                <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
+            {% endfor %}
+            {{ entry.published_on|date:"j F Y" }}
+        </small>
+
+        {{ entry.first_image.render }}
+        {{ entry.first_richtext.render }}
+    </article>
+{% endfor %}
+
+{% with content.entries as page_obj %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+    {% endif %}
+
+    {% for p in page_obj.page_range %}
+        {% if not p %}&hellip;
+        {% else %}
+            <a {% if p == page_obj.number and not page_obj.show_all_objects %}class="mark"{% endif %} href="?page={{ p }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+    {% endif %}
+</div>
+{% endwith %}

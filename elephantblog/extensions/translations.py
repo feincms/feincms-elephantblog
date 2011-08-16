@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-def register(cls, admin_cls, *args):
+def register(cls, admin_cls):
     primary_language = settings.LANGUAGES[0][0]
 
     cls.add_to_class('language', models.CharField(_('language'), max_length=10,
@@ -14,7 +14,7 @@ def register(cls, admin_cls, *args):
         limit_choices_to={'language': primary_language},
         help_text=_('Leave this empty for entries in the primary language.')
         ))
-    
+
 
     def available_translations(self):
         if self.language == primary_language:
@@ -39,6 +39,6 @@ def register(cls, admin_cls, *args):
 
     admin_cls.list_display.extend(['language', 'available_translations_admin'])
     admin_cls.list_filter += ('language',)
-    admin_cls.show_on_top.append('language')
+    admin_cls.fieldsets[0][1]['fields'].insert(2, 'language')
 
     admin_cls.raw_id_fields.append('translation_of')
