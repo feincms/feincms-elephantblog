@@ -87,7 +87,7 @@ class CategoryTranslation(translations.Translation(Category)):
         super(CategoryTranslation, self).save(*args, **kwargs)
 
 
-class EntryManager(ActiveAwareContentManagerMixin):
+class EntryManager(models.Manager, ActiveAwareContentManagerMixin):
     def get_query_set(self):
         return TransformQuerySet(self.model, using=self._db)
 
