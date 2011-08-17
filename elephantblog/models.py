@@ -18,7 +18,7 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
 
 from feincms import translations
-from feincms.admin import editor
+from feincms.admin import item_editor
 from feincms.content.application.models import app_reverse
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
@@ -261,7 +261,7 @@ def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
     return _fn
 
 
-class EntryAdmin(editor.ItemEditor):
+class EntryAdmin(item_editor.ItemEditor):
     date_hierarchy = 'published_on'
     list_display = ['__unicode__', 'published', 'last_changed', 'isactive',
         'active_status', 'published_on', 'user', 'pinging']
