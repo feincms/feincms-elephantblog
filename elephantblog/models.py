@@ -22,6 +22,7 @@ from feincms.admin import item_editor
 from feincms.content.application.models import app_reverse
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
+from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformQuerySet
 
 from elephantblog import settings
@@ -86,34 +87,20 @@ class CategoryTranslation(translations.Translation(Category)):
         super(CategoryTranslation, self).save(*args, **kwargs)
 
 
-class EntryManager(models.Manager):
-
-    # A list of filters which are used to determine whether a page is active or not.
-    # Extended for example in the datepublisher extension (date-based publishing and
-    # un-publishing of pages)
-    active_filters = {
-        'cleared': lambda queryset: queryset.filter(published__gte=Entry.CLEARED),
-        'publish_start': Q(published_on__lte=datetime.now),
-        }
-
+class EntryManager(ActiveAwareContentManagerMixin):
     def get_query_set(self):
         return TransformQuerySet(self.model, using=self._db)
 
-    @classmethod
-    def apply_active_filters(cls, queryset):
-        for filt in cls.active_filters.values():
-            if callable(filt):
-                queryset = filt(queryset)
-            else:
-                queryset = queryset.filter(filt)
-
-        return queryset
-
-    def active(self):
-        return self.apply_active_filters(self)
-
     def featured(self):
         return self.active().filter(published=self.model.FRONT_PAGE)
+
+
+EntryManager.add_to_active_filters(
+    lambda queryset: queryset.filter(published__gte=Entry.CLEARED),
+    key='cleared')
+EntryManager.add_to_active_filters(
+    Q(published_on__lte=datetime.now),
+    key='published_on_past')
 
 
 class Entry(Base):
