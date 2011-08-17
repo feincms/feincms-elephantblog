@@ -115,7 +115,7 @@ class Entry(Base):
     CLEARED = 50
     FRONT_PAGE = 60
 
-    PUBLISHED_STATUS = (
+    STATUS_CHOICES = (
         (INACTIVE,_('inactive')),
         (CLEARED,_('cleared')),
         (FRONT_PAGE,_('front page')),
@@ -125,26 +125,25 @@ class Entry(Base):
 
     SLEEPING, QUEUED, SENT, UNKNOWN = 10, 20, 30, 0
 
-    PINGING_STATUS = (
+    PINGING_CHOICES = (
         (SLEEPING, _('sleeping')),
         (QUEUED, _('queued')),
         (SENT, _('sent')),
         (UNKNOWN, _('unknown')),
         )
 
-    PUBLISHED_STATUS_DICT = dict(PUBLISHED_STATUS)
-    PINGING_STATUS_DICT = dict(PINGING_STATUS)
-
-    user = models.ForeignKey(User, editable=False, blank=True, related_name='blogentries', verbose_name=_('author'))
-    published = models.SmallIntegerField(_('published'), choices=PUBLISHED_STATUS, default=CLEARED)
-    pinging = models.SmallIntegerField(_('ping'), editable=False, default=SLEEPING, choices=PINGING_STATUS,
-        help_text=_('Shows the status of the entry for the pinging management command.'))
     title = models.CharField(_('title'), max_length=100, unique_for_date='published_on')
-    slug = models.SlugField(max_length=100)
-    categories = models.ManyToManyField(Category, related_name='blogentries', null=True, blank=True)
+    slug = models.SlugField(_('slug'), max_length=100)
+    published = models.SmallIntegerField(_('status'), choices=STATUS_CHOICES, default=CLEARED)
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now(),
         help_text=_('Will be updated automatically once you tick the `published` checkbox above.'))
 
+    categories = models.ManyToManyField(Category, verbose_name=_('categories'),
+        related_name='blogentries', null=True, blank=True)
+
+    pinging = models.SmallIntegerField(_('ping'), editable=False, default=SLEEPING, choices=PINGING_CHOICES,
+        help_text=_('Shows the status of the entry for the pinging management command.'))
+    user = models.ForeignKey(User, editable=False, blank=True, related_name='blogentries', verbose_name=_('author'))
     last_changed = models.DateTimeField(_('last change'), auto_now=True, editable=False)
 
     class Meta:
@@ -207,10 +206,8 @@ class Entry(Base):
         if self.published_on > datetime.now() and self.published >= self.CLEARED:
             return ugettext('on hold')
         else:
-            return self.PUBLISHED_STATUS_DICT[self.published]
-
+            return self.get_status_display()
     active_status.short_description = _('Status')
-
 
     def isactive(self):
         try:
@@ -250,6 +247,7 @@ def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
 
 class EntryAdmin(item_editor.ItemEditor):
     date_hierarchy = 'published_on'
+    filter_horizontal = ['categories']
     list_display = ['__unicode__', 'published', 'last_changed', 'isactive',
         'active_status', 'published_on', 'user', 'pinging']
     list_filter = ['published', 'published_on', 'categories']
@@ -260,7 +258,11 @@ class EntryAdmin(item_editor.ItemEditor):
 
     fieldsets = [
         [None, {
-            'fields': ['title', 'slug', 'categories', 'published_on']
+            'fields': [
+                ('title', 'slug'),
+                ('published', 'published_on'),
+                'categories',
+            ]
         }],
     ]
 

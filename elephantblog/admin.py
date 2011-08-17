@@ -11,9 +11,9 @@ CategoryTranslationInline = admin_translationinline(CategoryTranslation, prepopu
 
 
 class CategoryAdmin(admin.ModelAdmin):
+    inlines = [CategoryTranslationInline]
     list_display = ['__unicode__', 'entries']
     search_fields = ['translations__title']
-    inlines = [CategoryTranslationInline]
 
     def entries(self, obj):
         if 'translations' in getattr(Entry, '_feincms_extensions', ()):
