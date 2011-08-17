@@ -83,6 +83,6 @@ class BlogEntryListContent(models.Model):
             self.entries = entries
 
     def render(self, **kwargs):
-        return render_to_string('content/blog/entry_list.html', {
+        return render_to_string('content/elephantblog/entry_list.html', {
             'content': self,
             })
