@@ -64,6 +64,72 @@ class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
     month_format = '%m'
     date_field = 'published_on'
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        response = self.prepare()
+        if response:
+            return response
+
+        response = self.render_to_response(self.get_context_data(object=self.object))
+        return self.finalize(response)
+
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
+
+    def prepare(self):
+        """
+        Prepare / pre-process content types. If this method returns anything,
+        it is treated as a ``HttpResponse`` and handed back to the visitor.
+        """
+
+        response = self.object.setup_request(self.request)
+        if response:
+            return response
+
+        http404 = None     # store eventual Http404 exceptions for re-raising,
+                           # if no content type wants to handle the current self.request
+        successful = False # did any content type successfully end processing?
+
+        for content in self.object.content.all_of_type(tuple(self.object._feincms_content_types_with_process)):
+            try:
+                r = content.process(self.request, view=self)
+                if r in (True, False):
+                    successful = r
+                elif r:
+                    return r
+            except Http404, e:
+                http404 = e
+
+        if not successful:
+            if http404:
+                # re-raise stored Http404 exception
+                raise http404
+
+            """ XXX This does not make sense in this context, does it?
+            if not settings.FEINCMS_ALLOW_EXTRA_PATH and \
+                    self.request._feincms_extra_context['extra_path'] != '/':
+                raise Http404
+            """
+
+    def finalize(self, response):
+        """
+        Runs finalize() on content types having such a method, adds headers and
+        returns the final response.
+        """
+
+        for content in self.object.content.all_of_type(tuple(self.object._feincms_content_types_with_finalize)):
+            r = content.finalize(self.request, response)
+            if r:
+                return r
+
+        self.object.finalize_response(self.request, response)
+
+        # Add never cache headers in case frontend editing is active
+        if hasattr(self.request, "session") and self.request.session.get('frontend_editing', False):
+            add_never_cache_headers(response)
+
+        return response
+
 
 class CategoryListView(ApplicationContentInheritanceMixin, list_.ListView):
     queryset = Entry.objects.active().transform(entry_list_lookup_related)
