@@ -47,24 +47,11 @@ class Category(models.Model, translations.TranslatedObjectMixin):
         trans = translations.TranslatedObjectMixin.__unicode__(self)
         return trans or _('Unnamed category')
 
+    @models.permalink
     def get_absolute_url(self):
-        """
-        Return the URL of a blog category
-
-        Tries standalone first and falls back to ApplicationContent if
-        the URL could not be reversed.
-
-        # TODO: Move this method to CategoryTranslation?
-        """
-
-        view_name = 'elephantblog_category_list'
-        entry_dict = {
-                      'category': self.translation.slug,
-                      }
-        try:
-            return reverse(view_name, kwargs=entry_dict)
-        except NoReverseMatch:
-            return app_reverse(view_name, 'elephantblog.urls', kwargs=entry_dict)
+        return ('elephantblog_category_detail', (), {
+            'slug': self.translation.slug,
+            })
 
 
 class CategoryTranslation(translations.Translation(Category)):
@@ -175,23 +162,14 @@ class Entry(Base):
             self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
 
+    @models.permalink
     def get_absolute_url(self):
-        """
-        Return the URL of a blog entry
-
-        Tries standalone first and falls back to ApplicationContent if
-        the URL could not be reversed.
-        """
-
-        view_name = 'elephantblog.views.entry'
-        entry_dict = {'year': "%04d" %self.published_on.year,
-                      'month': "%02d" %self.published_on.month,
-                      'day': "%02d" %self.published_on.day,
-                      'slug': self.slug}
-        try:
-            return reverse(view_name, kwargs=entry_dict)
-        except NoReverseMatch:
-            return app_reverse(view_name, 'elephantblog.urls', kwargs=entry_dict)
+        return ('elephantblog_entry_detail', (), {
+            'year': self.published_on.strftime('%Y'),
+            'month': self.published_on.strftime('%m'),
+            'day': self.published_on.strftime('%d'),
+            'slug': self.slug,
+            })
 
     @classmethod
     def register_extension(cls, register_fn):

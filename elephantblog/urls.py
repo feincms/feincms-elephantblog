@@ -2,22 +2,8 @@
 Class-based, modern views for elephantblog
 ==========================================
 
-Use one of those two::
-
-    def elephantblog_entry_url(self):
-        from django.core.urlresolvers import reverse
-        return reverse('elephantblog_entry_detail', kwargs={
-            'year': self.published_on.strftime('%Y'),
-            'month': self.published_on.strftime('%m'),
-            'day': self.published_on.strftime('%d'),
-            'slug': self.slug,
-            })
-
-    def elephantblog_category_url(self):
-        from django.core.urlresolvers import reverse
-        return reverse('elephantblog_category_detail', kwargs={
-            'slug': self.translation.slug,
-            })
+Add the following code to ``settings.py`` if you want to integrate Elephantblog
+through ApplicationContent::
 
     def elephantblog_entry_url_app(self):
         from feincms.content.application.models import app_reverse
@@ -35,8 +21,8 @@ Use one of those two::
             })
 
     ABSOLUTE_URL_OVERRIDES = {
-        'elephantblog.entry': elephantblog_entry_url, # OR elephantblog_entry_url_app,
-        'elephantblog.category': elephantblog_category_url, # OR elephantblog_category_url_app,
+        'elephantblog.entry': elephantblog_entry_url_app,
+        'elephantblog.category': elephantblog_category_url_app,
     }
 
 
