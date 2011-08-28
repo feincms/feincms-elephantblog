@@ -14,15 +14,15 @@ through ApplicationContent::
             'slug': self.slug,
             })
 
-    def elephantblog_category_url_app(self):
+    def elephantblog_categorytranslation_url_app(self):
         from feincms.content.application.models import app_reverse
         return app_reverse('elephantblog_category_detail', 'elephantblog', kwargs={
-            'slug': self.translation.slug,
+            'slug': self.slug,
             })
 
     ABSOLUTE_URL_OVERRIDES = {
         'elephantblog.entry': elephantblog_entry_url_app,
-        'elephantblog.category': elephantblog_category_url_app,
+        'elephantblog.categorytranslation': elephantblog_categorytranslation_url_app,
     }
 
 

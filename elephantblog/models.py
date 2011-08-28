@@ -47,12 +47,6 @@ class Category(models.Model, translations.TranslatedObjectMixin):
         trans = translations.TranslatedObjectMixin.__unicode__(self)
         return trans or _('Unnamed category')
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('elephantblog_category_detail', (), {
-            'slug': self.translation.slug,
-            })
-
 
 class CategoryTranslation(translations.Translation(Category)):
     title = models.CharField(_('category title'), max_length=100)
@@ -66,6 +60,12 @@ class CategoryTranslation(translations.Translation(Category)):
 
     def __unicode__(self):
         return self.title
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('elephantblog_category_detail', (), {
+            'slug': self.slug,
+            })
 
     def save(self, *args, **kwargs):
         if not self.slug:
