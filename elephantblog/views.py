@@ -82,10 +82,6 @@ class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
         it is treated as a ``HttpResponse`` and handed back to the visitor.
         """
 
-        response = self.object.setup_request(self.request)
-        if response:
-            return response
-
         http404 = None     # store eventual Http404 exceptions for re-raising,
                            # if no content type wants to handle the current self.request
         successful = False # did any content type successfully end processing?
@@ -121,8 +117,6 @@ class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
             r = content.finalize(self.request, response)
             if r:
                 return r
-
-        self.object.finalize_response(self.request, response)
 
         # Add never cache headers in case frontend editing is active
         if hasattr(self.request, "session") and self.request.session.get('frontend_editing', False):
