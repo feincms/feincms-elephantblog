@@ -29,7 +29,7 @@ through ApplicationContent::
 NOTE! You need to register the app as follows for the application content snippet::
 
     Page.create_content_type(ApplicationContent, APPLICATIONS=(
-        ('elephantblog', _('Blog'), {'url': 'elephantblog.urls'),
+        ('elephantblog', _('Blog'), {'urls': 'elephantblog.urls'}),
         ))
 
 """
