@@ -43,7 +43,6 @@ class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
     paginator_class = paginator.Paginator
     paginate_by = 10
     date_field = 'published_on'
-    make_object_list = True
 
 
 class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
