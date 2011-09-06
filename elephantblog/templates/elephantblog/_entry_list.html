@@ -17,7 +17,7 @@
         <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
     {% endif %}
 
-    {% for p in page_obj.page_range %}
+    {% for p in page_obj.page_range|default_if_none:page_obj.paginator.page_range %}
         {% if not p %}&hellip;
         {% else %}
             <a {% if p == page_obj.number and not page_obj.show_all_objects %}class="mark"{% endif %} href="?page={{ p }}">{{ p }}</a>
