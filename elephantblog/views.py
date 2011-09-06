@@ -11,7 +11,7 @@ except ImportError:
 
 
 __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView', 'DayArchiveView',
-    'DateDetailView', 'CategoryListView')
+    'DateDetailView', 'CategoryArchiveIndexView')
 
 
 class ElephantblogMixin(object):
@@ -137,16 +137,16 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
         return response
 
 
-class CategoryListView(ArchiveIndexView):
+class CategoryArchiveIndexView(ArchiveIndexView):
     template_name_suffix = '_archive_category'
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, translations__slug=self.kwargs['slug'])
 
-        queryset = super(CategoryListView, self).get_queryset()
+        queryset = super(CategoryArchiveIndexView, self).get_queryset()
         return queryset.filter(categories=self.category)
 
     def get_context_data(self, **kwargs):
-        return super(CategoryListView, self).get_context_data(
+        return super(CategoryArchiveIndexView, self).get_context_data(
             category=self.category,
             **kwargs)

@@ -58,6 +58,6 @@ urlpatterns = patterns('',
         views.DateDetailView.as_view(),
         name='elephantblog_entry_detail'),
     url(r'^category/(?P<slug>[-\w]+)/$',
-        views.CategoryListView.as_view(),
+        views.CategoryArchiveIndexView.as_view(),
         name='elephantblog_category_detail'),
 )
