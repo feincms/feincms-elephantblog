@@ -10,30 +10,37 @@ except ImportError:
     from django.core import paginator
 
 
-class ApplicationContentInheritanceMixin(object):
+class ElephantblogMixin(object):
     """
     This mixin autodetects whether the blog is integrated through an
     ApplicationContent and automatically switches to inheritance2.0
     if that's the case.
 
+    Additionally, it adds the view instance to the template context
+    as ``view``.
+
     This requires at least FeinCMS v1.5.
     """
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({'view': self})
+        return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
     def render_to_response(self, context, **response_kwargs):
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
             return self.get_template_names(), context
 
-        return super(ApplicationContentInheritanceMixin, self).render_to_response(
+        return super(ElephantblogMixin, self).render_to_response(
             context, **response_kwargs)
 
 
-class ListView(ApplicationContentInheritanceMixin, list_.ListView):
+class ListView(ElephantblogMixin, list_.ListView):
     queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
 
 
-class YearArchiveView(ApplicationContentInheritanceMixin, dates.YearArchiveView):
+class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
     queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
@@ -41,7 +48,7 @@ class YearArchiveView(ApplicationContentInheritanceMixin, dates.YearArchiveView)
     make_object_list = True
 
 
-class MonthArchiveView(ApplicationContentInheritanceMixin, dates.MonthArchiveView):
+class MonthArchiveView(ElephantblogMixin, dates.MonthArchiveView):
     queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
@@ -49,7 +56,7 @@ class MonthArchiveView(ApplicationContentInheritanceMixin, dates.MonthArchiveVie
     date_field = 'published_on'
 
 
-class DayArchiveView(ApplicationContentInheritanceMixin, dates.DayArchiveView):
+class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
     queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
@@ -57,7 +64,7 @@ class DayArchiveView(ApplicationContentInheritanceMixin, dates.DayArchiveView):
     date_field = 'published_on'
 
 
-class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
+class DateDetailView(ElephantblogMixin, dates.DateDetailView):
     queryset = Entry.objects.active()
     paginator_class = paginator.Paginator
     paginate_by = 10
@@ -125,7 +132,7 @@ class DateDetailView(ApplicationContentInheritanceMixin, dates.DateDetailView):
         return response
 
 
-class CategoryListView(ApplicationContentInheritanceMixin, list_.ListView):
+class CategoryListView(ElephantblogMixin, list_.ListView):
     queryset = Entry.objects.active().transform(entry_list_lookup_related)
     template_name_suffix = '_archive_category'
 
