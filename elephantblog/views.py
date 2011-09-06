@@ -138,8 +138,7 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
         return response
 
 
-class CategoryListView(ElephantblogMixin, list_.ListView):
-    queryset = Entry.objects.active().transform(entry_list_lookup_related)
+class CategoryListView(ArchiveIndexView):
     template_name_suffix = '_archive_category'
 
     def get_queryset(self):
