@@ -43,7 +43,7 @@ from elephantblog import views
 urlpatterns = patterns('',
     url(r'^feed/$', EntryFeed()),
     url(r'^$',
-        views.ListView.as_view(),
+        views.ArchiveIndexView.as_view(),
         name='elephantblog_entry_list'),
     url(r'^(?P<year>\d{4})/$',
         views.YearArchiveView.as_view(),

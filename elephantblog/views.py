@@ -10,7 +10,7 @@ except ImportError:
     from django.core import paginator
 
 
-__all__ = ('ListView', 'YearArchiveView', 'MonthArchiveView', 'DayArchiveView',
+__all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView', 'DayArchiveView',
     'DateDetailView', 'CategoryListView')
 
 
@@ -38,10 +38,12 @@ class ElephantblogMixin(object):
             context, **response_kwargs)
 
 
-class ListView(ElephantblogMixin, list_.ListView):
+class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
     queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
+    date_field = 'published_on'
+    make_object_list = True
 
 
 class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
