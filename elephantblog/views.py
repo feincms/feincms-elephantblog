@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import dates, list as list_
+from django.views.generic import dates
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
