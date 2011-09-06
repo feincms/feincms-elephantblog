@@ -79,11 +79,11 @@ class EntryManager(models.Manager, ActiveAwareContentManagerMixin):
         return TransformQuerySet(self.model, using=self._db)
 
     def featured(self):
-        return self.active().filter(published=self.model.FRONT_PAGE)
+        return self.active().filter(status=self.model.FRONT_PAGE)
 
 
 EntryManager.add_to_active_filters(
-    lambda queryset: queryset.filter(published__gte=Entry.CLEARED),
+    lambda queryset: queryset.filter(status__gte=Entry.CLEARED),
     key='cleared')
 EntryManager.add_to_active_filters(
     Q(published_on__lte=datetime.now),
@@ -92,7 +92,7 @@ EntryManager.add_to_active_filters(
 
 class Entry(Base):
     """
-    Entries with a published status of greater equal 50 are displayed
+    Entries with a status of greater equal 50 are displayed
     if the current date is within the published date range.
     """
 
@@ -103,11 +103,11 @@ class Entry(Base):
     FRONT_PAGE = 60
 
     STATUS_CHOICES = (
-        (INACTIVE,_('inactive')),
-        (CLEARED,_('cleared')),
-        (FRONT_PAGE,_('front page')),
-        (NEEDS_REEDITING,_('needs re-editing')),
-        (DELETED,_('deleted')),
+        (INACTIVE, _('inactive')),
+        (CLEARED, _('cleared')),
+        (FRONT_PAGE, _('front page')),
+        (NEEDS_REEDITING, _('needs re-editing')),
+        (DELETED, _('deleted')),
         )
 
     SLEEPING, QUEUED, SENT, UNKNOWN = 10, 20, 30, 0
@@ -121,9 +121,9 @@ class Entry(Base):
 
     title = models.CharField(_('title'), max_length=100, unique_for_date='published_on')
     slug = models.SlugField(_('slug'), max_length=100)
-    published = models.SmallIntegerField(_('status'), choices=STATUS_CHOICES, default=CLEARED)
+    status = models.SmallIntegerField(_('status'), choices=STATUS_CHOICES, default=CLEARED)
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now(),
-        help_text=_('Will be updated automatically once you tick the `published` checkbox above.'))
+        help_text=_('Will be updated automatically once the status is at least `cleared`.'))
 
     categories = models.ManyToManyField(Category, verbose_name=_('categories'),
         related_name='blogentries', null=True, blank=True)
@@ -143,13 +143,13 @@ class Entry(Base):
 
     def __init__(self, *args, **kwargs):
         super(Entry, self).__init__(*args, **kwargs)
-        self._old_published = self.published # stores if the entry has been published before it is being edited.
+        self._old_status = self.status # stores if the entry has been published before it is being edited.
 
     def __unicode__(self):
         return unicode(self.title)
 
     def save(self, *args, **kwargs):
-        if self.published >= self.CLEARED and self._old_published < self.CLEARED and self.published_on.date() <= datetime.now().date(): # only sets the publish date if the entry is published
+        if self.status >= self.CLEARED and self._old_status < self.CLEARED and self.published_on.date() <= datetime.now().date():
             self.published_on = datetime.now()
             self.pinging = self.QUEUED
         elif self.is_active and self.pinging < self.QUEUED:
@@ -181,7 +181,7 @@ class Entry(Base):
                 return ugettext('expired')
         except:
             pass
-        if self.published_on > datetime.now() and self.published >= self.CLEARED:
+        if self.published_on > datetime.now() and self.status >= self.CLEARED:
             return ugettext('on hold')
         else:
             return self.get_status_display()
@@ -193,7 +193,7 @@ class Entry(Base):
                 return False
         except Exception:
             pass
-        if self.published_on > datetime.now() or self.published < self.CLEARED:
+        if self.published_on > datetime.now() or self.status < self.CLEARED:
             return False
         else:
             return True
@@ -203,7 +203,7 @@ class Entry(Base):
 
     @property
     def featured(self):  #fits page extension featured
-        return self.published >= FRONT_PAGE
+        return self.status >= FRONT_PAGE
 
 
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
@@ -226,9 +226,9 @@ def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
 class EntryAdmin(item_editor.ItemEditor):
     date_hierarchy = 'published_on'
     filter_horizontal = ['categories']
-    list_display = ['__unicode__', 'published', 'last_changed', 'isactive',
+    list_display = ['__unicode__', 'status', 'last_changed', 'isactive',
         'active_status', 'published_on', 'user', 'pinging']
-    list_filter = ['published', 'published_on', 'categories']
+    list_filter = ['status', 'published_on', 'categories']
     search_fields = ['title', 'slug']
     prepopulated_fields = {
         'slug': ('title',),
@@ -238,7 +238,7 @@ class EntryAdmin(item_editor.ItemEditor):
         [None, {
             'fields': [
                 ('title', 'slug'),
-                ('published', 'published_on'),
+                ('status', 'published_on'),
                 'categories',
             ]
         }],
@@ -249,19 +249,19 @@ class EntryAdmin(item_editor.ItemEditor):
     ping_again = entry_admin_update_fn(_('queued'), {'pinging': Entry.QUEUED},
         short_description=_('ping again'))
 
-    mark_publish = entry_admin_update_fn(_('cleared'), {'published': Entry.CLEARED},
+    mark_publish = entry_admin_update_fn(_('cleared'), {'status': Entry.CLEARED},
         short_description=_('mark publish'))
 
-    mark_frontpage = entry_admin_update_fn(_('front-page'), {'published': Entry.FRONT_PAGE},
+    mark_frontpage = entry_admin_update_fn(_('front-page'), {'status': Entry.FRONT_PAGE},
         short_description=_('mark frontpage'))
 
-    mark_needs_reediting = entry_admin_update_fn(_('need re-editing'), {'published': Entry.NEEDS_REEDITING},
+    mark_needs_reediting = entry_admin_update_fn(_('need re-editing'), {'status': Entry.NEEDS_REEDITING},
         short_description=_('mark re-edit'))
 
-    mark_inactive = entry_admin_update_fn(_('inactive'), {'published': Entry.INACTIVE},
+    mark_inactive = entry_admin_update_fn(_('inactive'), {'status': Entry.INACTIVE},
         short_description=_('mark inactive'))
 
-    mark_delete = entry_admin_update_fn(_('deleted'), {'published': Entry.DELETED},
+    mark_delete = entry_admin_update_fn(_('deleted'), {'status': Entry.DELETED},
         short_description=_('remove'))
 
     actions = [

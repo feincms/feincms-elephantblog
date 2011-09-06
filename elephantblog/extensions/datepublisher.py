@@ -42,5 +42,5 @@ def register(cls, admin_cls):
     datepublisher_admin.short_description = _('visible from - to')
 
     admin_cls.datepublisher_admin = datepublisher_admin
-    admin_cls.list_display.insert(admin_cls.list_display.index('published') + 1,
+    admin_cls.list_display.insert(admin_cls.list_display.index('status') + 1,
                                   'datepublisher_admin')

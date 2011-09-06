@@ -27,7 +27,7 @@ def get_entries(context, limit):
 def get_frontpage(context, category=None):
     try:
         language_code = context['request']._feincms_page.language
-        queryset = Entry.objects.active().filter(language=language_code, published__gt=50)
+        queryset = Entry.objects.active().filter(language=language_code, status__gt=50)
     except (AttributeError, FieldError):
         queryset = Entry.objects.active()
     if category:
