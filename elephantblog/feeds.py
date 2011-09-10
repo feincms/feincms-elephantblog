@@ -14,9 +14,9 @@ class EntryFeed(Feed):
 
     def items(self):
         if 'translations' in getattr(Entry, '_feincms_extensions', ()):
-            return Entry.objects.active().filter(language=short_language_code).order_by('-published_on')
+            return Entry.objects.active().filter(language=short_language_code).order_by('-published_on')[:20]
         else:
-            return Entry.objects.active().order_by('-published_on')
+            return Entry.objects.active().order_by('-published_on')[:20]
 
     def item_title(self, item):
         return item.title
