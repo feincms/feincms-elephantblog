@@ -228,7 +228,7 @@ class EntryAdmin(item_editor.ItemEditor):
     filter_horizontal = ['categories']
     list_display = ['__unicode__', 'status', 'last_changed', 'isactive',
         'active_status', 'published_on', 'user', 'pinging']
-    list_filter = ['status', 'published_on', 'categories']
+    list_filter = ['status', 'published_on', 'categories', 'user']
     search_fields = ['title', 'slug']
     prepopulated_fields = {
         'slug': ('title',),
