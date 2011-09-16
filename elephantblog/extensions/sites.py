@@ -11,7 +11,9 @@ def register(cls, admin_cls):
         help_text=_('The sites where the blogpost should appear.'),
         default=Site.objects.get_current))
 
-    cls.objects.active_filters.update({'sites': Q(sites=Site.objects.get_current)})
+    cls.objects.add_to_active_filters(
+        Q(sites=Site.objects.get_current),
+        key='sites')
 
     def sites_admin(self, obj):
         available_sites = self.obj.all()
