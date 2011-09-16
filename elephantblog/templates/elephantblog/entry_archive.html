@@ -5,7 +5,47 @@
 {% block title %}{% trans "News" %} - {{ block.super }}{% endblock %}
 
 {% block content %}
-<h1>{% trans "News" %}</h1>
+{% block content_title %}
+<h1>News
+    {% if year %}for {{ year }}{% endif %}
+    {% if month %}for {{ month|date:"F Y" }}{% endif %}
+    {% if day %}for {{ day|date:"j. F Y" }}{% endif %}
+    {% if category %}for {{ category }}{% endif %}
+</h1>
+{% endblock %}
 
-{% include "elephantblog/_entry_list.html" %}
+{% block object_list %}
+{% for entry in object_list %}
+    <article>
+        <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
+        <small>
+            {% for category in entry.categories.all %}
+                <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
+            {% endfor %}
+            {{ entry.published_on|date:"j F Y" }}
+        </small>
+        {{ entry.first_image.render }}
+        {{ entry.first_richtext.render }}
+    </article>
+{% endfor %}
+{% endblock %}
+
+{% block pagination %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+    {% endif %}
+
+    {% for p in page_obj.page_range|default_if_none:page_obj.paginator.page_range %}
+        {% if not p %}&hellip;
+        {% else %}
+            <a {% if p == page_obj.number and not page_obj.show_all_objects %}class="mark"{% endif %} href="?page={{ p }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+    {% endif %}
+</div>
+{% endblock %}
 {% endblock %}

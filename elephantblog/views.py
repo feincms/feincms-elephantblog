@@ -43,6 +43,7 @@ class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
     paginator_class = paginator.Paginator
     paginate_by = 10
     date_field = 'published_on'
+    template_name_suffix = '_archive'
 
 
 class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
@@ -51,6 +52,7 @@ class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
     paginate_by = 10
     date_field = 'published_on'
     make_object_list = True
+    template_name_suffix = '_archive'
 
 
 class MonthArchiveView(ElephantblogMixin, dates.MonthArchiveView):
@@ -59,6 +61,7 @@ class MonthArchiveView(ElephantblogMixin, dates.MonthArchiveView):
     paginate_by = 10
     month_format = '%m'
     date_field = 'published_on'
+    template_name_suffix = '_archive'
 
 
 class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
@@ -67,6 +70,7 @@ class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
     paginate_by = 10
     month_format = '%m'
     date_field = 'published_on'
+    template_name_suffix = '_archive'
 
 
 class DateDetailView(ElephantblogMixin, dates.DateDetailView):
@@ -138,7 +142,7 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
 
 
 class CategoryArchiveIndexView(ArchiveIndexView):
-    template_name_suffix = '_archive_category'
+    template_name_suffix = '_archive'
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, translations__slug=self.kwargs['slug'])
