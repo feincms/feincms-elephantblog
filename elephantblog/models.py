@@ -25,8 +25,6 @@ from feincms.models import Base
 from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformQuerySet
 
-from elephantblog import settings
-
 
 class Category(models.Model, translations.TranslatedObjectMixin):
     """
@@ -276,6 +274,3 @@ class EntryAdmin(item_editor.ItemEditor):
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         obj.save()
-
-
-Entry.register_regions(*settings.BLOG_REGIONS)

@@ -12,6 +12,3 @@ BLOG_TITLE = getattr(settings, 'BLOG_TITLE', _('title undefined'))
 #: Description of the blog, currently used for feed description
 BLOG_DESCRIPTION = getattr(settings, 'BLOG_DESCRIPTION',
                            _('description undefined'))
-
-#: Regions like Page regions:
-BLOG_REGIONS = getattr(settings, 'BLOG_REGIONS', (('main', _('Main content area')),))
