@@ -240,6 +240,7 @@ class EntryAdmin(item_editor.ItemEditor):
                 'categories',
             ]
         }],
+        item_editor.FEINCMS_CONTENT_FIELDSET,
     ]
 
     raw_id_fields = []
