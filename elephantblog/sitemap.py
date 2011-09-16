@@ -6,7 +6,7 @@ from elephantblog.models import Entry
 
 class EntrySitemap(Sitemap):
     def items(self):
-        return Entry.objects.active().filter(language=short_language_code)
+        return Entry.objects.active()
 
     def lastmod(self, obj):
         return obj.last_changed
