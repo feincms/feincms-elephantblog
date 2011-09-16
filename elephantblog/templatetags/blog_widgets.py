@@ -26,10 +26,9 @@ def get_entries(context, limit):
 @register.simple_tag(takes_context=True)
 def get_frontpage(context, category=None):
     try:
-        queryset = Entry.objects.active().filter(language=short_language_code(),
-            status=Entry.FRONT_PAGE)
+        queryset = Entry.objects.featured().filter(language=short_language_code())
     except (AttributeError, FieldError):
-        queryset = Entry.objects.active()
+        queryset = Entry.objects.featured()
 
     if category:
         queryset = queryset.filter(categories__translations__title=category).distinct()
