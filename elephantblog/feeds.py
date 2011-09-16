@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.syndication.views import Feed
 
 from feincms.translations import short_language_code
