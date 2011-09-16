@@ -2,9 +2,9 @@ from django.contrib.syndication.views import Feed
 
 from feincms.translations import short_language_code
 
-from models import Entry
+from elephantblog import settings
+from elephantblog.models import Entry
 
-import settings
 
 class EntryFeed(Feed):
     title = settings.BLOG_TITLE
