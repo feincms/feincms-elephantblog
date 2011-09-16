@@ -128,7 +128,7 @@ class Entry(Base):
 
     pinging = models.SmallIntegerField(_('ping'), editable=False, default=SLEEPING, choices=PINGING_CHOICES,
         help_text=_('Shows the status of the entry for the pinging management command.'))
-    user = models.ForeignKey(User, editable=False, blank=True, related_name='blogentries', verbose_name=_('author'))
+    author = models.ForeignKey(User, related_name='blogentries', verbose_name=_('author'))
     last_changed = models.DateTimeField(_('last change'), auto_now=True, editable=False)
 
     class Meta:
@@ -225,8 +225,8 @@ class EntryAdmin(item_editor.ItemEditor):
     date_hierarchy = 'published_on'
     filter_horizontal = ['categories']
     list_display = ['__unicode__', 'status', 'last_changed', 'isactive',
-        'active_status', 'published_on', 'user', 'pinging']
-    list_filter = ['status', 'published_on', 'categories', 'user']
+        'active_status', 'published_on', 'author', 'pinging']
+    list_filter = ['status', 'published_on', 'categories', 'author']
     search_fields = ['title', 'slug']
     prepopulated_fields = {
         'slug': ('title',),
@@ -236,7 +236,7 @@ class EntryAdmin(item_editor.ItemEditor):
         [None, {
             'fields': [
                 ('title', 'slug'),
-                ('status', 'published_on'),
+                ('status', 'published_on', 'author'),
                 'categories',
             ]
         }],
@@ -271,7 +271,3 @@ class EntryAdmin(item_editor.ItemEditor):
         mark_delete,
         ping_again,
         ]
-
-    def save_model(self, request, obj, form, change):
-        obj.user = request.user
-        obj.save()
