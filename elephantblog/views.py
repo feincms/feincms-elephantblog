@@ -44,6 +44,7 @@ class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
     paginate_by = 10
     date_field = 'published_on'
     template_name_suffix = '_archive'
+    allow_empty = True
 
 
 class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
