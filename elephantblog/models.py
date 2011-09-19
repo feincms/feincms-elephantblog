@@ -84,7 +84,7 @@ EntryManager.add_to_active_filters(
     Q(is_active=True),
     key='cleared')
 EntryManager.add_to_active_filters(
-    Q(published_on__lte=datetime.now),
+    lambda queryset: queryset.filter(published_on__lte=datetime.now),
     key='published_on_past')
 
 

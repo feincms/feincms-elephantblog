@@ -30,6 +30,9 @@ class ElephantblogMixin(object):
         kwargs.update({'view': self})
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
+    def get_queryset(self):
+        return Entry.objects.active().transform(entry_list_lookup_related)
+
     def render_to_response(self, context, **response_kwargs):
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
             return self.get_template_names(), context
@@ -39,7 +42,6 @@ class ElephantblogMixin(object):
 
 
 class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
-    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
     date_field = 'published_on'
@@ -48,7 +50,6 @@ class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
 
 
 class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
-    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
     date_field = 'published_on'
@@ -57,7 +58,6 @@ class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
 
 
 class MonthArchiveView(ElephantblogMixin, dates.MonthArchiveView):
-    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
     month_format = '%m'
@@ -66,7 +66,6 @@ class MonthArchiveView(ElephantblogMixin, dates.MonthArchiveView):
 
 
 class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
-    queryset = Entry.objects.active().transform(entry_list_lookup_related)
     paginator_class = paginator.Paginator
     paginate_by = 10
     month_format = '%m'
@@ -75,11 +74,13 @@ class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
 
 
 class DateDetailView(ElephantblogMixin, dates.DateDetailView):
-    queryset = Entry.objects.active()
     paginator_class = paginator.Paginator
     paginate_by = 10
     month_format = '%m'
     date_field = 'published_on'
+
+    def get_queryset(self):
+        return Entry.objects.active()
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
