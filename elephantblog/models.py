@@ -101,8 +101,8 @@ class Entry(Base):
     is_active = models.BooleanField(_('is active'), default=True)
     is_featured = models.BooleanField(_('is featured'), default=False)
 
-    title = models.CharField(_('title'), max_length=100, unique_for_date='published_on')
-    slug = models.SlugField(_('slug'), max_length=100)
+    title = models.CharField(_('title'), max_length=100)
+    slug = models.SlugField(_('slug'), max_length=100, unique_for_date='published_on')
     author = models.ForeignKey(User, related_name='blogentries', verbose_name=_('author'))
 
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now(),
