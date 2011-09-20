@@ -1,19 +1,24 @@
-.. Elephantblog documentation master file, created by
-   sphinx-quickstart on Sun Feb 13 16:41:49 2011.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+=========================================================
+ElephantBlog - An extensible Blog Module based on FeinCMS
+=========================================================
 
-===============================================
-Elephantblog - A versatile blog app for FeinCMS
-===============================================
+Every Django Developer has written its own Django-based blog. But most of them have a lot
+of features, that you'll never use and never wanted to, or they are just too simple for your
+needs, so you'll be quicker writing your own.
+
+Following the principles of FeinCMS, ElephantBlog tries to offer simple and basic blog
+functionality, but remains to be extensible so that you just pick what you need. And if
+you don't find an extension, you can quickly write your own and integrate it to ElephantBlog.
+
 
 Contents:
+=========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
-   overview
    installation
+   extensions
 
 Indices and tables
 ==================
