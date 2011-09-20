@@ -1,10 +1,3 @@
-"""
-You need the following modules to use this blog:
-Disqus: http://github.com/arthurk/django-disqus
-Pinging: http://github.com/matthiask/pinging
-Tagging: http://code.google.com/p/django-tagging/
-"""
-
 from datetime import datetime
 
 from django.contrib import admin
