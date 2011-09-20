@@ -9,6 +9,7 @@ Requirements
 ============
 
 ElephantBlog needs at least:
+
 * Django v1.4 (get it here: https://github.com/django/django)
 * FeinCMS v1.5 (get it here: https://github.com/feincms/feincms)
 
@@ -18,7 +19,9 @@ Installation
 
 * At this time, there is no prebundled installation file to install via pip or easy_install. So get
 the source at: https://github.com/feincms/feincms-elephantblog/
+
 * Make sure to add the ``elephantblog`` to your python path.
+
 * Add ``elephantblog`` to your ``INSTALLED_APPS`` in your settings.py
 
 In your ``application/models.py`` register the blog module and content types::
