@@ -82,15 +82,6 @@ EntryManager.add_to_active_filters(
 
 
 class Entry(Base):
-    SLEEPING, QUEUED, SENT, UNKNOWN = 10, 20, 30, 0
-
-    PINGING_CHOICES = (
-        (SLEEPING, _('sleeping')),
-        (QUEUED, _('queued')),
-        (SENT, _('sent')),
-        (UNKNOWN, _('unknown')),
-        )
-
     is_active = models.BooleanField(_('is active'), default=True)
     is_featured = models.BooleanField(_('is featured'), default=False)
 
@@ -104,8 +95,6 @@ class Entry(Base):
 
     categories = models.ManyToManyField(Category, verbose_name=_('categories'),
         related_name='blogentries', null=True, blank=True)
-
-    pinging = models.SmallIntegerField(_('ping'), editable=False, default=SLEEPING, choices=PINGING_CHOICES)
 
     class Meta:
         get_latest_by = 'published_on'
@@ -185,10 +174,3 @@ class EntryAdmin(item_editor.ItemEditor):
     ]
 
     raw_id_fields = []
-
-    ping_again = entry_admin_update_fn(_('queued'), {'pinging': Entry.QUEUED},
-        short_description=_('ping again'))
-
-    actions = [
-        ping_again,
-        ]
