@@ -58,4 +58,5 @@ If you are not familiar with FeinCMS, then you probably want to learn more about
 http://feincms.org
 
 Read the docs: http://feincms-elephantblog.readthedocs.org/en/latest/
+
 Read the source: https://github.com/feincms/feincms-elephantblog
