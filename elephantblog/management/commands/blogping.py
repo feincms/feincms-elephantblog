@@ -12,8 +12,8 @@ from pinging.models import PingedURL, PingServer
 
 
 MAX_POSTS = 50
-PINGING_WEBLOG_NAME = settings.PINGING_WEBLOG_NAME
-PINGING_WEBLOG_URL = settings.PINGING_WEBLOG_URL
+PINGING_WEBLOG_NAME = settings.BLOG_TITLE
+PINGING_WEBLOG_URL = settings.BLOG_DESCRIPTION
 
 try:
     domain = settings.FORCE_DOMAIN
