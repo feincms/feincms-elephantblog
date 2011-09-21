@@ -31,13 +31,13 @@ class BlogEntryListContent(models.Model):
 
         if self.paginate_by:
             paginator = Paginator(entries, self.paginate_by)
-            page = request.GET.get('page')
+            page = request.GET.get('page', 1)
             try:
-                self.entries = paginator.page(page)
+                self.entries = paginator.page(page).object_list
             except PageNotAnInteger:
-                self.entries = paginator.page(1)
+                self.entries = paginator.page(1).object_list
             except EmptyPage:
-                self.entries = paginator.page(paginator.num_pages)
+                self.entries = paginator.page(paginator.num_pages).object_list
 
         else:
             self.entries = entries
