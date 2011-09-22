@@ -23,3 +23,6 @@ class EntryFeed(Feed):
     def item_description(self, item):
         content = u''.join(c.render() for c in item.content.main)
         return content
+
+    def item_pubdate(self, item):
+        return item.published_on
