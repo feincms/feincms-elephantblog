@@ -19,7 +19,7 @@
     <article>
         <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
         <small>
-            {% for category in entry.categories.all %}
+            {% for category in entry.fetched_categories %}
                 <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
             {% endfor %}
             {{ entry.published_on|date:"j F Y" }}
