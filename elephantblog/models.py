@@ -1,10 +1,6 @@
 from datetime import datetime
 
-from django.contrib import admin
 from django.contrib.auth.models import User
-from django.core.exceptions import FieldError
-from django.core.urlresolvers import NoReverseMatch, reverse
-from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
@@ -12,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
 
 from feincms import translations
 from feincms.admin import item_editor
-from feincms.content.application.models import app_reverse
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
 from feincms.utils.managers import ActiveAwareContentManagerMixin
@@ -82,15 +77,6 @@ EntryManager.add_to_active_filters(
 
 
 class Entry(Base):
-    SLEEPING, QUEUED, SENT, UNKNOWN = 10, 20, 30, 0
-
-    PINGING_CHOICES = (
-        (SLEEPING, _('sleeping')),
-        (QUEUED, _('queued')),
-        (SENT, _('sent')),
-        (UNKNOWN, _('unknown')),
-        )
-
     is_active = models.BooleanField(_('is active'), default=True)
     is_featured = models.BooleanField(_('is featured'), default=False)
 
@@ -104,8 +90,6 @@ class Entry(Base):
 
     categories = models.ManyToManyField(Category, verbose_name=_('categories'),
         related_name='blogentries', null=True, blank=True)
-
-    pinging = models.SmallIntegerField(_('ping'), editable=False, default=SLEEPING, choices=PINGING_CHOICES)
 
     class Meta:
         get_latest_by = 'published_on'
@@ -185,10 +169,3 @@ class EntryAdmin(item_editor.ItemEditor):
     ]
 
     raw_id_fields = []
-
-    ping_again = entry_admin_update_fn(_('queued'), {'pinging': Entry.QUEUED},
-        short_description=_('ping again'))
-
-    actions = [
-        ping_again,
-        ]
