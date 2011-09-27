@@ -110,9 +110,6 @@ class Entry(Base):
         if self.is_active and not self.published_on:
             self.published_on = datetime.now()
 
-        if self.is_active and not self._old_is_active:
-            self.pinging = self.QUEUED
-
         super(Entry, self).save(*args, **kwargs)
 
     @models.permalink

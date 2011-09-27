@@ -1,7 +1,13 @@
 from django.db import models
+from django.db.models import signals
 from django.utils.translation import ugettext_lazy as _
 
 from elephantblog.models import Entry, entry_admin_update_fn
+
+
+def pre_save_handler(sender, instance, **kwargs):
+    if instance.is_active and not instance._old_is_active:
+        instance.pinging = instance.QUEUED
 
 
 def register(cls, admin_cls):
@@ -23,4 +29,6 @@ def register(cls, admin_cls):
 
     admin_cls.actions.append(entry_admin_update_fn(_('queued'), {'pinging': cls.QUEUED},
         short_description=_('ping again')))
+
+    signals.pre_save.connect(pre_save_handler, sender=cls)
 
