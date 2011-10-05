@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 import os
 
 import elephantblog
@@ -16,10 +16,6 @@ setup(name='feincms-elephantblog',
     url='https://github.com/sbaechler/feincms-elephantblog/',
     license='BSD License',
     platforms=['OS Independent'],
-    packages=[
-        'elephantblog',
-        'elephantblog.extensions',
-        'elephantblog.management.commands',
-        'elephantblog.templatetags',
-        ],
+    packages=find_packages(),
+    include_package_data=True
     )
