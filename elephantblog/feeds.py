@@ -5,11 +5,15 @@ from feincms.translations import short_language_code
 
 from elephantblog.models import Entry
 
+if not hasattr(settings, 'BLOG_TITLE') or not hasattr(settings, 'BLOG_DESCRIPTION'):
+    import warnings
+    warnings.warn('BLOG_TITLE and/or BLOG_DESCRIPTION not defined in settings.py. Standard values used for the Feed')
+    
 
 class EntryFeed(Feed):
-    title = settings.BLOG_TITLE
+    title = getattr(settings, 'BLOG_TITLE', 'Unnamed')
     link = '/blog/'
-    description = settings.BLOG_DESCRIPTION
+    description = getattr(settings, 'BLOG_DESCRIPTION', '')
 
     def items(self):
         if 'translations' in getattr(Entry, '_feincms_extensions', ()):
