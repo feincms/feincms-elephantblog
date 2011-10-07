@@ -22,6 +22,8 @@ class BlogEntryListContent(models.Model):
 
     class Meta:
         abstract = True
+        verbose_name = _('Blog entry list')
+        verbose_name_plural = _('Blog entry lists')
 
     def process(self, request, **kwargs):
         entries = Entry.objects.active().transform(entry_list_lookup_related)
