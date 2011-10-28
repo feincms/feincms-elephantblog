@@ -81,6 +81,9 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
     date_field = 'published_on'
 
     def get_queryset(self):
+        if (self.request.user.is_authenticated() and self.request.user.is_staff
+                and self.request.GET.get('eb_preview')):
+            return Entry.objects.all()
         return Entry.objects.active()
 
     def get(self, request, *args, **kwargs):

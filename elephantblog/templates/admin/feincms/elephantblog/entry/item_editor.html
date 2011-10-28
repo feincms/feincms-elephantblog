@@ -1,0 +1,15 @@
+{% extends "admin/feincms/item_editor.html" %}
+
+{% load i18n %}
+
+{% block object-tools %}
+{{ block.super }}
+<ul class="extra-object-tools">
+    {% comment %}{% if original.is_active and FEINCMS_FRONTEND_EDITING %}
+	    <li><a target="_blank" href="{{ original.get_absolute_url }}?frontend_editing=1" class="frontend_editing_link">{% trans "Edit on site" %}</a></li>
+	{% endif %}{% endcomment %}
+	{% if original and not original.is_active %}
+        <li><a target="_blank" href="{{ original.get_absolute_url }}?eb_preview=1" class="viewsitelink">{% trans "Preview" %}</a></li>
+	{% endif %}
+</ul>
+{% endblock %}
