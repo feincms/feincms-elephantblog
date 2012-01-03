@@ -148,6 +148,7 @@ class EntryAdmin(item_editor.ItemEditor):
     list_display = ['title', 'is_active', 'is_featured',  'published_on', 'author']
     list_editable = ['is_active', 'is_featured']
     list_filter = ['is_active', 'is_featured', 'categories', 'author']
+    raw_id_fields = ['author']
     search_fields = ['title', 'slug']
     prepopulated_fields = {
         'slug': ('title',),
@@ -164,5 +165,3 @@ class EntryAdmin(item_editor.ItemEditor):
         }],
         item_editor.FEINCMS_CONTENT_FIELDSET,
     ]
-
-    raw_id_fields = []
