@@ -84,7 +84,7 @@ class Entry(Base):
     slug = models.SlugField(_('slug'), max_length=100, unique_for_date='published_on')
     author = models.ForeignKey(User, related_name='blogentries', verbose_name=_('author'))
 
-    published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now(),
+    published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now,
         help_text=_('Will be filled in automatically when entry gets published.'))
     last_changed = models.DateTimeField(_('last change'), auto_now=True, editable=False)
 
