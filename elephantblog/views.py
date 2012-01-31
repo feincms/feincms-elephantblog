@@ -36,7 +36,9 @@ class ElephantblogMixin(object):
 
     def render_to_response(self, context, **response_kwargs):
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
-            return self.get_template_names(), context
+            names = self.get_template_names()
+            content_names = [('content/' + name) for name in names]
+            return render_to_response(content_names, context, RequestContext(self.request))
 
         return super(ElephantblogMixin, self).render_to_response(
             context, **response_kwargs)
