@@ -5,10 +5,18 @@ from feincms.translations import short_language_code
 
 from elephantblog.models import Entry
 
+
 if not hasattr(settings, 'BLOG_TITLE') or not hasattr(settings, 'BLOG_DESCRIPTION'):
     import warnings
     warnings.warn('BLOG_TITLE and/or BLOG_DESCRIPTION not defined in settings.py. Standard values used for the Feed')
-    
+
+
+def tryrender(content):
+    try:
+        return content.render()
+    except TypeError: # Required request argument or something else?
+        return u''
+
 
 class EntryFeed(Feed):
     title = getattr(settings, 'BLOG_TITLE', 'Unnamed')
@@ -25,7 +33,7 @@ class EntryFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        content = u''.join(c.render() for c in item.content.main)
+        content = u''.join(tryrender(c) for c in item.content.main)
         return content
 
     def item_pubdate(self, item):
