@@ -154,6 +154,7 @@ class EntryAdmin(item_editor.ItemEditor):
         'slug': ('title',),
         }
 
+    fieldset_insertion_index = 1
     fieldsets = [
         [None, {
             'fields': [
@@ -165,3 +166,12 @@ class EntryAdmin(item_editor.ItemEditor):
         }],
         item_editor.FEINCMS_CONTENT_FIELDSET,
     ]
+
+    @classmethod
+    def add_extension_options(cls, *f):
+        if isinstance(f[-1], dict):     # called with a fieldset
+            cls.fieldsets.insert(cls.fieldset_insertion_index, f)
+            f[1]['classes'] = list(f[1].get('classes', []))
+            f[1]['classes'].append('collapse')
+        else:   # assume called with "other" fields
+            cls.fieldsets[0][1]['fields'].extend(f)
