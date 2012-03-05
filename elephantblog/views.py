@@ -135,6 +135,10 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
         returns the final response.
         """
 
+        if not isinstance(response, HttpResponse):
+            # For example in the case of inheritance 2.0
+            return response
+
         for content in self.object.content.all_of_type(tuple(self.object._feincms_content_types_with_finalize)):
             r = content.finalize(self.request, response)
             if r:
