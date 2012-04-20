@@ -1,6 +1,7 @@
 include AUTHORS
 include LICENSE
 include README.rst
+recursive-include docs *.py *.rst *.bat Makefile
 recursive-include elephantblog/static *.png
 recursive-include elephantblog/static *.jpg
 recursive-include elephantblog/static *.gif
