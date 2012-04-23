@@ -91,3 +91,11 @@ following methods and settings to your ``settings.py`` file::
 
 Elephantblog also provides a navigation extension for FeinCMS.
 Just make sure you have registered the 'navigation' extension on your Page object.
+
+
+Settings
+--------
+
+You can set the number of entries per page with the following setting::
+
+    BLOG_PAGINATE_BY = 10

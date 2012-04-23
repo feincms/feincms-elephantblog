@@ -2,6 +2,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.cache import add_never_cache_headers
 from django.views.generic import dates
+from django.conf import settings
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
@@ -11,9 +12,10 @@ try:
 except ImportError:
     from django.core import paginator
 
-
 __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView', 'DayArchiveView',
     'DateDetailView', 'CategoryArchiveIndexView')
+
+PAGINATE_BY = getattr(settings, 'BLOG_PAGINATE_BY', 10)
 
 
 class ElephantblogMixin(object):
@@ -45,7 +47,7 @@ class ElephantblogMixin(object):
 
 class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
     paginator_class = paginator.Paginator
-    paginate_by = 10
+    paginate_by = PAGINATE_BY
     date_field = 'published_on'
     template_name_suffix = '_archive'
     allow_empty = True
@@ -53,7 +55,7 @@ class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
 
 class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
     paginator_class = paginator.Paginator
-    paginate_by = 10
+    paginate_by = PAGINATE_BY
     date_field = 'published_on'
     make_object_list = True
     template_name_suffix = '_archive'
@@ -61,7 +63,7 @@ class YearArchiveView(ElephantblogMixin, dates.YearArchiveView):
 
 class MonthArchiveView(ElephantblogMixin, dates.MonthArchiveView):
     paginator_class = paginator.Paginator
-    paginate_by = 10
+    paginate_by = PAGINATE_BY
     month_format = '%m'
     date_field = 'published_on'
     template_name_suffix = '_archive'
@@ -69,7 +71,7 @@ class MonthArchiveView(ElephantblogMixin, dates.MonthArchiveView):
 
 class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
     paginator_class = paginator.Paginator
-    paginate_by = 10
+    paginate_by = PAGINATE_BY
     month_format = '%m'
     date_field = 'published_on'
     template_name_suffix = '_archive'
@@ -77,7 +79,7 @@ class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
 
 class DateDetailView(ElephantblogMixin, dates.DateDetailView):
     paginator_class = paginator.Paginator
-    paginate_by = 10
+    paginate_by = PAGINATE_BY
     month_format = '%m'
     date_field = 'published_on'
 

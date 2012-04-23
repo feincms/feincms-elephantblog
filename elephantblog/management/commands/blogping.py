@@ -13,7 +13,7 @@ from pinging.models import PingedURL, PingServer
 
 MAX_POSTS = 50
 PINGING_WEBLOG_NAME = settings.BLOG_TITLE
-PINGING_WEBLOG_URL = settings.BLOG_DESCRIPTION
+PINGING_WEBLOG_URL = getattr(settings, 'BLOG_BASE_URL', settings.BLOG_DESCRIPTION) # unfortunate naming in 0.1
 
 try:
     domain = settings.FORCE_DOMAIN
