@@ -93,7 +93,8 @@ Elephantblog also provides a navigation extension for FeinCMS.
 Just make sure you have registered the 'navigation' extension on your Page object.
 Add those lines to your app models.py::
 
-    from elephantblog.navigation_extensions import BlogCategoriesNavigationExtension
+    from elephantblog.navigation_extensions import BlogCategoriesNavigationExtension, \
+                                                   BlogDateNavigationExtension
     Page.register_extensions('navigation',)
 
 
