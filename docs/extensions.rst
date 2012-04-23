@@ -16,6 +16,8 @@ Then register the extension. In yourapp.models.py::
 
     Entry.register_extensions('blogping',)
 
+Add `pinging` to your `settings.INSTALLED_APPS`.
+
 Here is a list of servers that can be used for pinging: `<http://www.webpage-designer.net/65-wordpress-pinging-urls-you-need-to-know/>`_
 
 
