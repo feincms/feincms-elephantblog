@@ -25,7 +25,7 @@ class Category(models.Model, translations.TranslatedObjectMixin):
     class Meta:
         verbose_name = _('category')
         verbose_name_plural = _('categories')
-        ordering = ['-ordering',]
+        ordering = ['ordering',]
 
     objects = translations.TranslatedObjectManager()
 
