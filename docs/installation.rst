@@ -12,7 +12,15 @@ ElephantBlog needs at least:
 
 * Django v1.3 (get it here: https://github.com/django/django)
 * FeinCMS v1.5 (get it here: https://github.com/feincms/feincms)
+* TinyMCE_ or any other Richtext editor. TinyMCE goes in /media/js/tiny_mce.
 
+.. _TinyMCE: http://www.tinymce.com/download/download.php
+
+Optional packages:
+
+* Pinging_ for search engine pinging.
+
+.. _Pinging: https://github.com/matthiask/pinging
 
 Installation
 ============
