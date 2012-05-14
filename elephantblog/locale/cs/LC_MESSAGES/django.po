@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <vencax77@gmail.com>, 2012.
+# FIRST AUTHOR vencax77@gmail.com, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-14 07:44+0200\n"
+"POT-Creation-Date: 2012-05-11 18:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "Blog entries in category"
 msgstr "Články v kategorii"
 
-#: contents.py:19 contents.py:59 models.py:26
+#: contents.py:19 models.py:26
 msgid "category"
 msgstr "kategorie"
 
-#: contents.py:19 contents.py:59
+#: contents.py:19
 msgid "Only show entries from this category."
 msgstr "Zobrazit pouze články v této kategorii"
 
@@ -44,58 +44,6 @@ msgstr "Seznam článků"
 #: contents.py:26
 msgid "Blog entry lists"
 msgstr "Seznamy článků"
-
-#: contents.py:60 contents.py:84
-msgid "item count"
-msgstr "Počet článků"
-
-#: contents.py:61 contents.py:85
-msgid "Entry count to show."
-msgstr "Počet článků k zobrazení"
-
-#: contents.py:65
-msgid "newest entries content"
-msgstr "Nejnovější články obsah"
-
-#: contents.py:66
-msgid "newest entries contents"
-msgstr "Nejnovější články obsahy"
-
-#: contents.py:89
-msgid "featured entries content"
-msgstr "extra články obsah"
-
-#: contents.py:90
-msgid "featured entries contents"
-msgstr "extra články obsahy"
-
-#: contents.py:107
-msgid "content"
-msgstr "obsah"
-
-#: contents.py:108
-msgid "position"
-msgstr "Pozice"
-
-#: contents.py:109
-msgid "block"
-msgstr "Do bloku"
-
-#: contents.py:110
-msgid "left"
-msgstr "Nalevo"
-
-#: contents.py:111
-msgid "right"
-msgstr "Napravo"
-
-#: contents.py:116
-msgid "quote"
-msgstr "Citát"
-
-#: contents.py:117
-msgid "quotes"
-msgstr "Citáty"
 
 #: models.py:23
 msgid "ordering"
@@ -216,11 +164,8 @@ msgstr "Čárkami oddělený seznam tagů"
 msgid "Preview"
 msgstr "Náhled"
 
-#: templates/content/elephantblog/newest_entries.html:3
-msgid "Newest articles"
-msgstr "Nejnovější články"
-
 #: templates/elephantblog/entry_archive.html:5
 #: templates/elephantblog/entry_detail.html:5
 msgid "News"
 msgstr "Články"
+
