@@ -50,7 +50,7 @@ class BlogEntryListContent(models.Model):
             self.entries = entries
 
     def render(self, **kwargs):
-        template_name = 'entry_list_featured' if self.featured_only else 'entry_list'
-        return render_to_string('content/elephantblog/%s.html' % template_name, {
-            'content': self,
-            })
+        template_names = ['content/elephantblog/entry_list.html']
+        if self.featured_only:
+            template_names.insert(0, 'entry_list_featured.html')
+        return render_to_string(template_names, { 'content': self })

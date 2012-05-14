@@ -19,6 +19,8 @@ Contents:
    
    installation
    extensions
+   contents
+   widgets
 
 Indices and tables
 ==================
