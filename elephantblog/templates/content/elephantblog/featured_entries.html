@@ -1,0 +1,11 @@
+{% load i18n applicationcontent_tags %}
+
+<ul class="list featured">
+{% for entry in entry_list %}
+	<li {% if forloop.first %}class="first"{% endif %}>
+		<h4><a href="{{entry.get_absolute_url}}">{{ entry.title }}</a></h4>
+		{{ entry.first_image.render }}
+		{{ entry.first_richtext.render }}
+	</li>
+{% endfor %}
+</ul>
