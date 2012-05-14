@@ -17,8 +17,10 @@ except ImportError:
 class BlogEntryListContent(models.Model):
     category = models.ForeignKey(Category, blank=True, null=True, related_name='+',
         verbose_name=_('category'), help_text=_('Only show entries from this category.'))
-    paginate_by = models.PositiveIntegerField(_('paginate by'), default=0,
+    paginate_by = models.PositiveIntegerField(_('entries per page'), default=0,
         help_text=_('Set to 0 to disable pagination.'))
+    featured_only = models.BooleanField(_('featured only'), blank=True, default=False,
+        help_text=_('Only show articles marked as featured'))
 
     class Meta:
         abstract = True
@@ -26,7 +28,10 @@ class BlogEntryListContent(models.Model):
         verbose_name_plural = _('Blog entry lists')
 
     def process(self, request, **kwargs):
-        entries = Entry.objects.active().transform(entry_list_lookup_related)
+        if self.featured_only:
+            entries = Entry.objects.featured().transform(entry_list_lookup_related)
+        else:
+            entries = Entry.objects.active().transform(entry_list_lookup_related)
 
         if self.category:
             entries = entries.filter(categories=self.category)
@@ -45,6 +50,7 @@ class BlogEntryListContent(models.Model):
             self.entries = entries
 
     def render(self, **kwargs):
-        return render_to_string('content/elephantblog/entry_list.html', {
-            'content': self,
-            })
+        template_names = ['content/elephantblog/entry_list.html']
+        if self.featured_only:
+            template_names.insert(0, 'entry_list_featured.html')
+        return render_to_string(template_names, { 'content': self })

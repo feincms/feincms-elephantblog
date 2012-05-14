@@ -24,8 +24,8 @@
             {% endfor %}
             {{ entry.published_on|date:"j F Y" }}
         </small>
-        {{ entry.first_image.render }}
-        {{ entry.first_richtext.render }}
+        {% if entry.first_image %}{{ entry.first_image.render }}{% endif %}
+        {% if entry.first_richtext %}{{ entry.first_richtext.render }}{% endif %}
     </article>
 {% endfor %}
 {% endblock %}

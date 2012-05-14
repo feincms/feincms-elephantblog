@@ -25,7 +25,7 @@ class Category(models.Model, translations.TranslatedObjectMixin):
     class Meta:
         verbose_name = _('category')
         verbose_name_plural = _('categories')
-        ordering = ['-ordering',]
+        ordering = ['ordering',]
 
     objects = translations.TranslatedObjectManager()
 
@@ -77,15 +77,15 @@ EntryManager.add_to_active_filters(
 
 
 class Entry(Base):
-    is_active = models.BooleanField(_('is active'), default=True)
-    is_featured = models.BooleanField(_('is featured'), default=False)
+    is_active = models.BooleanField(_('is active'), default=True, db_index=True)
+    is_featured = models.BooleanField(_('is featured'), default=False, db_index=True)
 
     title = models.CharField(_('title'), max_length=100)
     slug = models.SlugField(_('slug'), max_length=100, unique_for_date='published_on')
     author = models.ForeignKey(User, related_name='blogentries', verbose_name=_('author'))
 
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now,
-        help_text=_('Will be filled in automatically when entry gets published.'))
+        help_text=_('Will be filled in automatically when entry gets published.'), db_index=True)
     last_changed = models.DateTimeField(_('last change'), auto_now=True, editable=False)
 
     categories = models.ManyToManyField(Category, verbose_name=_('categories'),

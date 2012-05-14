@@ -12,7 +12,15 @@ ElephantBlog needs at least:
 
 * Django v1.3 (get it here: https://github.com/django/django)
 * FeinCMS v1.5 (get it here: https://github.com/feincms/feincms)
+* TinyMCE_ or any other Richtext editor. TinyMCE goes in /media/js/tiny_mce.
 
+.. _TinyMCE: http://www.tinymce.com/download/download.php
+
+Optional packages:
+
+* Pinging_ for search engine pinging.
+
+.. _Pinging: https://github.com/matthiask/pinging
 
 Installation
 ============
@@ -24,6 +32,7 @@ You can install elephantblog using ``pip install django-elephantblog``.
 In your ``application/models.py`` register the blog module and content types::
 
     from feincms.content.richtext.models import RichTextContent
+    from feincms.content.medialibrary.v2 import MediaFileContent
 
     from elephantblog.models import Entry
 
@@ -31,6 +40,9 @@ In your ``application/models.py`` register the blog module and content types::
         ('main', _('Main content area')),
     )
     Entry.create_content_type(RichTextContent, cleanse=False, regions=('main',))
+    Entry.create_content_type(MediaFileContent, TYPE_CHOICES=(
+        ('default', _('default')),
+    ))
 
 
 .. note::
@@ -91,3 +103,16 @@ following methods and settings to your ``settings.py`` file::
 
 Elephantblog also provides a navigation extension for FeinCMS.
 Just make sure you have registered the 'navigation' extension on your Page object.
+Add those lines to your app models.py::
+
+    from elephantblog.navigation_extensions import BlogCategoriesNavigationExtension, \
+                                                   BlogDateNavigationExtension
+    Page.register_extensions('navigation',)
+
+
+Settings
+--------
+
+You can set the number of entries per page with the following setting::
+
+    BLOG_PAGINATE_BY = 10
