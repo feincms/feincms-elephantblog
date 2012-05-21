@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-14 07:44+0200\n"
+"POT-Creation-Date: 2012-05-21 10:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -220,7 +220,15 @@ msgstr "Náhled"
 msgid "Newest articles"
 msgstr "Nejnovější články"
 
+#: templates/elephantblog/archive.html:3
+msgid "Archive"
+msgstr "Archiv"
+
 #: templates/elephantblog/entry_archive.html:5
 #: templates/elephantblog/entry_detail.html:5
 msgid "News"
 msgstr "Články"
+
+#: templates/elephantblog/tagcloud.html:3
+msgid "Tag cloud"
+msgstr "Shluk slov"
