@@ -2,7 +2,7 @@
 
 <h3>{% trans "Tag cloud" %}</h3>
 
-{% elephantblog_tag_cloud as cloudtags %}
+{% elephantblog_tag_cloud steps=10 as cloudtags %}
 <div class="tagcloud">
 {% for t in cloudtags %}
 	<a class="tag{{t.font_size}}" href="{{t.get_absolute_url}}">{{ t }}</a>
