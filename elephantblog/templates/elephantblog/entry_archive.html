@@ -17,15 +17,19 @@
 {% block object_list %}
 {% for entry in object_list %}
     <article>
-        <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
-        <small>
-            {% for category in entry.fetched_categories %}
-                <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
-            {% endfor %}
-            {{ entry.published_on|date:"j F Y" }}
-        </small>
-        {% if entry.first_image %}{{ entry.first_image.render }}{% endif %}
-        {% if entry.first_richtext %}{{ entry.first_richtext.render }}{% endif %}
+        <header>
+            <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
+            <span class="byline small">
+                {% for category in entry.fetched_categories %}
+                    <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
+                {% endfor %}
+                {{ entry.published_on|date:"j F Y" }}
+            </span>
+        </header>
+        <div class="entry-summary">
+            {% if entry.first_image %}{{ entry.first_image.render }}{% endif %}
+            {% if entry.first_richtext %}{{ entry.first_richtext.render }}{% endif %}
+        </div>
     </article>
 {% endfor %}
 {% endblock %}

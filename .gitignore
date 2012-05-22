@@ -2,8 +2,10 @@
 *~
 .*.swp
 \#*#
-.idea
-.settings
+/.idea
+/.settings
+/.project
+/.pydevproject
 /build
 /dist
 /docs/_build
