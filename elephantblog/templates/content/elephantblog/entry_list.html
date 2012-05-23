@@ -1,17 +1,27 @@
+<div class="hfeed">
 {% for entry in content.entries %}
-    <article>
-        <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
-        <small>
-            {% for category in entry.fetched_categories %}
-                <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
-            {% endfor %}
-            {{ entry.published_on|date:"j F Y" }}
-        </small>
-
-        {{ entry.first_image.render }}
-        {{ entry.first_richtext.render }}
+    <article class="hentry">
+        <header>
+            <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}" rel="bookmark">{{ entry }}</a></h2>
+            <span class="byline small">
+                {% for category in entry.fetched_categories %}
+                    <a href="{{ category.get_absolute_url }}" rel="tag">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
+                {% endfor %}
+                {% if entry.author.get_full_name %}
+                <span class="author source-org vcard">
+                    {% trans 'by' %} <span class="fn">{{ entry.author.get_full_name }}</span> |
+                </span>
+                {% endif %}
+                <time datetime="{{ entry.published_on|date:'c' }}" pubdate>{{ entry.published_on|date:"j F Y" }}</time>
+            </span>
+        </header>
+        <div class="entry-summary">
+            {% if entry.first_image %}{{ entry.first_image.render }}{% endif %}
+            {% if entry.first_richtext %}{{ entry.first_richtext.render }}{% endif %}
+        </div>
     </article>
 {% endfor %}
+</div>
 
 {# if not content.featured_only #}
 {% with content.entries as page_obj %}
