@@ -15,15 +15,21 @@
 {% endblock %}
 
 {% block object_list %}
+<div class="hfeed">
 {% for entry in object_list %}
-    <article>
+    <article class="hentry">
         <header>
-            <h2><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h2>
+            <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}" rel="bookmark">{{ entry }}</a></h2>
             <span class="byline small">
                 {% for category in entry.fetched_categories %}
-                    <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
+                    <a href="{{ category.get_absolute_url }}" rel="tag">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
                 {% endfor %}
-                {{ entry.published_on|date:"j F Y" }}
+                {% if entry.author.get_full_name %}
+                <span class="author source-org vcard">
+                    {% trans 'by' %} <span class="fn">{{ entry.author.get_full_name }}</span> |
+                </span>
+                {% endif %}
+                <time datetime="{{ entry.published_on|date:'c' }}" pubdate>{{ entry.published_on|date:"j F Y" }}</time>
             </span>
         </header>
         <div class="entry-summary">
@@ -32,6 +38,7 @@
         </div>
     </article>
 {% endfor %}
+</div>
 {% endblock %}
 
 {% block pagination %}
