@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-21 10:45+0200\n"
+"POT-Creation-Date: 2012-05-29 21:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,81 +21,109 @@ msgstr ""
 msgid "Blog entries in category"
 msgstr "Články v kategorii"
 
-#: contents.py:19 contents.py:59 models.py:26
+#: contents.py:20 contents.py:60 models.py:26
 msgid "category"
 msgstr "kategorie"
 
-#: contents.py:19 contents.py:59
+#: contents.py:20 contents.py:60
 msgid "Only show entries from this category."
 msgstr "Zobrazit pouze články v této kategorii"
 
-#: contents.py:20
+#: contents.py:21
 msgid "paginate by"
 msgstr "stránkováno od"
 
-#: contents.py:21
+#: contents.py:22
 msgid "Set to 0 to disable pagination."
 msgstr "Zadej 0 pro vypnutí stránkování"
 
-#: contents.py:25
+#: contents.py:26
 msgid "Blog entry list"
 msgstr "Seznam článků"
 
-#: contents.py:26
+#: contents.py:27
 msgid "Blog entry lists"
 msgstr "Seznamy článků"
 
-#: contents.py:60 contents.py:84
+#: contents.py:61 contents.py:85
 msgid "item count"
 msgstr "Počet článků"
 
-#: contents.py:61 contents.py:85
+#: contents.py:62 contents.py:86
 msgid "Entry count to show."
 msgstr "Počet článků k zobrazení"
 
-#: contents.py:65
+#: contents.py:66
 msgid "newest entries content"
 msgstr "Nejnovější články obsah"
 
-#: contents.py:66
+#: contents.py:67
 msgid "newest entries contents"
 msgstr "Nejnovější články obsahy"
 
-#: contents.py:89
+#: contents.py:90
 msgid "featured entries content"
 msgstr "extra články obsah"
 
-#: contents.py:90
+#: contents.py:91
 msgid "featured entries contents"
 msgstr "extra články obsahy"
 
-#: contents.py:107
+#: contents.py:108
 msgid "content"
 msgstr "obsah"
 
-#: contents.py:108
+#: contents.py:109
 msgid "position"
 msgstr "Pozice"
 
-#: contents.py:109
+#: contents.py:110
 msgid "block"
 msgstr "Do bloku"
 
-#: contents.py:110
+#: contents.py:111
 msgid "left"
 msgstr "Nalevo"
 
-#: contents.py:111
+#: contents.py:112
 msgid "right"
 msgstr "Napravo"
 
-#: contents.py:116
+#: contents.py:117
 msgid "quote"
 msgstr "Citát"
 
-#: contents.py:117
+#: contents.py:118
 msgid "quotes"
 msgstr "Citáty"
+
+#: contents.py:134
+msgid "number of steps"
+msgstr "Počet kroků"
+
+#: contents.py:135
+msgid "number of steps."
+msgstr "Počet velikostí fontu."
+
+#: contents.py:136
+msgid "computingtype"
+msgstr "Způsob výpočtu"
+
+#: contents.py:138
+msgid "linear"
+msgstr "lineární"
+
+#: contents.py:139
+msgid "logarithmic"
+msgstr "logaritmický"
+
+#: contents.py:144
+msgid "tag cloud content"
+msgstr "Shluk slov"
+
+#: contents.py:145
+msgid "tag cloud contents"
+msgstr "Shluky slov"
 
 #: models.py:23
 msgid "ordering"
@@ -176,6 +204,11 @@ msgstr[1] "%(count)s článků úspěšně označeno jako %(state)s"
 msgid "blog categories"
 msgstr "Kategorie článku"
 
+#: utils.py:47
+#, python-format
+msgid "Invalid distribution algorithm specified: %s."
+msgstr ""
+
 #: extensions/blogping.py:20
 msgid "sleeping"
 msgstr "Čekající"
@@ -220,6 +253,11 @@ msgstr "Náhled"
 msgid "Newest articles"
 msgstr "Nejnovější články"
 
+#: templates/content/elephantblog/tagcloud.html:3
+#: templates/elephantblog/tagcloud.html:3
+msgid "Tag cloud"
+msgstr "Štítky"
+
 #: templates/elephantblog/archive.html:3
 msgid "Archive"
 msgstr "Archiv"
@@ -228,7 +266,3 @@ msgstr "Archiv"
 #: templates/elephantblog/entry_detail.html:5
 msgid "News"
 msgstr "Články"
-
-#: templates/elephantblog/tagcloud.html:3
-msgid "Tag cloud"
-msgstr "Shluk slov"

@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<h3>{% trans "Tag cloud" %}</h3>
+
+<div class="tagcloud">
+{% for t in cloud %}
+	<a class="tag{{t.font_size}}" href="{{t.get_absolute_url}}">{{ t }}</a>
+{% endfor %}
+</div>
