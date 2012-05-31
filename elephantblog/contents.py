@@ -151,3 +151,17 @@ class TagCloudContent(models.Model):
             'content/elephantblog/tagcloud.html',
             ], {'content': self, 'cloud' : cloud})
     
+
+class ArchiveContent(models.Model):
+    class Meta:
+        abstract = True
+        verbose_name = _('blog archive content')
+        verbose_name_plural = _('blog archive contents')
+        
+    def render(self, **kwargs):
+        months = Entry.objects.active().dates('published_on', 'month', 'DESC')
+        years = Entry.objects.active().dates('published_on', 'year', 'DESC')
+    
+        return render_to_string([
+            'content/elephantblog/archive.html',
+            ], {'months': months, 'years' : years})

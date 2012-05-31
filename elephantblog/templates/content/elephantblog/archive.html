@@ -1,0 +1,11 @@
+{% load elephantblog_tags i18n %}
+
+<h3>{% trans "Archive" %}</h3>
+<ul>
+{% for y in years %}
+	<li {% if forloop.first %}class="first"{% endif %}><a href="{{feincms_page.get_absolute_url}}{{y.year}}">{{y|date:"Y"}}</a></li>
+{% endfor %}
+{% for m in months %}
+	<li><a href="{{feincms_page.get_absolute_url}}{{m.year}}/{{m|date:"m"}}/">{{m|date:"F"}}</a></li>
+{% endfor %}
+</ul>

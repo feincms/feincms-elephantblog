@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-29 21:41+0200\n"
+"POT-Creation-Date: 2012-05-31 19:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,6 +125,14 @@ msgstr "Shluk slov"
 msgid "tag cloud contents"
 msgstr "Shluky slov"
 
+#: contents.py:158
+msgid "blog archive content"
+msgstr "archiv článků - střípek"
+
+#: contents.py:159
+msgid "blog archive contents"
+msgstr "archiv článků - střípky"
+
 #: models.py:23
 msgid "ordering"
 msgstr "Pořadí"
@@ -207,7 +215,7 @@ msgstr "Kategorie článku"
 #: utils.py:47
 #, python-format
 msgid "Invalid distribution algorithm specified: %s."
-msgstr ""
+msgstr "Špatný distribuční algoritmus: %s."
 
 #: extensions/blogping.py:20
 msgid "sleeping"
@@ -249,6 +257,11 @@ msgstr "Čárkami oddělený seznam tagů"
 msgid "Preview"
 msgstr "Náhled"
 
+#: templates/content/elephantblog/archive.html:3
+#: templates/elephantblog/archive.html:3
+msgid "Archive"
+msgstr "Archiv"
+
 #: templates/content/elephantblog/newest_entries.html:3
 msgid "Newest articles"
 msgstr "Nejnovější články"
@@ -257,10 +270,6 @@ msgstr "Nejnovější články"
 #: templates/elephantblog/tagcloud.html:3
 msgid "Tag cloud"
 msgstr "Štítky"
-
-#: templates/elephantblog/archive.html:3
-msgid "Archive"
-msgstr "Archiv"
 
 #: templates/elephantblog/entry_archive.html:5
 #: templates/elephantblog/entry_detail.html:5
