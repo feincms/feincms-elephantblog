@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related, get_usage,\
-    calculate_cloud
+    calculate_cloud, LOGARITHMIC, LINEAR
 
 try:
     # Load paginator with additional goodies form towel if possible
@@ -133,10 +133,9 @@ class QuoteContent(models.Model):
 class TagCloudContent(models.Model):
     steps = models.IntegerField(_('number of steps'), default=7,
                                 help_text=_('number of steps.'))
-    computingtype = models.CharField(_('computingtype'), max_length=16, 
-                                     choices=(
-        ('LINEAR', _('linear')),
-        ('LOGARITHMIC', _('logarithmic')),
+    computingtype = models.IntegerField(_('computingtype'), choices=(
+        (LOGARITHMIC, _('logarithmic')),
+        (LINEAR, _('linear')),
     ))
     
     class Meta:

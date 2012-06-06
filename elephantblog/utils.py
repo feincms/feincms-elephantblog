@@ -44,7 +44,7 @@ def _calculate_tag_weight(weight, max_weight, distribution):
         return weight
     elif distribution == LOGARITHMIC:
         return math.log(weight) * max_weight / math.log(max_weight)
-    raise ValueError(_('Invalid distribution algorithm specified: %s.') % distribution)
+    raise ValueError('Invalid distribution algorithm specified: %s.' % distribution)
 
 def calculate_cloud(tags, steps=4, distribution=LOGARITHMIC):
     """
