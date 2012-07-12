@@ -16,8 +16,6 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['translations__title']
 
     def entries(self, obj):
-        if 'translations' in getattr(Entry, '_feincms_extensions', ()):
-            return Entry.objects.filter(categories=obj, language=short_language_code()).count()
         return Entry.objects.filter(categories=obj)
     entries.short_description = _('Blog entries in category')
 
