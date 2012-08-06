@@ -29,13 +29,17 @@ You can install elephantblog using ``pip install django-elephantblog``.
 
 * Add ``elephantblog`` to your ``INSTALLED_APPS`` in your ``settings.py``
 
-In your ``application/models.py`` register the blog module and content types::
+In your ``application/models.py`` register the blog module, extensions and content types::
 
     from feincms.content.richtext.models import RichTextContent
     from feincms.content.medialibrary.v2 import MediaFileContent
 
     from elephantblog.models import Entry
 
+    Entry.register_extensions('feincms.module.extensions.datepublisher',
+                              'feincms.module.extensions.translations',
+                              'elephantblog.extensions.blogping',
+    )
     Entry.register_regions(
         ('main', _('Main content area')),
     )
