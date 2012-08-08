@@ -18,7 +18,7 @@
                 {% trans 'by' %} <span class="fn">{{ entry.author.get_full_name }}</span> |
             </span>
             {% endif %}
-            <time datetime="{{ entry.published_on|date:'c' }}" pubdate>{{ entry.published_on|date:"j F Y" }}</time>
+            <time datetime="{{ entry.published_on|date:'c' }}" pubdate>{{ entry.published_on|date:"SHORT_DATE_FORMAT" }}</time>
             <time class="updated" datetime="{{ entry.last_changed|date:'c' }}"></time>
         </span>
     </header>

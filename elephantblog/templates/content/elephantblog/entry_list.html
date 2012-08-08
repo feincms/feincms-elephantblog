@@ -1,10 +1,10 @@
 {% load i18n %}
-<div class="hfeed">
+<div class="hfeed newsfeed content">
 {% for entry in content.entries %}
-    <article class="hentry">
+    <article class="hentry{% if forloop.first %} first{% endif %}">
         <header>
             <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}" rel="bookmark">{{ entry }}</a></h2>
-            <span class="byline small">
+            <p class="byline small">
                 {% for category in entry.fetched_categories %}
                     <a href="{{ category.get_absolute_url }}" rel="tag">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
                 {% endfor %}
@@ -13,8 +13,8 @@
                     {% trans 'by' %} <span class="fn">{{ entry.author.get_full_name }}</span> |
                 </span>
                 {% endif %}
-                <time datetime="{{ entry.published_on|date:'c' }}" pubdate>{{ entry.published_on|date:"j F Y" }}</time>
-            </span>
+                <time datetime="{{ entry.published_on|date:'c' }}" pubdate>{{ entry.published_on|date:"SHORT_DATE_FORMAT" }}</time>
+            </p>
         </header>
         <div class="entry-summary">
             {% if entry.first_image %}{{ entry.first_image.render }}{% endif %}
