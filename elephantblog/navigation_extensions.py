@@ -1,7 +1,10 @@
+""" optimized for use with the feincms_nav and recursetree template tag. """
+
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from feincms.module.page.extensions.navigation import (NavigationExtension,
     PagePretender)
+from django.conf import settings
 
 from elephantblog.models import Category, Entry
 import datetime
@@ -16,13 +19,14 @@ class BlogCategoriesNavigationExtension(NavigationExtension):
     name = _('blog categories')
 
     def children(self, page, **kwargs):
-        for category in Category.objects.all():
+        categories = Category.objects.all()
+        for category in categories:
             yield PagePretender(
                 title=category.translation.title,
                 url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
                 tree_id=page.tree_id, # pretty funny tree hack
-                lft=0,
-                rght=0,
+                level=page.level+1,
+                language=getattr(page, 'language', settings.LANGUAGE_CODE),
                 slug=category.translation.slug,
                 )
 
@@ -61,26 +65,29 @@ class BlogDateNavigationExtension(NavigationExtension):
     name = _('Blog date')
 
     def children(self, page, **kwargs):
+
         for year, months in date_tree():
+            def return_months():
+                for month in months:
+                    yield PagePretender(
+                        title=u'%s' % ugettext(all_months[month-1].strftime('%B')),
+                        url='%s%04d/%02d/' % (page.get_absolute_url(), year, month),
+                        tree_id=page.tree_id, # pretty funny tree hack
+                        level=page.level+2,
+                        language=getattr(page, 'language', settings.LANGUAGE_CODE),
+                        slug='%04d/%02d' % (year, month),
+                    )
             yield PagePretender(
                 title=u'%s' % year,
                 url='%s%s/' % (page.get_absolute_url(), year),
                 tree_id=page.tree_id, # pretty funny tree hack
-                lft=0,
-                rght=len(months)+1,
+                language=getattr(page, 'language', settings.LANGUAGE_CODE),
                 level=page.level+1,
                 slug='%s' % year,
+                parent=page,
+                get_children=return_months,
                 )
-            for month in months:
-                yield PagePretender(
-                    title=u'%s' % ugettext(all_months[month-1].strftime('%B')),
-                    url='%s%04d/%02d/' % (page.get_absolute_url(), year, month),
-                    tree_id=page.tree_id, # pretty funny tree hack
-                    lft=0,
-                    rght=0,
-                    level=page.level+2,
-                    slug='%04d/%02d' % (year, month),
-                )
+
 
 
 class CategoryAndDateNavigationExtension(NavigationExtension):
@@ -88,51 +95,58 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
 
     def children(self, page, **kwargs):
         all_categories = Category.objects.all()
+
+        def return_children():
+            for category in all_categories:
+                yield PagePretender(
+                    title=category.translation.title,
+                    url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
+                    tree_id=page.tree_id, # pretty funny tree hack
+                    level=page.level+2,
+                    language=getattr(page, 'language', settings.LANGUAGE_CODE),
+                    slug=category.translation.slug,
+                    )
+
         yield PagePretender(
             title=_('Categories'),
             url='#',
             tree_id=page.tree_id, # pretty funny tree hack
-            lft=0,
-            rght=len(all_categories)+1,
-            level=page.level,
+            level=page.level+1,
+            parent=page,
             slug='#',
+            language=getattr(page, 'language', settings.LANGUAGE_CODE),
+            get_children=return_children,
             )
-        for category in all_categories:
-            yield PagePretender(
-                title=category.translation.title,
-                url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
-                tree_id=page.tree_id, # pretty funny tree hack
-                lft=0,
-                rght=0,
-                level=page.level+1,
-                slug=category.translation.slug,
-                )
+
+        def return_dates():
+            for year, months in date_tree():
+                def return_months():
+                    for month in months:
+                        yield PagePretender(
+                            title=u'%s' % ugettext(all_months[month-1].strftime('%B')),
+                            url='%s%04d/%02d/' % (page.get_absolute_url(), year, month),
+                            tree_id=page.tree_id, # pretty funny tree hack
+                            level=page.level+3,
+                            language=getattr(page, 'language', settings.LANGUAGE_CODE),
+                            slug='%04d/%02d' % (year, month),
+                        )
+                yield PagePretender(
+                    title=u'%s' % year,
+                    url='%s%s/' % (page.get_absolute_url(), year),
+                    tree_id=page.tree_id, # pretty funny tree hack
+                    level=page.level+2,
+                    slug='%s' % year,
+                    language=getattr(page, 'language', settings.LANGUAGE_CODE),
+                    get_children=return_months,
+                    )
+
         yield PagePretender(
             title=_('Archive'),
             url='#',
             tree_id=page.tree_id, # pretty funny tree hack
-            lft=0,
-            rght=500, # does it really matter?
-            level=page.level,
+            level=page.level+1,
             slug='#',
+            parent=page,
+            language=getattr(page, 'language', settings.LANGUAGE_CODE),
+            get_children=return_dates,
             )
-        for year, months in date_tree():
-            yield PagePretender(
-                title=u'%s' % year,
-                url='%s%s/' % (page.get_absolute_url(), year),
-                tree_id=page.tree_id, # pretty funny tree hack
-                lft=0,
-                rght=len(months)+1,
-                level=page.level+1,
-                slug='%s' % year,
-                )
-            for month in months:
-                yield PagePretender(
-                    title=u'%s' % ugettext(all_months[month-1].strftime('%B')),
-                    url='%s%04d/%02d/' % (page.get_absolute_url(), year, month),
-                    tree_id=page.tree_id, # pretty funny tree hack
-                    lft=0,
-                    rght=0,
-                    level=page.level+2,
-                    slug='%04d/%02d' % (year, month),
-                )
