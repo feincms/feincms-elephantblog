@@ -1,17 +1,19 @@
 from datetime import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
-
 from feincms import translations
 from feincms.admin import item_editor
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
 from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformQuerySet
+try:
+    from django.utils import timezone
+except ImportError:
+    timezone = False
 
 
 class Category(models.Model, translations.TranslatedObjectMixin):
@@ -114,10 +116,14 @@ class Entry(Base):
 
     @models.permalink
     def get_absolute_url(self):
+        if timezone:
+            localtime = timezone.localtime(self.published_on, timezone.utc)
+        else:
+            localtime = self.published_on
         return ('elephantblog_entry_detail', (), {
-            'year': self.published_on.strftime('%Y'),
-            'month': self.published_on.strftime('%m'),
-            'day': self.published_on.strftime('%d'),
+            'year': localtime.strftime('%Y'),
+            'month': localtime.strftime('%m'),
+            'day': localtime.strftime('%d'),
             'slug': self.slug,
             })
 
