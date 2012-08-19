@@ -1,11 +1,16 @@
+from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.cache import add_never_cache_headers
 from django.views.generic import dates
-from django.conf import settings
-
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
+import datetime
+try:
+    from django.utils import timezone
+except ImportError:
+    pass
+
 
 try:
     from towel import paginator
@@ -16,7 +21,6 @@ __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView', 'DayArchiv
     'DateDetailView', 'CategoryArchiveIndexView')
 
 PAGINATE_BY = getattr(settings, 'BLOG_PAGINATE_BY', 10)
-
 
 class ElephantblogMixin(object):
     """
@@ -43,6 +47,19 @@ class ElephantblogMixin(object):
 
         return super(ElephantblogMixin, self).render_to_response(
             context, **response_kwargs)
+        
+    def _make_date_lookup_arg(self, value):
+        """
+        Convert a date into a datetime when the date field is a DateTimeField.
+
+        When time zone support is enabled, `date` is assumed to be in the UTC,
+        so that displayed items are consistent with the URL.
+        """
+        if self.uses_datetime_field:
+            value = datetime.datetime.combine(value, datetime.time.min)
+            if settings.USE_TZ:
+                value = timezone.make_aware(value, timezone.utc)
+        return value
 
 
 class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
