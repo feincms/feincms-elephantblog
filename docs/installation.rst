@@ -33,6 +33,7 @@ In your ``application/models.py`` register the blog module, extensions and conte
 
     from feincms.content.richtext.models import RichTextContent
     from feincms.content.medialibrary.v2 import MediaFileContent
+    import feincms_cleanse
 
     from elephantblog.models import Entry
 
@@ -43,7 +44,8 @@ In your ``application/models.py`` register the blog module, extensions and conte
     Entry.register_regions(
         ('main', _('Main content area')),
     )
-    Entry.create_content_type(RichTextContent, cleanse=False, regions=('main',))
+    Entry.create_content_type(RichTextContent,
+                        cleanse=feincms_cleanse.cleanse_html, regions=('main',))
     Entry.create_content_type(MediaFileContent, TYPE_CHOICES=(
         ('default', _('default')),
     ))
