@@ -21,4 +21,5 @@ DATABASES = {
 
 ROOT_URLCONF = 'elephantblog.tests.testapp.urls'
 BLOG_TITLE = u'Blog of the usual elephant'
+BLOG_DESCRIPTION = ''
 TIME_ZONE = 'America/Chicago'

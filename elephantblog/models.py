@@ -1,5 +1,5 @@
-from datetime import datetime
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
@@ -12,8 +12,11 @@ from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformQuerySet
 try:
     from django.utils import timezone
+    now = timezone.now
 except ImportError:
-    timezone = False
+    timezone = None
+    from datetime import datetime
+    now = datetime.now
 
 
 class Category(models.Model, translations.TranslatedObjectMixin):
@@ -73,9 +76,11 @@ class EntryManager(models.Manager, ActiveAwareContentManagerMixin):
 EntryManager.add_to_active_filters(
     Q(is_active=True),
     key='cleared')
+
 EntryManager.add_to_active_filters(
-    lambda queryset: queryset.filter(published_on__lte=datetime.now),
+    lambda queryset: queryset.filter(published_on__lte=now),
     key='published_on_past')
+
 
 
 class Entry(Base):
@@ -86,7 +91,7 @@ class Entry(Base):
     slug = models.SlugField(_('slug'), max_length=100, unique_for_date='published_on')
     author = models.ForeignKey(User, related_name='blogentries', verbose_name=_('author'))
 
-    published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=datetime.now,
+    published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=now,
         help_text=_('Will be filled in automatically when entry gets published.'), db_index=True)
     last_changed = models.DateTimeField(_('last change'), auto_now=True, editable=False)
 
@@ -110,20 +115,21 @@ class Entry(Base):
 
     def save(self, *args, **kwargs):
         if self.is_active and not self.published_on:
-            self.published_on = datetime.now()
+            self.published_on = now()
 
         super(Entry, self).save(*args, **kwargs)
 
     @models.permalink
     def get_absolute_url(self):
-        if timezone:
-            localtime = timezone.localtime(self.published_on, timezone.utc)
+        # We use naive date using UTC for conversion for permalink
+        if getattr(settings, 'USE_TZ', False):
+            pub_date = timezone.make_naive(self.published_on, timezone.utc)
         else:
-            localtime = self.published_on
+            pub_date = self.published_on
         return ('elephantblog_entry_detail', (), {
-            'year': localtime.strftime('%Y'),
-            'month': localtime.strftime('%m'),
-            'day': localtime.strftime('%d'),
+            'year': pub_date.strftime('%Y'),
+            'month': pub_date.strftime('%m'),
+            'day': pub_date.strftime('%d'),
             'slug': self.slug,
             })
 

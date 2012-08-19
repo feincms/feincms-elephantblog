@@ -7,11 +7,18 @@ from elephantblog.models import Entry
 import datetime
 import pytz
 
+# ./manage.py test --settings=elephantblog.tests.testapp.settings --failfast elephantblog
+
 @override_settings(USE_TZ=True)
 class TimezoneBugTest(TestCase):
+    #fixtures = ['page_page.json', 'page_application.json']
+
     def setUp(self):
         self.author = User.objects.create(username = 'author',
                             password = 'elephant')
+
+    def tearDown(self):
+        _timezone = None
     
     def test_chicago_night(self):
         chicago_tz = pytz.timezone("America/Chicago")
@@ -21,6 +28,9 @@ class TimezoneBugTest(TestCase):
                                      slug = 'test-entry',
                                      published_on = published_date)
 
+        print entry
+        print entry.get_absolute_url()
+        self.assertEqual(entry.published_on, published_date)
         response = self.client.get(entry.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         
@@ -31,6 +41,9 @@ class TimezoneBugTest(TestCase):
                                      author = self.author,
                                      slug = 'test-entry',
                                      published_on = published_date)
+        print entry.published_on
+        print entry.get_absolute_url()
+        self.assertEqual(entry.published_on, published_date)
         response = self.client.get(entry.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         

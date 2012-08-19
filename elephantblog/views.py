@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
+from django.db import models
 from django.utils.cache import add_never_cache_headers
 from django.views.generic import dates
 from elephantblog.models import Category, Entry
@@ -9,6 +10,7 @@ import datetime
 try:
     from django.utils import timezone
 except ImportError:
+    timezone = None
     pass
 
 
@@ -48,19 +50,6 @@ class ElephantblogMixin(object):
         return super(ElephantblogMixin, self).render_to_response(
             context, **response_kwargs)
         
-    def _make_date_lookup_arg(self, value):
-        """
-        Convert a date into a datetime when the date field is a DateTimeField.
-
-        When time zone support is enabled, `date` is assumed to be in the UTC,
-        so that displayed items are consistent with the URL.
-        """
-        if self.uses_datetime_field:
-            value = datetime.datetime.combine(value, datetime.time.min)
-            if settings.USE_TZ:
-                value = timezone.make_aware(value, timezone.utc)
-        return value
-
 
 class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
     paginator_class = paginator.Paginator
@@ -117,6 +106,77 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
 
     def post(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
+
+    def _make_date_lookup_arg(self, value):
+        """
+        Available in Django >= 1.5 only
+        Convert a date into a datetime when the date field is a DateTimeField.
+
+        When time zone support is enabled, `date` is assumed to be in the UTC,
+        so that displayed items are consistent with the URL.
+        """
+        if self.uses_datetime_field:
+            value = datetime.datetime.combine(value, datetime.time.min)
+            if settings.USE_TZ:
+                value = timezone.make_aware(value, timezone.utc)
+        return value
+
+
+    def get_object(self, queryset=None):
+        """
+        Compat for django 1.4
+        """
+        # Django >= 1.5
+        if hasattr(dates.DateDetailView, '_date_from_string'):
+            return dates.DateDetailView.get_object(queryset)
+
+        def _date_lookup_for_field(field, date):
+            """
+            Patch the function so it returns aware datetimes using UTC.
+            """
+            if isinstance(field, models.DateTimeField):
+                date_range = (
+                    timezone.make_aware(datetime.datetime.combine(
+                                        date, datetime.time.min), timezone.utc),
+                    timezone.make_aware(datetime.datetime.combine(
+                                        date, datetime.time.max), timezone.utc)
+                    )
+                return {'%s__range' % field.name: date_range}
+            else:
+                return {field.name: date}
+
+
+        year = self.get_year()
+        month = self.get_month()
+        day = self.get_day()
+        date = dates._date_from_string(year, self.get_year_format(),
+            month, self.get_month_format(),
+            day, self.get_day_format())
+
+        # Use a custom queryset if provided
+        qs = queryset or self.get_queryset()
+
+        if not self.get_allow_future() and date > datetime.date.today():
+            raise Http404(_(u"Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False.") % {
+                'verbose_name_plural': qs.model._meta.verbose_name_plural,
+                'class_name': self.__class__.__name__,
+                })
+
+        # Filter down a queryset from self.queryset using the date from the
+        # URL. This'll get passed as the queryset to DetailView.get_object,
+        # which'll handle the 404
+        date_field = self.get_date_field()
+        field = qs.model._meta.get_field(date_field)
+
+        if settings.USE_TZ:
+            lookup = _date_lookup_for_field(field, date)
+        else:
+            lookup = dates._date_lookup_for_field(field, date)
+
+        qs = qs.filter(**lookup)
+
+        return super(dates.BaseDetailView, self).get_object(queryset=qs)
+
 
     def prepare(self):
         """
