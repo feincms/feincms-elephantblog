@@ -127,7 +127,7 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
         Compat for django 1.4
         """
         # Django >= 1.5
-        if hasattr(dates.DateDetailView, '_date_from_string'):
+        if hasattr(dates.DateDetailView, '_make_date_lookup_arg'):
             return dates.DateDetailView.get_object(queryset)
 
         def _date_lookup_for_field(field, date):
