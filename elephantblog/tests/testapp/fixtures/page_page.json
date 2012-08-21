@@ -1,0 +1,29 @@
+[
+  {
+    "pk": 1, 
+    "model": "page.page", 
+    "fields": {
+      "meta_description": "", 
+      "rght": 2, 
+      "redirect_to": "", 
+      "navigation_extension": null, 
+      "language": "en", 
+      "parent": null, 
+      "level": 0, 
+      "translation_of": null, 
+      "_page_title": "", 
+      "title": "home", 
+      "override_url": "", 
+      "lft": 1, 
+      "_content_title": "", 
+      "meta_keywords": "", 
+      "template_key": "site_base.html", 
+      "tree_id": 1, 
+      "active": true, 
+      "in_navigation": true, 
+      "_cached_url": "/de/", 
+      "slug": "de", 
+      "_ct_inventory": ""
+    }
+  }
+]
