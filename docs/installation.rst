@@ -108,11 +108,14 @@ following methods and settings to your ``settings.py`` file::
 
 
 Elephantblog also provides a navigation extension for FeinCMS.
-Just make sure you have registered the 'navigation' extension on your Page object.
-Add those lines to your app models.py::
+Just make sure you have registered the ``navigation`` extension on your Page object.
+You have to import the correct module depending on the mptt tags you are using
+to build your navigation. Available are ``treeinfo`` and ``recursetree``.
 
-    from elephantblog.navigation_extensions import BlogCategoriesNavigationExtension, \
-                                                   BlogDateNavigationExtension
+Add those lines to the ``models.py`` of your app::
+
+    from elephantblog.navigation_extensions import treeinfo  # so the extensions can be found.
+
     Page.register_extensions('navigation',)
 
 
