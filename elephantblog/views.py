@@ -2,10 +2,12 @@ import datetime
 
 from django.conf import settings
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.utils.cache import add_never_cache_headers
 from django.views.generic import dates
+
+from feincms.translations import short_language_code
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
@@ -238,7 +240,20 @@ class CategoryArchiveIndexView(ArchiveIndexView):
     template_name_suffix = '_archive'
 
     def get_queryset(self):
-        self.category = get_object_or_404(Category, translations__slug=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+
+        try:
+            self.category = Category.objects.get(
+                translations__slug=slug,
+                )
+        except Category.DoesNotExist:
+            raise Http404('Category with slug %s does not exist' % slug)
+
+        except Category.MultipleObjectsReturned:
+            self.category = get_object_or_404(Category,
+                translations__slug=slug,
+                translations__language_code__startswith=short_language_code(),
+                )
 
         queryset = super(CategoryArchiveIndexView, self).get_queryset()
         return queryset.filter(categories=self.category)
