@@ -1,28 +1,33 @@
+import datetime
+
 from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.db import models
 from django.utils.cache import add_never_cache_headers
 from django.views.generic import dates
+
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
-import datetime
+
 try:
     from django.utils import timezone
 except ImportError:
     timezone = None
     pass
 
-
 try:
     from towel import paginator
 except ImportError:
     from django.core import paginator
 
-__all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView', 'DayArchiveView',
-    'DateDetailView', 'CategoryArchiveIndexView')
+
+__all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
+    'DayArchiveView', 'DateDetailView', 'CategoryArchiveIndexView')
+
 
 PAGINATE_BY = getattr(settings, 'BLOG_PAGINATE_BY', 10)
+
 
 class ElephantblogMixin(object):
     """
@@ -121,7 +126,6 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
                 value = timezone.make_aware(value, timezone.utc)
         return value
 
-
     def get_object(self, queryset=None):
         """
         Compat for django 1.4
@@ -144,7 +148,6 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
                 return {'%s__range' % field.name: date_range}
             else:
                 return {field.name: date}
-
 
         year = self.get_year()
         month = self.get_month()
@@ -177,7 +180,6 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
 
         return super(dates.BaseDetailView, self).get_object(queryset=qs)
 
-
     def prepare(self):
         """
         Prepare / pre-process content types. If this method returns anything,
@@ -188,7 +190,8 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
                            # if no content type wants to handle the current self.request
         successful = False # did any content type successfully end processing?
 
-        for content in self.object.content.all_of_type(tuple(self.object._feincms_content_types_with_process)):
+        for content in self.object.content.all_of_type(
+                tuple(self.object._feincms_content_types_with_process)):
             try:
                 r = content.process(self.request, view=self)
                 if r in (True, False):
