@@ -49,7 +49,7 @@ class ElephantblogMixin(object):
 
         return super(ElephantblogMixin, self).render_to_response(
             context, **response_kwargs)
-        
+
 
 class ArchiveIndexView(ElephantblogMixin, dates.ArchiveIndexView):
     paginator_class = paginator.Paginator
@@ -128,7 +128,7 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
         """
         # Django >= 1.5
         if hasattr(dates.DateDetailView, '_make_date_lookup_arg'):
-            return dates.DateDetailView.get_object(queryset)
+            return super(dates.DateDetailView, self).get_object(queryset)
 
         def _date_lookup_for_field(field, date):
             """
