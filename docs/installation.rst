@@ -25,7 +25,7 @@ Optional packages:
 Installation
 ============
 
-You can install elephantblog using ``pip install django-elephantblog``.
+You can install elephantblog using ``pip install feincms-elephantblog``.
 
 * Add ``elephantblog`` to your ``INSTALLED_APPS`` in your ``settings.py``
 
