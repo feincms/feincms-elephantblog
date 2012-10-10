@@ -3,6 +3,7 @@ import datetime
 from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.db import models
+from django.db.models.fields import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.utils.cache import add_never_cache_headers
 from django.views.generic import dates
@@ -30,6 +31,9 @@ __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
 
 PAGINATE_BY = getattr(settings, 'BLOG_PAGINATE_BY', 10)
 
+#: Translation strategires might include ``all``, ``active_language``, ...
+TRANSLATION_STRATEGY = getattr(settings, 'BLOG_TRANSLATION_STRATEGY', 'active_language')
+
 
 class ElephantblogMixin(object):
     """
@@ -48,7 +52,17 @@ class ElephantblogMixin(object):
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
     def get_queryset(self):
-        return Entry.objects.active().transform(entry_list_lookup_related)
+        queryset = Entry.objects.active().transform(entry_list_lookup_related)
+
+        try:
+            queryset.model._meta.get_field('language')
+        except FieldDoesNotExist:
+            return queryset
+
+        if TRANSLATION_STRATEGY == 'active_language':
+            return queryset.filter(language__istartswith=short_language_code())
+
+        return queryset
 
     def render_to_response(self, context, **response_kwargs):
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
