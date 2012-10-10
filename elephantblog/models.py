@@ -8,6 +8,7 @@ from feincms import translations
 from feincms.admin import item_editor
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
+from feincms.module.mixins import ContentModelMixin
 from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformQuerySet
 try:
@@ -83,7 +84,7 @@ EntryManager.add_to_active_filters(
 
 
 
-class Entry(Base):
+class Entry(Base, ContentModelMixin):
     is_active = models.BooleanField(_('is active'), default=True, db_index=True)
     is_featured = models.BooleanField(_('is featured'), default=False, db_index=True)
 
@@ -133,10 +134,6 @@ class Entry(Base):
             'slug': self.slug,
             })
 
-    @classmethod
-    def register_extension(cls, register_fn):
-        register_fn(cls, EntryAdmin)
-
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
 
 
@@ -178,12 +175,3 @@ class EntryAdmin(item_editor.ItemEditor):
         }],
         item_editor.FEINCMS_CONTENT_FIELDSET,
     ]
-
-    @classmethod
-    def add_extension_options(cls, *f):
-        if isinstance(f[-1], dict):     # called with a fieldset
-            cls.fieldsets.insert(cls.fieldset_insertion_index, f)
-            f[1]['classes'] = list(f[1].get('classes', []))
-            f[1]['classes'].append('collapse')
-        else:   # assume called with "other" fields
-            cls.fieldsets[0][1]['fields'].extend(f)
