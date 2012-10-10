@@ -104,6 +104,8 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        # TODO depending on the translation strategy used, send user to translated
+        # version of current blog entry
         response = self.prepare()
         if response:
             return response
