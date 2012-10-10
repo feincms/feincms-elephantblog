@@ -8,7 +8,7 @@
 <!-- contains hAtom microformats proposed by http://www.readability.com/publishers/guidelines/ -->
 <article class="hentry">
     <header>
-        <h1 class="entry-title">{{ object }}</h1>
+        <h1 class="entry-title">{{ entry }}</h1>
         <span class="small byline">
             {% for category in entry.categories.all %}
                 <a href="{{ category.get_absolute_url }}">{{ category }}</a>{% if not forloop.last %},{% else %} | {% endif %}
@@ -23,7 +23,7 @@
         </span>
     </header>
     <div class="entry-content">
-        {% feincms_render_region object "main" request %}
+        {% feincms_render_region entry "main" request %}
     </div>
 </article>
 {% endblock %}
