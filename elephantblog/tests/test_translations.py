@@ -4,6 +4,7 @@ import factory
 from django.core import management
 from django.test.testcases import TestCase
 from django.utils import translation
+
 from elephantblog.models import Entry
 from feincms.module.extensions import translations
 from django.test import Client
@@ -93,6 +94,3 @@ class TranslationsTest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, u'Entry 1')
             self.assertNotContains(response, u'Eintrag 1')
-
-
-
