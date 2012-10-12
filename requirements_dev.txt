@@ -1,0 +1,5 @@
+-r ./requirements.txt
+
+ipython
+pytz
+factory_boy>=1.2

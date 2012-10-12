@@ -9,4 +9,5 @@
 /build
 /dist
 /docs/_build
+/venv
 /feincms_elephantblog.egg-info
