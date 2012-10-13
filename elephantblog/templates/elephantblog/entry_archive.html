@@ -6,11 +6,10 @@
 
 {% block content %}
 {% block content_title %}
-<h1>News
-    {% if year %}for {{ year }}{% endif %}
-    {% if month %}for {{ month|date:"F Y" }}{% endif %}
-    {% if day %}for {{ day|date:"j. F Y" }}{% endif %}
-    {% if category %}for {{ category }}{% endif %}
+<h1>News {% if year %}for {{ year }}{% endif %}
+{% if month %}for {{ month|date:"F Y" }}{% endif %}
+{% if day %}for {{ day|date:"DATE_FORMAT" }}{% endif %}
+{% if category %}for {{ category }}{% endif %}
 </h1>
 {% endblock %}
 
