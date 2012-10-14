@@ -22,6 +22,14 @@ DATABASES = {
     }
 }
 
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    )
+
 ROOT_URLCONF = 'elephantblog.tests.testapp.urls'
 BLOG_TITLE = u'Blog of the usual elephant'
 BLOG_DESCRIPTION = ''
