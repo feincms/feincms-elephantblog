@@ -81,7 +81,55 @@ class TimezoneTest(TestCase):
         url_chicago, url_moscow = urls
         self.assertEqual(url_chicago, url_moscow)
 
-    def test_no_translation(self):
         # Make sure the translation extension is not loaded for this test.
         entry = Entry()
         self.assertFalse(hasattr(entry, 'language'))
+
+
+
+
+@override_settings(USE_TZ=False)
+class NoTimezoneTest(TestCase):
+
+    def setUp(self):
+        self.author = User.objects.create(username = 'author',
+            password = 'elephant')
+
+    def tearDown(self):
+        _timezone = None
+
+    def test_chicago_night(self):
+        published_date = datetime.datetime(year=2012, month=3, day=3, hour=1, minute=30)
+        entry = Entry.objects.create(is_active=True,
+            author = self.author,
+            slug = 'test-entry',
+            published_on = published_date)
+
+        # print entry
+        # print entry.get_absolute_url()
+        self.assertEqual(entry.published_on, published_date)
+        response = self.client.get(entry.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+
+    def test_chicago_evening(self):
+        published_date = datetime.datetime(year=2012, month=3, day=3, hour=22, minute=30)
+        entry = Entry.objects.create(is_active=True,
+            author = self.author,
+            slug = 'test-entry',
+            published_on = published_date)
+        # print entry.published_on
+        # print entry.get_absolute_url()
+        self.assertEqual(entry.published_on, published_date)
+        response = self.client.get(entry.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+
+    def test_moscow_night(self):
+        published_date = datetime.datetime(year=2012, month=3, day=3, hour=1, minute=30)
+        entry = Entry.objects.create(is_active=True,
+            author = self.author,
+            slug = 'test-entry',
+            published_on = published_date)
+
+        response = self.client.get(entry.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+
