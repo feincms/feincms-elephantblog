@@ -40,7 +40,7 @@ from elephantblog.feeds import EntryFeed
 from elephantblog import views
 
 
-def elephantblog_patterns():
+def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
     """
     Returns an instance of ready-to-use URL patterns for the blog.
 
@@ -56,22 +56,22 @@ def elephantblog_patterns():
     return patterns('',
         url(r'^feed/$', EntryFeed()),
         url(r'^$',
-            views.ArchiveIndexView.as_view(),
+            views.ArchiveIndexView.as_view(**list_kwargs),
             name='elephantblog_entry_archive'),
         url(r'^(?P<year>\d{4})/$',
-            views.YearArchiveView.as_view(),
+            views.YearArchiveView.as_view(**list_kwargs),
             name='elephantblog_entry_archive_year'),
         url(r'^(?P<year>\d{4})/(?P<month>\d{2})/$',
-            views.MonthArchiveView.as_view(),
+            views.MonthArchiveView.as_view(**list_kwargs),
             name='elephantblog_entry_archive_month'),
         url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
-            views.DayArchiveView.as_view(),
+            views.DayArchiveView.as_view(**list_kwargs),
             name='elephantblog_entry_archive_day'),
         url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-            views.DateDetailView.as_view(),
+            views.DateDetailView.as_view(**detail_kwargs),
             name='elephantblog_entry_detail'),
         url(r'^category/(?P<slug>[-\w]+)/$',
-            views.CategoryArchiveIndexView.as_view(),
+            views.CategoryArchiveIndexView.as_view(**list_kwargs),
             name='elephantblog_category_detail'),
     )
 

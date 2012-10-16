@@ -32,9 +32,6 @@ __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
 
 PAGINATE_BY = getattr(settings, 'BLOG_PAGINATE_BY', 10)
 
-#: Translation strategires might include ``all``, ``active_language``, ...
-TRANSLATION_STRATEGY = getattr(settings, 'BLOG_TRANSLATION_STRATEGY', 'active_language')
-
 
 class ElephantblogMixin(object):
     """
@@ -48,6 +45,10 @@ class ElephantblogMixin(object):
     This requires at least FeinCMS v1.5.
     """
 
+    #: Determines, whether list views should only display entries from
+    #: the active language at a time. Requires the translations extension.
+    only_active_language = False
+
     def get_context_data(self, **kwargs):
         kwargs.update({'view': self})
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
@@ -55,13 +56,9 @@ class ElephantblogMixin(object):
     def get_queryset(self):
         queryset = Entry.objects.active().transform(entry_list_lookup_related)
 
-        try:
-            queryset.model._meta.get_field('language')
-        except FieldDoesNotExist:
-            return queryset
-
-        if TRANSLATION_STRATEGY == 'active_language':
-            return queryset.filter(language__istartswith=short_language_code())
+        if self.only_active_language:
+            queryset = queryset.filter(
+                language__istartswith=short_language_code())
 
         return queryset
 
