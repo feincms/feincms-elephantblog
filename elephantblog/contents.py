@@ -67,7 +67,7 @@ class NewestEntriesContent(models.Model):
         verbose_name_plural = _('newest entries contents')
 
     def render(self, **kwargs):
-        elist = Entry.objects.get_query_set().transform(entry_list_lookup_related)
+        elist = Entry.objects.active().transform(entry_list_lookup_related)
         if self.category:
             elist = elist.filter(categories=self.category)
         elist = elist.order_by('-published_on')[:self.count]
@@ -163,4 +163,4 @@ class ArchiveContent(models.Model):
     
         return render_to_string([
             'content/elephantblog/archive.html',
-            ], {'months': months, 'years' : years})
+            ], {'content': self, 'months': months, 'years' : years})
