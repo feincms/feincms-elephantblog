@@ -11,10 +11,10 @@ If you whish to show a list of top entries on the entry page of your website or 
 articles within your blog, have a look at the widgets_ section.
 
 
-BlogEntryListContent
-====================
+``BlogEntryListContent``
+========================
 
-This Content type shows a list view of all blog entries. It can be used
+This content type shows a list view of all blog entries. It can be used
 to show blog entries in FeinCMS pages.
 If the 'featured only' flag is set, only posts which are marked as featured are shown.
 
