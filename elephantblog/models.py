@@ -173,5 +173,8 @@ class EntryAdmin(item_editor.ItemEditor):
                 'categories',
             ]
         }],
+        [None, {
+            'fields': [],
+        }],
         item_editor.FEINCMS_CONTENT_FIELDSET,
     ]
