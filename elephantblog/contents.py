@@ -4,6 +4,8 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
+from feincms.translations import short_language_code
+
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
 
@@ -22,6 +24,8 @@ class BlogEntryListContent(models.Model):
     featured_only = models.BooleanField(_('featured only'), blank=True, default=False,
         help_text=_('Only show articles marked as featured'))
 
+    only_active_language = False
+
     class Meta:
         abstract = True
         verbose_name = _('Blog entry list')
@@ -35,6 +39,9 @@ class BlogEntryListContent(models.Model):
 
         if self.category:
             entries = entries.filter(categories=self.category)
+
+        if self.only_active_language:
+            entries = entries.filter(language__istartswith=short_language_code())
 
         if self.paginate_by:
             paginator = Paginator(entries, self.paginate_by)
