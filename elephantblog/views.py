@@ -5,7 +5,7 @@ from django.http import Http404, HttpResponse
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.utils.cache import add_never_cache_headers
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from django.views.generic import dates
 
 from feincms.translations import short_language_code
