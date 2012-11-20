@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.utils.cache import add_never_cache_headers
+from django.utils.translation import ugettext as _
 from django.views.generic import dates
 
 from feincms.module.mixins import ContentObjectMixin
