@@ -1,11 +1,12 @@
 # coding: utf-8
 from django.test.testcases import TestCase
+from django.test.utils import override_settings
 from elephantblog.models import Entry
 from elephantblog import views as blogviews
 from django.test import Client
 from .factories import EntryFactory, create_entries, create_category
 
-
+@override_settings(SITE_ID=1)
 class GenericViewsTest(TestCase):
     def setUp(self):
         create_entries(EntryFactory)

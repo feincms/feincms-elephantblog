@@ -55,6 +55,7 @@ class TranslationsTest(TestCase):
         create_entries(EntryFactory)
 
 
+    # This will be the main feature for the next version
     def testTranslation(self):
         # Make sure the Entry has a translation extension
         entry = Entry()
@@ -94,5 +95,4 @@ class TranslationsTest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, u'Entry 1')
             self.assertNotContains(response, u'Eintrag 1')
-
 
