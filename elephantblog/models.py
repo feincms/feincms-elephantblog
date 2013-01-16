@@ -90,8 +90,8 @@ class Entry(Base, ContentModelMixin):
 
     title = models.CharField(_('title'), max_length=100)
     slug = models.SlugField(_('slug'), max_length=100, unique_for_date='published_on')
-    author = models.ForeignKey(User, related_name='blogentries', verbose_name=_('author'))
-
+    author = models.ForeignKey(User, related_name='blogentries',
+                limit_choices_to={'is_staff': True}, verbose_name=_('author'))
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=now,
         help_text=_('Will be filled in automatically when entry gets published.'), db_index=True)
     last_changed = models.DateTimeField(_('last change'), auto_now=True, editable=False)
