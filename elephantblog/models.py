@@ -118,6 +118,7 @@ class Entry(Base):
             self.published_on = now()
 
         super(Entry, self).save(*args, **kwargs)
+    save.alters_data = True
 
     @models.permalink
     def get_absolute_url(self):
