@@ -20,6 +20,7 @@ except ImportError:
     now = datetime.now
 
 
+
 class Category(models.Model, translations.TranslatedObjectMixin):
     """
     Category is language-aware and connected to the Entry model via
@@ -138,6 +139,13 @@ class Entry(Base, ContentModelMixin):
     @classmethod
     def register_extension(cls, register_fn):
         register_fn(cls, EntryAdmin)
+
+
+    def same_category(self):
+        """ @return: all entries that have at least one category in common """
+        return Entry.objects.active().filter(
+                                        categories__in=self.categories.all())\
+                                        .exclude(pk=self.pk).distinct()
 
 
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)

@@ -25,6 +25,7 @@
 </div>
 
 {# if not content.featured_only #}
+{% if content.paginate_by %}
 {% with content.entries as page_obj %}
 <div class="pagination">
     {% if page_obj.has_previous %}
@@ -43,4 +44,5 @@
     {% endif %}
 </div>
 {% endwith %}
+{% endif %}
 {# endif #}
