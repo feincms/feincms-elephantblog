@@ -4,7 +4,7 @@ from django.core.exceptions import FieldError
 from feincms.translations import short_language_code
 
 from elephantblog.models import Entry
-from elephantblog.utils import entry_list_lookup_related
+from elephantblog.utils import entry_list_lookup_related, same_category_entries
 
 
 register = template.Library()
@@ -44,7 +44,7 @@ def get_others(context, number=3, same_category=True, featured_only=False):
         other related entries
     """
     if same_category:
-        entries = context['object'].same_category()
+        entries = same_category_entries(context['object'])
     else:
         entries = Entry.objects.exclude(pk=context['object'].pk)
     if featured_only:

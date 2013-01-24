@@ -141,13 +141,6 @@ class Entry(Base, ContentModelMixin):
         register_fn(cls, EntryAdmin)
 
 
-    def same_category(self):
-        """ @return: all entries that have at least one category in common """
-        return Entry.objects.active().filter(
-                                        categories__in=self.categories.all())\
-                                        .exclude(pk=self.pk).distinct()
-
-
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
 
 

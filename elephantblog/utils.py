@@ -23,3 +23,10 @@ def entry_list_lookup_related(entry_qs):
         entry = entry_dict[category.entry_id]
         if not hasattr(entry, 'fetched_categories'): entry.fetched_categories = []
         entry.fetched_categories.append(category)
+
+
+def same_category_entries(entry):
+    """ @return: all entries that have at least one category in common """
+    return Entry.objects.active().filter(
+                                        categories__in=entry.categories.all())\
+                                        .exclude(pk=entry.pk).distinct()
