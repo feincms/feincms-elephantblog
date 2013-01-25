@@ -143,7 +143,7 @@ signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
 
 def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
     def _fn(self, request, queryset):
-        rows_updated = queryset.update(**new_state)
+        rows_updated = queryset.update(**new_state_dict)
 
         self.message_user(request, ungettext(
             'One entry was successfully marked as %(state)s',
