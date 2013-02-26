@@ -1,0 +1,16 @@
+{% load i18n %}
+
+{% for category in categories %}
+  {% if forloop.first %}
+    <div class="content">
+      <h2>{% trans "Categories" %}</h2>
+      <ul>
+  {% endif %}
+        <li>
+          <a href="{{ category.get_absolute_url }}">{{ category }}</a>
+        </li>
+  {% if forloop.last %}
+      </ul>
+    </div>
+  {% endif %}
+{% endfor %}

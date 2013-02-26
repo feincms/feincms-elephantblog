@@ -61,3 +61,23 @@ class BlogEntryListContent(models.Model):
         if self.featured_only:
             template_names.insert(0, 'entry_list_featured.html')
         return render_to_string(template_names, { 'content': self })
+
+
+class BlogCategoryListContent(models.Model):
+    show_empty_categories = models.BooleanField(_('show empty categories?'))
+
+    class Meta:
+        abstract = True
+        verbose_name = _('Blog category list')
+        verbose_name_plural = _('Blog category lists')
+
+    def render(self, **kwargs):
+        if self.show_empty_categories:
+            categories = Category.objects.all()
+        else:
+            categories = Category.objects.exclude(blogentries__isnull=True)
+
+        return render_to_string('content/elephantblog/category_list.html', {
+            'content': self,
+            'categories': categories,
+            }, context_instance=kwargs.get('context'))
