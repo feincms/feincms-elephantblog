@@ -3,11 +3,13 @@ import datetime
 from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.db import models
+from django.db.models.fields import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.utils.cache import add_never_cache_headers
 from django.utils.translation import ugettext as _
 from django.views.generic import dates
 
+from feincms.module.mixins import ContentObjectMixin
 from feincms.translations import short_language_code
 
 from elephantblog.models import Category, Entry
@@ -44,12 +46,22 @@ class ElephantblogMixin(object):
     This requires at least FeinCMS v1.5.
     """
 
+    #: Determines, whether list views should only display entries from
+    #: the active language at a time. Requires the translations extension.
+    only_active_language = False
+
     def get_context_data(self, **kwargs):
         kwargs.update({'view': self})
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
     def get_queryset(self):
-        return Entry.objects.active().transform(entry_list_lookup_related)
+        queryset = Entry.objects.active().transform(entry_list_lookup_related)
+
+        if self.only_active_language:
+            queryset = queryset.filter(
+                language__istartswith=short_language_code())
+
+        return queryset
 
     def render_to_response(self, context, **response_kwargs):
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
@@ -91,29 +103,19 @@ class DayArchiveView(ElephantblogMixin, dates.DayArchiveView):
     template_name_suffix = '_archive'
 
 
-class DateDetailView(ElephantblogMixin, dates.DateDetailView):
+class DateDetailView(ContentObjectMixin, ElephantblogMixin,
+        dates.DateDetailView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
     month_format = '%m'
     date_field = 'published_on'
+    context_object_name = 'entry'
 
     def get_queryset(self):
         if (self.request.user.is_authenticated() and self.request.user.is_staff
                 and self.request.GET.get('eb_preview')):
             return Entry.objects.all()
         return Entry.objects.active()
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        response = self.prepare()
-        if response:
-            return response
-
-        response = self.render_to_response(self.get_context_data(object=self.object))
-        return self.finalize(response)
-
-    def post(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
 
     def _make_date_lookup_arg(self, value):
         """
@@ -183,58 +185,14 @@ class DateDetailView(ElephantblogMixin, dates.DateDetailView):
 
         return super(dates.BaseDetailView, self).get_object(queryset=qs)
 
-    def prepare(self):
-        """
-        Prepare / pre-process content types. If this method returns anything,
-        it is treated as a ``HttpResponse`` and handed back to the visitor.
-        """
-
-        http404 = None     # store eventual Http404 exceptions for re-raising,
-                           # if no content type wants to handle the current self.request
-        successful = False # did any content type successfully end processing?
-
-        for content in self.object.content.all_of_type(
-                tuple(self.object._feincms_content_types_with_process)):
-            try:
-                r = content.process(self.request, view=self)
-                if r in (True, False):
-                    successful = r
-                elif r:
-                    return r
-            except Http404, e:
-                http404 = e
-
-        if not successful:
-            if http404:
-                # re-raise stored Http404 exception
-                raise http404
-
-            """ XXX This does not make sense in this context, does it?
-            if not settings.FEINCMS_ALLOW_EXTRA_PATH and \
-                    self.request._feincms_extra_context['extra_path'] != '/':
-                raise Http404
-            """
-
-    def finalize(self, response):
-        """
-        Runs finalize() on content types having such a method, adds headers and
-        returns the final response.
-        """
-
-        if not isinstance(response, HttpResponse):
-            # For example in the case of inheritance 2.0
-            return response
-
-        for content in self.object.content.all_of_type(tuple(self.object._feincms_content_types_with_finalize)):
-            r = content.finalize(self.request, response)
-            if r:
-                return r
-
-        # Add never cache headers in case frontend editing is active
-        if hasattr(self.request, "session") and self.request.session.get('frontend_editing', False):
-            add_never_cache_headers(response)
-
-        return response
+    def dispatch(self, request, *args, **kwargs):
+        if request.method.lower() not in self.http_method_names:
+            return self.http_method_not_allowed(request, *args, **kwargs)
+        self.request = request
+        self.args = args
+        self.kwargs = kwargs
+        self.object = self.get_object()
+        return self.handler(request, *args, **kwargs)
 
 
 class CategoryArchiveIndexView(ArchiveIndexView):
