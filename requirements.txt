@@ -1,2 +1,2 @@
-FeinCMS>=1.5
+FeinCMS>=1.7
 -e git://github.com/matthiask/pinging.git#egg=pinging
