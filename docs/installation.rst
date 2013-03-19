@@ -68,6 +68,17 @@ Add the following lines to your urls.py::
         url(r'^blog/', include('elephantblog.urls')),
     )
 
+If you're using the ``translations`` extension, and only want entries of
+the currently active language on the blog listing, use the following
+snippet instead::
+
+    from elephantblog.urls import elephantblog_patterns
+    urlpatterns += patterns('',
+        url(r'^blog/', include(elephantblog_patterns(
+            list_kwargs={'only_active_language': True},
+            ))),
+    )
+
 
 FeinCMS Integration as ApplicationContent
 -----------------------------------------
