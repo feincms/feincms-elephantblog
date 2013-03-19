@@ -10,8 +10,8 @@ Requirements
 
 ElephantBlog needs at least:
 
-* Django v1.3 (get it here: https://github.com/django/django)
-* FeinCMS v1.5 (get it here: https://github.com/feincms/feincms)
+* Django v1.4 (get it here: https://github.com/django/django)
+* FeinCMS v1.7 (get it here: https://github.com/feincms/feincms)
 * TinyMCE_ or any other Richtext editor. TinyMCE goes in /media/js/tiny_mce.
 
 .. _TinyMCE: http://www.tinymce.com/download/download.php
@@ -29,10 +29,11 @@ You can install elephantblog using ``pip install feincms-elephantblog``.
 
 * Add ``elephantblog`` to your ``INSTALLED_APPS`` in your ``settings.py``
 
-In your ``application/models.py`` register the blog module, extensions and content types::
+In your ``application/models.py`` register the blog module, extensions and
+content types::
 
     from feincms.content.richtext.models import RichTextContent
-    from feincms.content.medialibrary.v2 import MediaFileContent
+    from feincms.content.medialibrary.models import MediaFileContent
     import feincms_cleanse
 
     from elephantblog.models import Entry
@@ -53,7 +54,8 @@ In your ``application/models.py`` register the blog module, extensions and conte
 
 .. note::
 
-    Of course, you can create all of the content types that you have for your FeinCMS Page.
+    Of course, you can create all of the content types that you have for your
+    FeinCMS Page.
 
 
 Integrating Standalone:
