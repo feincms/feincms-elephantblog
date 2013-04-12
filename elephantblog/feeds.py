@@ -24,7 +24,7 @@ class EntryFeed(Feed):
     description = getattr(settings, 'BLOG_DESCRIPTION', '')
 
     def items(self):
-        if 'translations' in getattr(Entry, '_feincms_extensions', ()):
+        if hasattr(Entry, 'translation_of'):
             return Entry.objects.active().filter(language=short_language_code).order_by('-published_on')[:20]
         else:
             return Entry.objects.active().order_by('-published_on')[:20]
