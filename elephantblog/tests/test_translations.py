@@ -91,6 +91,11 @@ class TranslationsTest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertNotContains(response, u'Entry 1')
             self.assertContains(response, u'Eintrag 1')
+            # test all languages override
+            response = c.get('/multilang/', HTTP_ACCEPT_LANGUAGE='de')
+            self.assertEqual(len(response.context['object_list']), 4)
+            self.assertEqual(response.status_code, 200)
+
 
         with translation.override('en'):
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='en')
@@ -119,6 +124,8 @@ class TranslationsTest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, u'Entry 2 chinese simplified')
             self.assertNotContains(response, u'Eintrag 1')
+
+
 
 
 
