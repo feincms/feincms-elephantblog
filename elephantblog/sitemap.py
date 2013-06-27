@@ -1,7 +1,5 @@
 from django.contrib.sitemaps import Sitemap
 
-from feincms.translations import short_language_code
-
 from elephantblog.models import Entry
 
 class EntrySitemap(Sitemap):
