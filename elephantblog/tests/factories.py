@@ -6,13 +6,14 @@ from elephantblog.models import Entry, Category, CategoryTranslation
 from django.contrib.auth.models import User
 
 
-class UserFactory(factory.Factory):
+class UserFactory(factory.DjangoModelFactory):
     FACTORY_FOR = User
     username='author'
     password='elephant'
+    email='admin@elephantblog.ch'
 
 
-class EntryFactory(factory.Factory):
+class EntryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Entry
     is_active=True
     is_featured=False
@@ -39,10 +40,10 @@ def create_entries(factory):
     return entries
 
 
-class CategoryTranslationFactory(factory.Factory):
+class CategoryTranslationFactory(factory.DjangoModelFactory):
     FACTORY_FOR = CategoryTranslation
 
-class CategoryFactory(factory.Factory):
+class CategoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Category
 
 def create_category(title):

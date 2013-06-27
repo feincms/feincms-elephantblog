@@ -1,7 +1,10 @@
+import sys
 # -*- coding:utf-8 -*-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sitemaps',
     'feincms',
     'elephantblog.tests.testapp',
     'elephantblog',
@@ -14,7 +17,8 @@ SECRET_KEY = 'elephant'
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'testapp.sqlite',
+        'NAME': 'runserver.sqlite',
+        #'TEST_NAME': 'blog_test.sqlite',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -35,4 +39,9 @@ BLOG_TITLE = u'Blog of the usual elephant'
 BLOG_DESCRIPTION = ''
 TIME_ZONE = 'America/Chicago'
 USE_TZ = False
+DEFAULT_CHARSET='utf-8'
 LANGUAGES = (('en', 'English'), ('de', 'German'),)
+
+DEBUG = True # tests run with DEBUG=False
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
