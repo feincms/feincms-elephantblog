@@ -40,6 +40,33 @@ def create_entries(factory):
     return entries
 
 
+def create_chinese_entries(factory):
+    entries = create_entries(factory)
+    author = entries[0].author
+    factory.create(
+        pk=3,
+        author=author,
+        title=u'Entry 2 chinese traditional',
+        language='zh-cn',
+        translation_of=entries[0],
+        published_on=datetime.datetime(2012,10,12, 12,0,0),
+        last_changed=datetime.datetime(2012,10,12, 16,0,0),
+        slug='entry-2-cn'
+    )
+    factory.create(
+        pk=4,
+        author=author,
+        title=u'Entry 2 chinese simplified',
+        language='zh-tw',
+        translation_of=entries[0],
+        published_on=datetime.datetime(2012,10,12, 12,0,0),
+        last_changed=datetime.datetime(2012,10,12, 16,0,0),
+        slug='entry-2-tw'
+    )
+
+
+
+
 class CategoryTranslationFactory(factory.DjangoModelFactory):
     FACTORY_FOR = CategoryTranslation
 

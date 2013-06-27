@@ -52,7 +52,6 @@ class ElephantblogMixin(object):
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
     def get_queryset(self):
-        print 'elephantblog mixin get queryset()'
         return Entry.objects.active().transform(entry_list_lookup_related)
 
     def render_to_response(self, context, **response_kwargs):
@@ -72,14 +71,12 @@ class TranslationMixin(object):
 
     def get_queryset(self):
         queryset = super(TranslationMixin, self).get_queryset()
-        print "TranslationMixin queryset"
         try:
             queryset.model._meta.get_field_by_name('language')
         except FieldDoesNotExist:
             return queryset
         else:
             if self.only_active_language:
-                print 'only active language'
                 return queryset.filter(language=get_language())
             else:
                 return queryset

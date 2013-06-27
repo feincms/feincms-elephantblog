@@ -40,7 +40,8 @@ BLOG_DESCRIPTION = ''
 TIME_ZONE = 'America/Chicago'
 USE_TZ = False
 DEFAULT_CHARSET='utf-8'
-LANGUAGES = (('en', 'English'), ('de', 'German'),)
+LANGUAGES = (('en', 'English'), ('de', 'German'),
+             ('zh-cn', 'Chinese simplified'), ('zh-tw', 'Chinese traditional'))
 
 DEBUG = True # tests run with DEBUG=False
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
