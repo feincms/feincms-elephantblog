@@ -6,6 +6,7 @@ from elephantblog import views as blogviews
 from django.test import Client
 from .factories import EntryFactory, create_entries, create_category
 
+
 @override_settings(SITE_ID=1)
 class GenericViewsTest(TestCase):
     def setUp(self):
@@ -32,6 +33,8 @@ class GenericViewsTest(TestCase):
         self.assertTrue(isinstance(response.context['view'],
                                         blogviews.YearArchiveView ))
         self.assertEqual(len(response.context['object_list']), 2)
+        self.assertEqual(response.context['view'].get_template_names(),
+                         [u'elephantblog/entry_archive.html'])
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, u'News for 2012')
         self.assertContains(response, u'Entry 1')

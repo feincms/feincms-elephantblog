@@ -11,7 +11,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import dates
 
 from feincms.module.mixins import ContentObjectMixin
-from feincms.translations import short_language_code
+from django.utils.translation import get_language
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
@@ -47,22 +47,13 @@ class ElephantblogMixin(object):
     This requires at least FeinCMS v1.5.
     """
 
-    #: Determines, whether list views should only display entries from
-    #: the active language at a time. Requires the translations extension.
-    only_active_language = False
-
     def get_context_data(self, **kwargs):
         kwargs.update({'view': self})
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
     def get_queryset(self):
-        queryset = Entry.objects.active().transform(entry_list_lookup_related)
-
-        if self.only_active_language:
-            queryset = queryset.filter(
-                language__istartswith=short_language_code())
-
-        return queryset
+        print 'elephantblog mixin get queryset()'
+        return Entry.objects.active().transform(entry_list_lookup_related)
 
     def render_to_response(self, context, **response_kwargs):
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
@@ -73,14 +64,25 @@ class ElephantblogMixin(object):
 
 
 class TranslationMixin(object):
+    """
+    #: Determines, whether list views should only display entries from
+    #: the active language at a time. Requires the translations extension.
+    """
+    only_active_language = True
+
     def get_queryset(self):
         queryset = super(TranslationMixin, self).get_queryset()
+        print "TranslationMixin queryset"
         try:
             queryset.model._meta.get_field_by_name('language')
         except FieldDoesNotExist:
             return queryset
         else:
-            return queryset.filter(language=short_language_code)
+            if self.only_active_language:
+                print 'only active language'
+                return queryset.filter(language=get_language())
+            else:
+                return queryset
 
 
 class ArchiveIndexView(TranslationMixin, ElephantblogMixin, dates.ArchiveIndexView):

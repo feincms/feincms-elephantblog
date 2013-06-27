@@ -6,10 +6,11 @@ from django.test.testcases import TestCase
 from django.utils import translation
 
 from elephantblog.models import Entry
-from feincms.module.extensions import translations
+#from feincms.module.extensions import translations
 from django.test import Client
 from .factories import EntryFactory, create_entries
 from feincms.translations import short_language_code
+from .utils import reset_db
 
 
 class NoTranslationsTest(TestCase):
@@ -45,9 +46,9 @@ class TranslationsTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        Entry.register_extension(translations.register)
-        management.call_command('reset', 'elephantblog', interactive=False)
-        class EntryFactory(factory.Factory):
+        Entry.register_extensions('feincms.module.extensions.translations',)
+        reset_db()
+        class EntryFactory(factory.DjangoModelFactory):
             FACTORY_FOR = Entry
             is_active=True
             is_featured=False
@@ -96,3 +97,7 @@ class TranslationsTest(TestCase):
             self.assertContains(response, u'Entry 1')
             self.assertNotContains(response, u'Eintrag 1')
 
+# AttributeError: 'Settings' object has no attribute '_original_allowed_hosts'
+# fixed in 1.6
+
+# https://github.com/django/django/commit/e2b86571bfa3503fe43adfa92e9c9f4271a7a135
