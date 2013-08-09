@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
@@ -54,9 +55,8 @@ class CategoryTranslation(translations.Translation(Category)):
     def __unicode__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('elephantblog_category_detail', (), {
+        return reverse('elephantblog_category_detail', kwargs={
             'slug': self.slug,
             })
 
@@ -122,14 +122,13 @@ class Entry(Base, ContentModelMixin):
         super(Entry, self).save(*args, **kwargs)
     save.alters_data = True
 
-    @models.permalink
     def get_absolute_url(self):
         # We use naive date using UTC for conversion for permalink
         if getattr(settings, 'USE_TZ', False):
             pub_date = timezone.make_naive(self.published_on, timezone.utc)
         else:
             pub_date = self.published_on
-        return ('elephantblog_entry_detail', (), {
+        return reverse('elephantblog_entry_detail', kwargs={
             'year': pub_date.strftime('%Y'),
             'month': pub_date.strftime('%m'),
             'day': pub_date.strftime('%d'),
