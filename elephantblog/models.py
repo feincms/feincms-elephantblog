@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 from django.db.models import signals, Q
@@ -91,7 +90,7 @@ class Entry(Base, ContentModelMixin):
 
     title = models.CharField(_('title'), max_length=100)
     slug = models.SlugField(_('slug'), max_length=100, unique_for_date='published_on')
-    author = models.ForeignKey(User, related_name='blogentries',
+    author = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), related_name='blogentries',
                 limit_choices_to={'is_staff': True}, verbose_name=_('author'))
     published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=now,
         help_text=_('Will be filled in automatically when entry gets published.'), db_index=True)
