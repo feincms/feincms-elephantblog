@@ -11,7 +11,6 @@ class RBlogDateNavigationExtension(NavigationExtension):
     name = _('Blog date')
 
     def children(self, page, **kwargs):
-
         for year, months in date_tree():
             def return_months():
                 for month in months:
@@ -22,6 +21,9 @@ class RBlogDateNavigationExtension(NavigationExtension):
                         level=page.level+2,
                         language=getattr(page, 'language', settings.LANGUAGE_CODE),
                         slug='%04d/%02d' % (year, month),
+                        lft=0,
+                        rght=0,
+                        _mptt_meta=page._mptt_meta,
                     )
             yield PagePretender(
                 title=u'%s' % year,
@@ -31,7 +33,11 @@ class RBlogDateNavigationExtension(NavigationExtension):
                 level=page.level+1,
                 slug='%s' % year,
                 parent=page,
+                parent_id=page.id,
                 get_children=return_months,
+                lft=page.lft+1,
+                rght=len(months)+1,
+                _mptt_meta=page._mptt_meta,
                 )
 
 
@@ -50,17 +56,24 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
                     level=page.level+2,
                     language=getattr(page, 'language', settings.LANGUAGE_CODE),
                     slug=category.translation.slug,
+                    lft=0,
+                    rght=0,
+                    _mptt_meta=page._mptt_meta,
                     )
 
         yield PagePretender(
             title=_('Categories'),
             url='#',
-            tree_id=page.tree_id, # pretty funny tree hack
+            tree_id=page.tree_id,
             level=page.level+1,
             parent=page,
+            parent_id=page.id,
             slug='#',
             language=getattr(page, 'language', settings.LANGUAGE_CODE),
             get_children=return_children,
+            lft=page.lft+1,
+            rght=len(all_categories)+1,
+            _mptt_meta=page._mptt_meta,
             )
 
         def return_dates():
@@ -92,6 +105,10 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
             level=page.level+1,
             slug='#',
             parent=page,
+            parent_id=page.id,
             language=getattr(page, 'language', settings.LANGUAGE_CODE),
             get_children=return_dates,
+            lft=0,
+            rght=0,
+            _mptt_meta=page._mptt_meta,
             )

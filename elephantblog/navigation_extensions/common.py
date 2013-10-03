@@ -38,7 +38,8 @@ class BlogCategoriesNavigationExtension(NavigationExtension):
     name = _('blog categories')
 
     def children(self, page, **kwargs):
-        for category in Category.objects.all():
+        categories = Category.objects.all()
+        for category in categories:
             yield PagePretender(
                 title=category.translation.title,
                 url='%scategory/%s/' % (page.get_absolute_url(), category.translation.slug),
@@ -46,4 +47,9 @@ class BlogCategoriesNavigationExtension(NavigationExtension):
                 level=page.level+1,
                 language=getattr(page, 'language', settings.LANGUAGE_CODE),
                 slug=category.translation.slug,
+                parent=page,
+                parent_id=page.id,
+                lft=page.lft+1,
+                rght=len(categories)+1,
+                _mptt_meta=getattr(page, '_mptt_meta', None),
                 )
