@@ -1,17 +1,15 @@
 import datetime
 
 from django.conf import settings
-from django.db.models import FieldDoesNotExist
-from django.http import Http404, HttpResponse
+from django.http import Http404
+from django.core import paginator
 from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
-from django.utils.cache import add_never_cache_headers
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, get_language
 from django.views.generic import dates
 
 from feincms.module.mixins import ContentObjectMixin
-from django.utils.translation import get_language
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
@@ -22,10 +20,8 @@ except ImportError:
     timezone = None
     pass
 
-try:
-    from towel import paginator
-except ImportError:
-    from django.core import paginator
+
+
 
 
 __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
@@ -222,7 +218,7 @@ class CategoryArchiveIndexView(ArchiveIndexView):
         except Category.MultipleObjectsReturned:
             self.category = get_object_or_404(Category,
                 translations__slug=slug,
-                translations__language_code__startswith=short_language_code(),
+                translations__language_code=get_language(),
                 )
 
         queryset = super(CategoryArchiveIndexView, self).get_queryset()

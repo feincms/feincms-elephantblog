@@ -8,350 +8,355 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-16 11:51+0200\n"
+"POT-Creation-Date: 2013-10-03 08:46-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: admin.py:22
+#: admin.py:25
 msgid "Blog entries in category"
 msgstr "Blogeinträge in Kategorie"
 
-#: contents.py:22
-msgid "Blog Gallery Teaser Widget"
-msgstr ""
-
-#: contents.py:23
-msgid "Blog Gallery Teaser Widgets"
-msgstr ""
-
-#: contents.py:80 models.py:39
+#: contents.py:21 models.py:33
 msgid "category"
 msgstr "Kategorie"
 
-#: contents.py:80
+#: contents.py:21
 msgid "Only show entries from this category."
 msgstr "Nur Einträge aus dieser Kategorie anzeigen."
 
-#: contents.py:81
-msgid "paginate by"
-msgstr "Einträge pro Seite"
+#: contents.py:22
+#, fuzzy
+msgid "entries per page"
+msgstr "Einträge"
 
-#: contents.py:82
+#: contents.py:23
 msgid "Set to 0 to disable pagination."
 msgstr "Auf 0 setzen um alle anzuzeigen."
 
-#: models.py:36
+#: contents.py:24
+msgid "featured only"
+msgstr ""
+
+#: contents.py:25
+msgid "Only show articles marked as featured"
+msgstr ""
+
+#: contents.py:31
+#, fuzzy
+msgid "Blog entry list"
+msgstr "Blogeinträge in Kategorie"
+
+#: contents.py:32
+#, fuzzy
+msgid "Blog entry lists"
+msgstr "Blogeinträge in Kategorie"
+
+#: contents.py:67
+#, fuzzy
+msgid "show empty categories?"
+msgstr "Blog-Kategorien"
+
+#: contents.py:71
+#, fuzzy
+msgid "Blog category list"
+msgstr "Blog-Kategorien"
+
+#: contents.py:72
+#, fuzzy
+msgid "Blog category lists"
+msgstr "Blog-Kategorien"
+
+#: models.py:30
 msgid "ordering"
 msgstr "Sortierung"
 
-#: models.py:40
+#: models.py:34 models.py:99
 msgid "categories"
 msgstr "Kategorien"
 
-#: models.py:47
+#: models.py:41
 msgid "Unnamed category"
 msgstr "Unbenannte Kategorie"
 
-#: models.py:70
+#: models.py:45
 msgid "category title"
 msgstr "Kategorietitel"
 
-#: models.py:71
+#: models.py:46 models.py:92
 msgid "slug"
 msgstr "Slug"
 
-#: models.py:72
+#: models.py:47
 msgid "description"
 msgstr "Beschreibung"
 
-#: models.py:75
+#: models.py:50
 msgid "category translation"
 msgstr "Kategorie-Übersetzungen"
 
-#: models.py:76
+#: models.py:51
 msgid "category translations"
 msgstr "Kategorie-Übersetzungen"
 
-#: models.py:132 models.py:294
-msgid "inactive"
+#: models.py:88
+#, fuzzy
+msgid "is active"
 msgstr "inaktiv"
 
-#: models.py:133 models.py:285
-msgid "cleared"
-msgstr "freigegeben"
+#: models.py:89
+msgid "is featured"
+msgstr ""
 
-#: models.py:134
-msgid "front page"
-msgstr "Titelseite"
-
-#: models.py:135
-msgid "needs re-editing"
-msgstr "muss überarbeitet werden"
-
-#: models.py:136 models.py:297
-msgid "deleted"
-msgstr "gelöscht"
-
-#: models.py:142
-msgid "sleeping"
-msgstr "schlafend"
-
-#: models.py:143 models.py:282
-msgid "queued"
-msgstr "wartend"
-
-#: models.py:144
-msgid "sent"
-msgstr "gesendet"
-
-#: models.py:145
-msgid "unknown"
-msgstr "unbekannt"
-
-#: models.py:151
-msgid "author"
-msgstr "Author"
-
-#: models.py:152
-msgid "published"
-msgstr "veröffentlicht"
-
-#: models.py:153
-msgid "ping"
-msgstr "Ping"
-
-#: models.py:154
-msgid "Shows the status of the entry for the pinging management command."
-msgstr "Zeigt den Status des Eintrags für das Pinging Management Tool."
-
-#: models.py:155
+#: models.py:91
 msgid "title"
 msgstr "Titel"
 
-#: models.py:158
+#: models.py:94
+msgid "author"
+msgstr "Author"
+
+#: models.py:95
 msgid "published on"
 msgstr "Veröffentlicht am"
 
-#: models.py:159
-msgid ""
-"Will be updated automatically once you tick the `published` checkbox above."
-msgstr "Wird automatisch aktualisiert sobald dieser Eintrag veröffentlicht wird."
+#: models.py:96
+#, fuzzy
+msgid "Will be filled in automatically when entry gets published."
+msgstr ""
+"Wird automatisch aktualisiert sobald dieser Eintrag veröffentlicht wird."
 
-#: models.py:161
+#: models.py:97
 msgid "last change"
 msgstr "letzte Änderung"
 
-#: models.py:166
+#: models.py:105
 msgid "entry"
 msgstr "Eintrag"
 
-#: models.py:167
+#: models.py:106
 msgid "entries"
 msgstr "Einträge"
 
-#: models.py:187
-msgid " again."
-msgstr " nochmals."
-
-#: models.py:217
-msgid "expired"
-msgstr "verfallen"
-
-#: models.py:221
-msgid "on hold"
-msgstr "auf Eis gelegt"
-
-#: models.py:225
-msgid "Status"
-msgstr "Status"
-
-#: models.py:238
-msgid "active"
-msgstr "aktiv"
-
-#: models.py:255
+#: models.py:150
 #, python-format
 msgid "One entry was successfully marked as %(state)s"
 msgid_plural "%(count)s entries were successfully marked as %(state)s"
 msgstr[0] "Ein Eintrag wurde erfolgreich als %(state)s markiert"
 msgstr[1] "%(count)s Einträge wurden erfolgreich als %(state)s markiert"
 
-#: models.py:283
-msgid "ping again"
+#: views.py:179
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: extensions/blogping.py:20
+msgid "sleeping"
+msgstr "schlafend"
+
+#: extensions/blogping.py:21 extensions/blogping.py:33
+msgid "queued"
+msgstr "wartend"
+
+#: extensions/blogping.py:22
+msgid "sent"
+msgstr "gesendet"
+
+#: extensions/blogping.py:23
+msgid "unknown"
+msgstr "unbekannt"
+
+#: extensions/blogping.py:26
+msgid "ping"
+msgstr "Ping"
+
+#: extensions/blogping.py:34
+#, fuzzy
+msgid "Ping Again"
 msgstr "nochmals pingen"
-
-#: models.py:286
-msgid "mark publish"
-msgstr "als veröffentlicht markieren"
-
-#: models.py:288
-msgid "front-page"
-msgstr "Titelseite"
-
-#: models.py:289
-msgid "mark frontpage"
-msgstr "als Titelseite markieren"
-
-#: models.py:291
-msgid "need re-editing"
-msgstr "muss überarbeitet werden"
-
-#: models.py:292
-msgid "mark re-edit"
-msgstr "zur Überarbeitung markieren"
-
-#: models.py:295
-msgid "mark inactive"
-msgstr "als inaktiv markieren"
-
-#: models.py:298
-msgid "remove"
-msgstr "entfernen"
-
-#: navigation_extensions.py:14
-msgid "blog categories"
-msgstr "Blog-Kategorien"
-
-#: settings.py:14
-msgid "title undefined"
-msgstr "Titel nicht definiert"
-
-#: settings.py:18
-msgid "description undefined"
-msgstr "Beschreibung nicht definiert"
-
-#: settings.py:25
-msgid "Main content area"
-msgstr "Hauptinhaltsbereich"
-
-#: extensions/datepublisher.py:29
-msgid "publication end date"
-msgstr "veröffentlichen bis"
-
-#: extensions/datepublisher.py:31
-msgid "Leave empty if the entry should stay active forever."
-msgstr "Leer lassen, wenn kein Enddatum."
-
-#: extensions/datepublisher.py:42
-msgid "visible from - to"
-msgstr "Sichtbar von, bis"
 
 #: extensions/sites.py:11
 msgid "The sites where the blogpost should appear."
 msgstr "Die Webseiten (Sites), auf denen der Eintrag erscheint."
 
-#: extensions/sites.py:21
+#: extensions/sites.py:23
 msgid "Sites"
 msgstr "Sites"
 
-#: extensions/tags.py:11
+#: extensions/tags.py:8
 msgid "A comma-separated list of tags."
 msgstr "Eine kommaseparierte Liste von Tags."
 
-#: extensions/translations.py:9
-msgid "language"
-msgstr "Sprache"
+#: navigation_extensions/common.py:38
+msgid "blog categories"
+msgstr "Blog-Kategorien"
 
-#: extensions/translations.py:12
-msgid "translation of"
-msgstr "Übersetzung von"
-
-#: extensions/translations.py:15
-msgid "Leave this empty for entries in the primary language."
-msgstr "Leer lassen für Einträge in der Hauptsprache"
-
-#: extensions/translations.py:37
-msgid "available translations"
-msgstr "Übersetzungen"
-
-#: templates/blog/entry_detail.html:17 templates/blog/entry_headlines.html:15
-#: templates/blog/entry_list.html:9 templates/blog/entry_list_tagged.html:8
-msgid "By"
-msgstr "von"
-
-#: templates/blog/entry_detail.html:17 templates/blog/entry_headlines.html:15
-#: templates/blog/entry_list.html:9 templates/blog/entry_list_tagged.html:8
-msgid "Posted on"
-msgstr "Veröffentlicht am"
-
-#: templates/blog/entry_detail.html:18 templates/blog/entry_headlines.html:16
-#: templates/blog/entry_list.html:10 templates/blog/entry_list_tagged.html:9
-msgid "at"
-msgstr "um"
-
-#: templates/blog/entry_detail.html:20 templates/blog/entry_list.html:12
-msgid "in"
-msgstr "in"
-
-#: templates/blog/entry_headlines.html:20
-#: templates/blog/widget_shortlist.html:20
-#: templates/blog/widget_shortlist.html:30
-msgid "more..."
-msgstr "mehr..."
-
-#: templates/blog/entry_headlines.html:32 templates/blog/entry_list.html:31
-#: templates/blog/widget_shortlist.html:43
-msgid "Page"
-msgstr "Seite"
-
-#: templates/blog/entry_headlines.html:32 templates/blog/entry_list.html:31
-#: templates/blog/widget_shortlist.html:43
-msgid "of"
-msgstr "von"
-
-#: templates/blog/entry_headlines.html:36 templates/blog/entry_list.html:35
-#: templates/blog/widget_shortlist.html:47
-msgid "previous"
-msgstr "vorherige"
-
-#: templates/blog/entry_headlines.html:40 templates/blog/entry_list.html:39
-#: templates/blog/widget_shortlist.html:51
-msgid "next"
-msgstr "nächste"
-
-#: templates/blog/entry_list.html:24
-msgid "No entries found."
-msgstr "Keine Einträge gefunden."
-
-#: templates/blog/entry_list_tagged.html:4
-msgid "tag"
-msgstr "Tag"
-
-#: templates/blog/entry_list_tagged.html:19
-msgid "Related Tags"
-msgstr "Verwandte Tags"
-
-#: templates/blog/widgets/galleryteaserwidget.html:20
-msgid "Keine Bilder"
+#: navigation_extensions/recursetree.py:11
+#: navigation_extensions/treeinfo.py:16
+msgid "Blog date"
 msgstr ""
 
-#: templates/blog/widgets/galleryteaserwidget.html:23
-msgid "[mehr]"
+#: navigation_extensions/recursetree.py:45
+#: navigation_extensions/treeinfo.py:42
+#, fuzzy
+msgid "Blog category and date"
+msgstr "Blog-Kategorien"
+
+#: navigation_extensions/recursetree.py:65
+#: navigation_extensions/treeinfo.py:47
+#: templates/content/elephantblog/category_list.html:6
+#, fuzzy
+msgid "Categories"
+msgstr "Kategorien"
+
+#: navigation_extensions/recursetree.py:102
+#: navigation_extensions/treeinfo.py:66
+#, fuzzy
+msgid "Archive"
+msgstr "aktiv"
+
+#: templates/admin/feincms/elephantblog/entry/item_editor.html:13
+#, fuzzy
+msgid "Preview"
+msgstr "entfernen"
+
+#: templates/content/elephantblog/entry_list.html:13
+#: templates/elephantblog/entry_archive.html:28
+#: templates/elephantblog/entry_detail.html:18
+msgid "by"
 msgstr ""
 
-#: templates/elephantblog/entry_archive_category.html:5
-#: templates/elephantblog/entry_archive_day.html:5
-#: templates/elephantblog/entry_archive_month.html:5
-#: templates/elephantblog/entry_archive_year.html:5
+#: templates/elephantblog/entry_archive.html:5
 #: templates/elephantblog/entry_detail.html:5
-#: templates/elephantblog/entry_list.html:5
-#: templates/elephantblog/entry_list.html:8
 msgid "News"
 msgstr ""
 
-#: templates/elephantblog/entry_archive_category.html:8
-#: templates/elephantblog/entry_archive_day.html:8
-#: templates/elephantblog/entry_archive_month.html:8
-#: templates/elephantblog/entry_archive_year.html:8
-msgid "News archive for "
-msgstr "Newsarchiv für "
+#~ msgid "paginate by"
+#~ msgstr "Einträge pro Seite"
 
-#: templatetags/breadcrumbs.py:39
-msgid "All"
-msgstr "Alle"
+#~ msgid "cleared"
+#~ msgstr "freigegeben"
+
+#~ msgid "front page"
+#~ msgstr "Titelseite"
+
+#~ msgid "needs re-editing"
+#~ msgstr "muss überarbeitet werden"
+
+#~ msgid "deleted"
+#~ msgstr "gelöscht"
+
+#~ msgid "published"
+#~ msgstr "veröffentlicht"
+
+#~ msgid "Shows the status of the entry for the pinging management command."
+#~ msgstr "Zeigt den Status des Eintrags für das Pinging Management Tool."
+
+#~ msgid " again."
+#~ msgstr " nochmals."
+
+#~ msgid "expired"
+#~ msgstr "verfallen"
+
+#~ msgid "on hold"
+#~ msgstr "auf Eis gelegt"
+
+#~ msgid "Status"
+#~ msgstr "Status"
+
+#~ msgid "mark publish"
+#~ msgstr "als veröffentlicht markieren"
+
+#~ msgid "front-page"
+#~ msgstr "Titelseite"
+
+#~ msgid "mark frontpage"
+#~ msgstr "als Titelseite markieren"
+
+#~ msgid "need re-editing"
+#~ msgstr "muss überarbeitet werden"
+
+#~ msgid "mark re-edit"
+#~ msgstr "zur Überarbeitung markieren"
+
+#~ msgid "mark inactive"
+#~ msgstr "als inaktiv markieren"
+
+#~ msgid "title undefined"
+#~ msgstr "Titel nicht definiert"
+
+#~ msgid "description undefined"
+#~ msgstr "Beschreibung nicht definiert"
+
+#~ msgid "Main content area"
+#~ msgstr "Hauptinhaltsbereich"
+
+#~ msgid "publication end date"
+#~ msgstr "veröffentlichen bis"
+
+#~ msgid "Leave empty if the entry should stay active forever."
+#~ msgstr "Leer lassen, wenn kein Enddatum."
+
+#~ msgid "visible from - to"
+#~ msgstr "Sichtbar von, bis"
+
+#~ msgid "language"
+#~ msgstr "Sprache"
+
+#~ msgid "translation of"
+#~ msgstr "Übersetzung von"
+
+#~ msgid "Leave this empty for entries in the primary language."
+#~ msgstr "Leer lassen für Einträge in der Hauptsprache"
+
+#~ msgid "available translations"
+#~ msgstr "Übersetzungen"
+
+#~ msgid "By"
+#~ msgstr "von"
+
+#~ msgid "Posted on"
+#~ msgstr "Veröffentlicht am"
+
+#~ msgid "at"
+#~ msgstr "um"
+
+#~ msgid "in"
+#~ msgstr "in"
+
+#~ msgid "more..."
+#~ msgstr "mehr..."
+
+#~ msgid "Page"
+#~ msgstr "Seite"
+
+#~ msgid "of"
+#~ msgstr "von"
+
+#~ msgid "previous"
+#~ msgstr "vorherige"
+
+#~ msgid "next"
+#~ msgstr "nächste"
+
+#~ msgid "No entries found."
+#~ msgstr "Keine Einträge gefunden."
+
+#~ msgid "tag"
+#~ msgstr "Tag"
+
+#~ msgid "Related Tags"
+#~ msgstr "Verwandte Tags"
+
+#~ msgid "News archive for "
+#~ msgstr "Newsarchiv für "
+
+#~ msgid "All"
+#~ msgstr "Alle"
