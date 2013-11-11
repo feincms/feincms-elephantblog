@@ -1,4 +1,4 @@
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import ugettext
 
 from .common import *
 

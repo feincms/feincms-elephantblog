@@ -18,7 +18,7 @@ def date_tree():
     """ returns a dict in the form {2012: [1,2,3,4,5,6], 2011: [10,11,12]} """
     today = datetime.date.today()
     first_day = date_of_first_entry()
-    years = range(first_day.year, today.year+1)
+    years = range(today.year, first_day.year-1, -1)
     date_tree = SortedDict((year, range(1,13)) for year in years)
     for year, months in date_tree.items():
         if year == first_day.year:
