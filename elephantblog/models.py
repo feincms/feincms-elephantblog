@@ -183,3 +183,9 @@ class EntryAdmin(item_editor.ItemEditor):
         }],
         item_editor.FEINCMS_CONTENT_FIELDSET,
     ]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'author':
+            kwargs['initial'] = request.user.id
+        return super(EntryAdmin, self).formfield_for_foreignkey(
+            db_field, request, **kwargs)
