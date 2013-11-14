@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-03 08:46-0500\n"
+"POT-Creation-Date: 2013-11-14 15:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: admin.py:25
@@ -31,9 +31,8 @@ msgid "Only show entries from this category."
 msgstr "Nur Einträge aus dieser Kategorie anzeigen."
 
 #: contents.py:22
-#, fuzzy
 msgid "entries per page"
-msgstr "Einträge"
+msgstr "Einträge pro Seite"
 
 #: contents.py:23
 msgid "Set to 0 to disable pagination."
@@ -41,34 +40,29 @@ msgstr "Auf 0 setzen um alle anzuzeigen."
 
 #: contents.py:24
 msgid "featured only"
-msgstr ""
+msgstr "nur hervorgehobene"
 
 #: contents.py:25
 msgid "Only show articles marked as featured"
-msgstr ""
+msgstr "Nur hervorgehobene Artikel anzeigen"
 
 #: contents.py:31
-#, fuzzy
 msgid "Blog entry list"
-msgstr "Blogeinträge in Kategorie"
+msgstr "Blogeinträge"
 
 #: contents.py:32
-#, fuzzy
 msgid "Blog entry lists"
-msgstr "Blogeinträge in Kategorie"
+msgstr "Blogeinträge"
 
 #: contents.py:67
-#, fuzzy
 msgid "show empty categories?"
-msgstr "Blog-Kategorien"
+msgstr "Leere Kategorien anzeigen?"
 
 #: contents.py:71
-#, fuzzy
 msgid "Blog category list"
 msgstr "Blog-Kategorien"
 
 #: contents.py:72
-#, fuzzy
 msgid "Blog category lists"
 msgstr "Blog-Kategorien"
 
@@ -105,13 +99,12 @@ msgid "category translations"
 msgstr "Kategorie-Übersetzungen"
 
 #: models.py:88
-#, fuzzy
 msgid "is active"
-msgstr "inaktiv"
+msgstr "ist aktiv"
 
 #: models.py:89
 msgid "is featured"
-msgstr ""
+msgstr "ist hervorgehoben"
 
 #: models.py:91
 msgid "title"
@@ -126,10 +119,8 @@ msgid "published on"
 msgstr "Veröffentlicht am"
 
 #: models.py:96
-#, fuzzy
 msgid "Will be filled in automatically when entry gets published."
-msgstr ""
-"Wird automatisch aktualisiert sobald dieser Eintrag veröffentlicht wird."
+msgstr "Wird automatisch eingefüllt sobald dieser Eintrag veröffentlicht wird."
 
 #: models.py:97
 msgid "last change"
@@ -150,7 +141,7 @@ msgid_plural "%(count)s entries were successfully marked as %(state)s"
 msgstr[0] "Ein Eintrag wurde erfolgreich als %(state)s markiert"
 msgstr[1] "%(count)s Einträge wurden erfolgreich als %(state)s markiert"
 
-#: views.py:179
+#: views.py:175
 #, python-format
 msgid ""
 "Future %(verbose_name_plural)s not available because %(class_name)s."
@@ -178,7 +169,6 @@ msgid "ping"
 msgstr "Ping"
 
 #: extensions/blogping.py:34
-#, fuzzy
 msgid "Ping Again"
 msgstr "nochmals pingen"
 
@@ -212,31 +202,35 @@ msgstr "Blog-Kategorien"
 #: navigation_extensions/recursetree.py:65
 #: navigation_extensions/treeinfo.py:47
 #: templates/content/elephantblog/category_list.html:6
-#, fuzzy
 msgid "Categories"
 msgstr "Kategorien"
 
 #: navigation_extensions/recursetree.py:102
 #: navigation_extensions/treeinfo.py:66
-#, fuzzy
 msgid "Archive"
-msgstr "aktiv"
+msgstr "Archiv"
 
 #: templates/admin/feincms/elephantblog/entry/item_editor.html:13
-#, fuzzy
 msgid "Preview"
-msgstr "entfernen"
+msgstr "Vorschau"
 
 #: templates/content/elephantblog/entry_list.html:13
 #: templates/elephantblog/entry_archive.html:28
 #: templates/elephantblog/entry_detail.html:18
 msgid "by"
-msgstr ""
+msgstr "von"
 
 #: templates/elephantblog/entry_archive.html:5
 #: templates/elephantblog/entry_detail.html:5
 msgid "News"
-msgstr ""
+msgstr "News"
+
+#: templates/elephantblog/entry_archive.html:9
+#: templates/elephantblog/entry_archive.html:10
+#: templates/elephantblog/entry_archive.html:11
+#: templates/elephantblog/entry_archive.html:12
+msgid "for"
+msgstr "für"
 
 #~ msgid "paginate by"
 #~ msgstr "Einträge pro Seite"
