@@ -8,13 +8,14 @@ from elephantblog.models import Entry
 
 if not hasattr(settings, 'BLOG_TITLE') or not hasattr(settings, 'BLOG_DESCRIPTION'):
     import warnings
-    warnings.warn('BLOG_TITLE and/or BLOG_DESCRIPTION not defined in settings.py. Standard values used for the Feed')
+    warnings.warn('BLOG_TITLE and/or BLOG_DESCRIPTION not defined in'
+        ' settings.py. Standard values used for the Feed')
 
 
 def tryrender(content):
     try:
         return content.render()
-    except TypeError: # Required request argument or something else?
+    except TypeError:  # Required request argument or something else?
         return u''
 
 
@@ -25,7 +26,8 @@ class EntryFeed(Feed):
 
     def items(self):
         if hasattr(Entry, 'translation_of'):
-            return Entry.objects.active().filter(language=short_language_code).order_by('-published_on')[:20]
+            return Entry.objects.active().filter(
+                language=short_language_code).order_by('-published_on')[:20]
         else:
             return Entry.objects.active().order_by('-published_on')[:20]
 

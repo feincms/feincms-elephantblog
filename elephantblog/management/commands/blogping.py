@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 from optparse import make_option
-import sys
 
 from django.core.management.base import NoArgsCommand, CommandError
 from django.conf import settings
@@ -13,7 +12,8 @@ from pinging.models import PingedURL, PingServer
 
 MAX_POSTS = 50
 PINGING_WEBLOG_NAME = settings.BLOG_TITLE
-PINGING_WEBLOG_URL = getattr(settings, 'BLOG_BASE_URL', settings.BLOG_DESCRIPTION) # unfortunate naming in 0.1
+# unfortunate naming in 0.1:
+PINGING_WEBLOG_URL = getattr(settings, 'BLOG_BASE_URL', settings.BLOG_DESCRIPTION)
 
 try:
     domain = settings.FORCE_DOMAIN
@@ -24,12 +24,12 @@ except AttributeError:
 
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
-        make_option('--dry-run','-d',
+        make_option('--dry-run', '-d',
             action='store_true',
             dest='dryrun',
             default=False,
             help='Does not send out any pings and does not change the database'),
-        make_option('--nosend','-n',
+        make_option('--nosend', '-n',
             action='store_true',
             dest='nosend',
             default=False,
@@ -39,7 +39,8 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         if not PingServer.objects.count():
-            raise CommandError('No servers defined.\nAdd at least one server in the admin interface.')
+            raise CommandError('No servers defined.\nAdd at least one server'
+                ' in the admin interface.')
 
         self.use_sites = 'sites' in getattr(Entry, '_feincms_extensions', ())
 
@@ -58,20 +59,20 @@ class Command(NoArgsCommand):
             if self.use_sites:
                 for site in entry.sites.all():
                     create_kwargs = {
-                             'content_object': entry,
-                             'weblogname': site.name,
-                             'weblogurl': site.domain + ':/' + PINGING_WEBLOG_URL,
-                             'changesurl': site.domain + ':/' + entry.get_absolute_url(),
-                             }
+                        'content_object': entry,
+                        'weblogname': site.name,
+                        'weblogurl': site.domain + ':/' + PINGING_WEBLOG_URL,
+                        'changesurl': site.domain + ':/' + entry.get_absolute_url(),
+                        }
                     if not options.get('dryrun'):
                         PingedURL.objects.create_for_servers(**create_kwargs)
             else:
                 create_kwargs = {
-                             'content_object': entry,
-                             'weblogname': PINGING_WEBLOG_NAME,
-                             'weblogurl': PINGING_WEBLOG_URL,
-                             'changesurl': domain + ':/' + entry.get_absolute_url(),
-                             }
+                    'content_object': entry,
+                    'weblogname': PINGING_WEBLOG_NAME,
+                    'weblogurl': PINGING_WEBLOG_URL,
+                    'changesurl': domain + ':/' + entry.get_absolute_url(),
+                    }
                 if not options.get('dryrun'):
                     PingedURL.objects.create_for_servers(**create_kwargs)
 
@@ -90,10 +91,12 @@ class Command(NoArgsCommand):
 
         # Update entries which have been successfully pinged
         Entry.objects.filter(
-            id__in=pingedurl_queryset.filter(status=PingedURL.SUCCESSFUL).values('object_id')
+            id__in=pingedurl_queryset.filter(
+                status=PingedURL.SUCCESSFUL).values('object_id')
             ).update(pinging=Entry.SENT)
 
         # Update entries where pinging has failed (this time)
         Entry.objects.filter(
-            id__in=pingedurl_queryset.filter(status__in=(PingedURL.ERROR, PingedURL.FAILED)).values('object_id')
+            id__in=pingedurl_queryset.filter(
+                status__in=(PingedURL.ERROR, PingedURL.FAILED)).values('object_id')
             ).update(pinging=Entry.QUEUED)

@@ -3,8 +3,8 @@ Allows the blog to use the sites framework.
 """
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
-from django.db.models import ManyToManyField, CharField
-from django.db.models import Q
+from django.db.models import ManyToManyField, Q
+
 
 def register(cls, admin_cls):
     cls.add_to_class('sites', ManyToManyField(Site, blank=True,

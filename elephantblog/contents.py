@@ -60,7 +60,7 @@ class BlogEntryListContent(models.Model):
         template_names = ['content/elephantblog/entry_list.html']
         if self.featured_only:
             template_names.insert(0, 'entry_list_featured.html')
-        return render_to_string(template_names, { 'content': self })
+        return render_to_string(template_names, {'content': self})
 
 
 class BlogCategoryListContent(models.Model):

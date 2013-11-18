@@ -34,7 +34,7 @@ NOTE! You need to register the app as follows for the application content snippe
 
 """
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 
 from elephantblog.feeds import EntryFeed
 from elephantblog import views
