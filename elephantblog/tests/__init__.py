@@ -7,6 +7,6 @@ django app that is fully functional.
 3. run the tests: ``./elephantblog/tests/testapp/manage.py test  elephantblog``
 """
 
-from .test_translations import *
-from .test_timezones import *
-from .test_archive_views import *
+from .test_translations import *  # noqa
+from .test_timezones import *  # noqa
+from .test_archive_views import *  # noqa

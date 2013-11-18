@@ -21,9 +21,6 @@ except ImportError:
     pass
 
 
-
-
-
 __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
     'DayArchiveView', 'DateDetailView', 'CategoryArchiveIndexView')
 
@@ -172,7 +169,8 @@ class DateDetailView(ContentObjectMixin, ElephantblogMixin,
         qs = queryset or self.get_queryset()
 
         if not self.get_allow_future() and date > datetime.date.today():
-            raise Http404(_(u"Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False.") % {
+            raise Http404(_(u"Future %(verbose_name_plural)s not available"
+                " because %(class_name)s.allow_future is False.") % {
                 'verbose_name_plural': qs.model._meta.verbose_name_plural,
                 'class_name': self.__class__.__name__,
                 })

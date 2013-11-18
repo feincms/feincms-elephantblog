@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
-from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
+from django.utils.translation import ugettext_lazy as _, ungettext
 from feincms import translations
 from feincms.admin import item_editor
 from feincms.management.checker import check_database_schema
@@ -20,7 +20,6 @@ except ImportError:
     now = datetime.now
 
 
-
 class Category(models.Model, translations.TranslatedObjectMixin):
     """
     Category is language-aware and connected to the Entry model via
@@ -32,7 +31,7 @@ class Category(models.Model, translations.TranslatedObjectMixin):
     class Meta:
         verbose_name = _('category')
         verbose_name_plural = _('categories')
-        ordering = ['ordering',]
+        ordering = ['ordering']
 
     objects = translations.TranslatedObjectManager()
 
@@ -83,18 +82,22 @@ EntryManager.add_to_active_filters(
     key='published_on_past')
 
 
-
 class Entry(Base, ContentModelMixin):
     is_active = models.BooleanField(_('is active'), default=True, db_index=True)
     is_featured = models.BooleanField(_('is featured'), default=False, db_index=True)
 
     title = models.CharField(_('title'), max_length=100)
-    slug = models.SlugField(_('slug'), max_length=100, unique_for_date='published_on')
-    author = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), related_name='blogentries',
-                limit_choices_to={'is_staff': True}, verbose_name=_('author'))
-    published_on = models.DateTimeField(_('published on'), blank=True, null=True, default=now,
-        help_text=_('Will be filled in automatically when entry gets published.'), db_index=True)
-    last_changed = models.DateTimeField(_('last change'), auto_now=True, editable=False)
+    slug = models.SlugField(_('slug'), max_length=100,
+        unique_for_date='published_on')
+    author = models.ForeignKey(
+        getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
+        related_name='blogentries',
+        limit_choices_to={'is_staff': True}, verbose_name=_('author'))
+    published_on = models.DateTimeField(_('published on'),
+        blank=True, null=True, default=now, db_index=True,
+        help_text=_('Will be filled in automatically when entry gets published.'))
+    last_changed = models.DateTimeField(_('last change'),
+        auto_now=True, editable=False)
 
     categories = models.ManyToManyField(Category, verbose_name=_('categories'),
         related_name='blogentries', null=True, blank=True)
@@ -159,7 +162,7 @@ def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
 class EntryAdmin(item_editor.ItemEditor):
     date_hierarchy = 'published_on'
     filter_horizontal = ['categories']
-    list_display = ['title', 'is_active', 'is_featured',  'published_on', 'author']
+    list_display = ['title', 'is_active', 'is_featured', 'published_on', 'author']
     list_editable = ['is_active', 'is_featured']
     list_filter = ['is_active', 'is_featured', 'categories', 'author']
     raw_id_fields = ['author']
