@@ -40,7 +40,7 @@ msgstr "Auf 0 setzen um alle anzuzeigen."
 
 #: contents.py:24
 msgid "featured only"
-msgstr "Nur Haupteinträge"
+msgstr "Nur Frontseiteneinträge"
 
 #: contents.py:25
 msgid "Only show articles marked as featured"
@@ -104,7 +104,7 @@ msgstr "aktiv"
 
 #: models.py:89
 msgid "is featured"
-msgstr "ist Haupteintrag"
+msgstr "auf Frontseite"
 
 #: models.py:91
 msgid "title"
