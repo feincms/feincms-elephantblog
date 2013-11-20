@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-03 08:46-0500\n"
+"POT-Creation-Date: 2013-11-14 15:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
 #: admin.py:25
@@ -145,7 +145,7 @@ msgid_plural "%(count)s entries were successfully marked as %(state)s"
 msgstr[0] "Článek úspěšně označen jako %(state)s"
 msgstr[1] "%(count)s článků úspěšně označeno jako %(state)s"
 
-#: views.py:179
+#: views.py:175
 #, python-format
 msgid ""
 "Future %(verbose_name_plural)s not available because %(class_name)s."
@@ -230,6 +230,13 @@ msgstr ""
 #: templates/elephantblog/entry_detail.html:5
 msgid "News"
 msgstr "Články"
+
+#: templates/elephantblog/entry_archive.html:9
+#: templates/elephantblog/entry_archive.html:10
+#: templates/elephantblog/entry_archive.html:11
+#: templates/elephantblog/entry_archive.html:12
+msgid "for"
+msgstr ""
 
 #~ msgid "paginate by"
 #~ msgstr "stránkováno od"

@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.translation import ugettext_lazy as _
 
-from elephantblog.models import Entry, entry_admin_update_fn
+from elephantblog.models import entry_admin_update_fn
 
 
 def pre_save_handler(sender, instance, **kwargs):
@@ -30,8 +30,8 @@ def register(cls, admin_cls):
     if admin_cls:
         if not hasattr(admin_cls, 'actions'):
             setattr(admin_cls, 'actions', [])
-        admin_cls.actions.append(entry_admin_update_fn(_('queued'), {'pinging': cls.QUEUED},
+        admin_cls.actions.append(
+            entry_admin_update_fn(_('queued'), {'pinging': cls.QUEUED},
             short_description=_('Ping Again')))
 
     pre_save.connect(pre_save_handler, sender=cls)
-
