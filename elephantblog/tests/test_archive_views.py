@@ -49,11 +49,11 @@ class GenericViewsTest(TestCase):
                                         blogviews.MonthArchiveView ))
         self.assertEqual(len(response.context['object_list']), 1)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, u'News \nfor October 2012')
+        self.assertRegexpMatches(response.content, r'News\s+for October 2012')
         self.assertContains(response, u'Eintrag 1')
         response = c.get('/blog/2012/08/')
         self.assertEqual(len(response.context['object_list']), 1)
-        self.assertContains(response, u'News \nfor August 2012')
+        self.assertRegexpMatches(response.content, r'News\s+for August 2012')
         self.assertContains(response, u'Entry 1')
         response = c.get('/blog/2012/06/')
         self.assertEqual(response.status_code, 404)
@@ -64,11 +64,15 @@ class GenericViewsTest(TestCase):
                                         blogviews.DayArchiveView ))
         self.assertEqual(len(response.context['object_list']), 1)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, u'News \n\nfor Oct. 12, 2012')
+        self.assertRegexpMatches(
+            response.content,
+            u'News\s+for Oct. 12, 2012')
         self.assertContains(response, u'Eintrag 1')
         response = c.get('/blog/2012/08/12/')
         self.assertEqual(len(response.context['object_list']), 1)
-        self.assertContains(response, u'News \n\nfor Aug. 12, 2012')
+        self.assertRegexpMatches(
+            response.content,
+            u'News\s+for Aug. 12, 2012')
         self.assertContains(response, u'Entry 1')
         # No entries in 2011:
         response = c.get('/blog/2012/10/13/')
