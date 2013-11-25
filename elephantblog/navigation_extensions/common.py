@@ -54,7 +54,7 @@ class BlogCategoriesNavigationExtension(NavigationExtension):
                 slug=category.translation.slug,
                 parent=page,
                 parent_id=page.id,
-                lft=page.lft + 1,
-                rght=len(categories) + 1,
+                lft=page.lft,
+                rght=page.rght,
                 _mptt_meta=getattr(page, '_mptt_meta', None),
                 )
