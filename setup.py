@@ -7,7 +7,8 @@ import os
 import elephantblog
 
 
-setup(name='feincms-elephantblog',
+setup(
+    name='feincms-elephantblog',
     version=elephantblog.__version__,
     description='A blog for FeinCMS',
     long_description=open(
@@ -17,6 +18,8 @@ setup(name='feincms-elephantblog',
     url='https://github.com/feincms/feincms-elephantblog/',
     license='BSD License',
     platforms=['OS Independent'],
-    packages=find_packages(),
+    packages=find_packages(
+        exclude=['tests'],
+    ),
     include_package_data=True
-    )
+)
