@@ -98,6 +98,7 @@ class TranslationsTest(TestCase):
 
 
         with translation.override('en'):
+            c = Client()
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='en')
             self.assertEqual(short_language_code(), 'en')
             self.assertEqual(len(response.context['object_list']), 1)
@@ -107,6 +108,7 @@ class TranslationsTest(TestCase):
 
 
         with translation.override('zh-cn'):
+            c = Client()
             self.assertEqual(translation.get_language(), 'zh-cn')
             self.assertEqual(short_language_code(), 'zh')
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-cn')
@@ -117,6 +119,7 @@ class TranslationsTest(TestCase):
 
 
         with translation.override('zh-tw'):
+            c = Client()
             self.assertEqual(translation.get_language(), 'zh-tw')
             self.assertEqual(short_language_code(), 'zh')
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-tw')
