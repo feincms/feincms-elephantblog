@@ -10,7 +10,7 @@ from feincms.management.checker import check_database_schema
 from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin
 from feincms.utils.managers import ActiveAwareContentManagerMixin
-from feincms.utils.queryset_transform import TransformQuerySet
+from feincms.utils.queryset_transform import TransformManager
 try:
     from django.utils import timezone
     now = timezone.now
@@ -65,10 +65,7 @@ class CategoryTranslation(translations.Translation(Category)):
         super(CategoryTranslation, self).save(*args, **kwargs)
 
 
-class EntryManager(models.Manager, ActiveAwareContentManagerMixin):
-    def get_query_set(self):
-        return TransformQuerySet(self.model, using=self._db)
-
+class EntryManager(ActiveAwareContentManagerMixin, TransformManager):
     def featured(self):
         return self.active().filter(is_featured=True)
 
