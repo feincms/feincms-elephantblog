@@ -17,11 +17,15 @@ except ImportError:
 
 
 class BlogEntryListContent(models.Model):
-    category = models.ForeignKey(Category, blank=True, null=True, related_name='+',
-        verbose_name=_('category'), help_text=_('Only show entries from this category.'))
-    paginate_by = models.PositiveIntegerField(_('entries per page'), default=0,
+    category = models.ForeignKey(
+        Category, blank=True, null=True, related_name='+',
+        verbose_name=_('category'),
+        help_text=_('Only show entries from this category.'))
+    paginate_by = models.PositiveIntegerField(
+        _('entries per page'), default=0,
         help_text=_('Set to 0 to disable pagination.'))
-    featured_only = models.BooleanField(_('featured only'), blank=True, default=False,
+    featured_only = models.BooleanField(
+        _('featured only'), blank=True, default=False,
         help_text=_('Only show articles marked as featured'))
 
     only_active_language = False
@@ -33,15 +37,18 @@ class BlogEntryListContent(models.Model):
 
     def process(self, request, **kwargs):
         if self.featured_only:
-            entries = Entry.objects.featured().transform(entry_list_lookup_related)
+            entries = Entry.objects.featured()
         else:
-            entries = Entry.objects.active().transform(entry_list_lookup_related)
+            entries = Entry.objects.active()
 
         if self.category:
             entries = entries.filter(categories=self.category)
 
         if self.only_active_language:
-            entries = entries.filter(language__istartswith=short_language_code())
+            entries = entries.filter(
+                language__istartswith=short_language_code())
+
+        entries = entries.transform(entry_list_lookup_related)
 
         if self.paginate_by:
             paginator = Paginator(entries, self.paginate_by)
@@ -77,7 +84,11 @@ class BlogCategoryListContent(models.Model):
         else:
             categories = Category.objects.exclude(blogentries__isnull=True)
 
-        return render_to_string('content/elephantblog/category_list.html', {
-            'content': self,
-            'categories': categories,
-            }, context_instance=kwargs.get('context'))
+        return render_to_string(
+            'content/elephantblog/category_list.html',
+            {
+                'content': self,
+                'categories': categories,
+            },
+            context_instance=kwargs.get('context'),
+        )

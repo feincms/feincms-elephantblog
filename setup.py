@@ -12,7 +12,7 @@ setup(
     version=elephantblog.__version__,
     description='A blog for FeinCMS',
     long_description=open(
-        os.path.join(os.path.dirname(__file__), 'README.rst')).read().decode('utf-8'),
+        os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     author='Simon Baechler',
     author_email='sb@feinheit.ch',
     url='https://github.com/feincms/feincms-elephantblog/',

@@ -18,7 +18,6 @@ try:
     from django.utils import timezone
 except ImportError:
     timezone = None
-    pass
 
 
 __all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
@@ -153,7 +152,7 @@ class DateDetailView(ContentObjectMixin, ElephantblogMixin,
                                         date, datetime.time.min), timezone.utc),
                     timezone.make_aware(datetime.datetime.combine(
                                         date, datetime.time.max), timezone.utc)
-                    )
+                )
                 return {'%s__range' % field.name: date_range}
             else:
                 return {field.name: date}
@@ -173,7 +172,7 @@ class DateDetailView(ContentObjectMixin, ElephantblogMixin,
                 " because %(class_name)s.allow_future is False.") % {
                 'verbose_name_plural': qs.model._meta.verbose_name_plural,
                 'class_name': self.__class__.__name__,
-                })
+            })
 
         # Filter down a queryset from self.queryset using the date from the
         # URL. This'll get passed as the queryset to DetailView.get_object,
@@ -209,15 +208,16 @@ class CategoryArchiveIndexView(ArchiveIndexView):
         try:
             self.category = Category.objects.get(
                 translations__slug=slug,
-                )
+            )
         except Category.DoesNotExist:
             raise Http404('Category with slug %s does not exist' % slug)
 
         except Category.MultipleObjectsReturned:
-            self.category = get_object_or_404(Category,
+            self.category = get_object_or_404(
+                Category,
                 translations__slug=slug,
                 translations__language_code=get_language(),
-                )
+            )
 
         queryset = super(CategoryArchiveIndexView, self).get_queryset()
         return queryset.filter(categories=self.category)

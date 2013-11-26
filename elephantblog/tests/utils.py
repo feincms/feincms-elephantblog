@@ -1,11 +1,12 @@
 # coding: utf-8
+import datetime
+
 from django.core.management import CommandError
 from django.core.management.color import no_style
 from django.core.management.sql import sql_delete, sql_all
 from django.db import connections, transaction, DEFAULT_DB_ALIAS
 import elephantblog.models
 
-import datetime
 
 def mock_datetime():
     class MockDatetime(datetime.datetime):
@@ -13,6 +14,7 @@ def mock_datetime():
         def now(cls):
             return datetime.datetime(2012, 6, 1)
     return MockDatetime
+
 
 def mock_date():
     class MockDate(datetime.date):

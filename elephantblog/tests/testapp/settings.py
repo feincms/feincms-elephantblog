@@ -1,4 +1,3 @@
-import sys
 # -*- coding:utf-8 -*-
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -15,14 +14,14 @@ INSTALLED_APPS = (
 
 SECRET_KEY = 'elephant'
 DATABASES = {
-    'default':{
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'runserver.sqlite',
         #'TEST_NAME': 'blog_test.sqlite',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
-        'PORT': '',        
+        'PORT': '',
     }
 }
 
@@ -32,17 +31,20 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    )
+)
 
 ROOT_URLCONF = 'elephantblog.tests.testapp.urls'
 BLOG_TITLE = u'Blog of the usual elephant'
 BLOG_DESCRIPTION = ''
 TIME_ZONE = 'America/Chicago'
 USE_TZ = False
-DEFAULT_CHARSET='utf-8'
-LANGUAGES = (('en', 'English'), ('de', 'German'),
-             ('zh-cn', 'Chinese simplified'), ('zh-tw', 'Chinese traditional'))
+DEFAULT_CHARSET = 'utf-8'
+LANGUAGES = (
+    ('en', 'English'),
+    ('de', 'German'),
+    ('zh-cn', 'Chinese simplified'),
+    ('zh-tw', 'Chinese traditional'),
+)
 
-DEBUG = True # tests run with DEBUG=False
+DEBUG = True  # tests run with DEBUG=False
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
-

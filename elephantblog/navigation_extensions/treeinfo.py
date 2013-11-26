@@ -27,7 +27,7 @@ class BlogDateNavigationExtension(NavigationExtension):
                 rght=len(months) + 1,
                 level=page.level + 1,
                 slug='%s' % year,
-                )
+            )
             for month in months:
                 yield PagePretender(
                     title=u'%s' % _(all_months[month - 1].strftime('%B')),
@@ -53,7 +53,8 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
             rght=len(all_categories) + 1,
             level=page.level,
             slug='#',
-            )
+        )
+
         for category in all_categories:
             yield PagePretender(
                 title=category.translation.title,
@@ -64,7 +65,8 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
                 rght=0,
                 level=page.level + 1,
                 slug=category.translation.slug,
-                )
+            )
+
         yield PagePretender(
             title=_('Archive'),
             url='#',
@@ -73,7 +75,8 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
             rght=500,  # does it really matter?
             level=page.level,
             slug='#',
-            )
+        )
+
         for year, months in date_tree():
             yield PagePretender(
                 title=u'%s' % year,
@@ -83,7 +86,8 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
                 rght=len(months) + 1,
                 level=page.level + 1,
                 slug='%s' % year,
-                )
+            )
+
             for month in months:
                 yield PagePretender(
                     title=u'%s' % _(all_months[month - 1].strftime('%B')),

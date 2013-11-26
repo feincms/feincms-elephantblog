@@ -13,7 +13,8 @@ from pinging.models import PingedURL, PingServer
 MAX_POSTS = 50
 PINGING_WEBLOG_NAME = settings.BLOG_TITLE
 # unfortunate naming in 0.1:
-PINGING_WEBLOG_URL = getattr(settings, 'BLOG_BASE_URL', settings.BLOG_DESCRIPTION)
+PINGING_WEBLOG_URL = getattr(
+    settings, 'BLOG_BASE_URL', settings.BLOG_DESCRIPTION)
 
 try:
     domain = settings.FORCE_DOMAIN
@@ -28,13 +29,13 @@ class Command(NoArgsCommand):
             action='store_true',
             dest='dryrun',
             default=False,
-            help='Does not send out any pings and does not change the database'),
+            help='Does not send any pings and does not change the database'),
         make_option('--nosend', '-n',
             action='store_true',
             dest='nosend',
             default=False,
             help='Does not send out any pings'),
-        )
+    )
     help = 'Sends out a ping for new entries'
 
     def handle_noargs(self, **options):
@@ -62,8 +63,8 @@ class Command(NoArgsCommand):
                         'content_object': entry,
                         'weblogname': site.name,
                         'weblogurl': site.domain + ':/' + PINGING_WEBLOG_URL,
-                        'changesurl': site.domain + ':/' + entry.get_absolute_url(),
-                        }
+                        'changesurl': site.domain + ':/' + entry.get_absolute_url(),  # noqa
+                    }
                     if not options.get('dryrun'):
                         PingedURL.objects.create_for_servers(**create_kwargs)
             else:
@@ -72,7 +73,7 @@ class Command(NoArgsCommand):
                     'weblogname': PINGING_WEBLOG_NAME,
                     'weblogurl': PINGING_WEBLOG_URL,
                     'changesurl': domain + ':/' + entry.get_absolute_url(),
-                    }
+                }
                 if not options.get('dryrun'):
                     PingedURL.objects.create_for_servers(**create_kwargs)
 
@@ -84,7 +85,7 @@ class Command(NoArgsCommand):
         PingedURL.objects.filter(
             created=datetime.now() - timedelta(days=7),
             status=PingedURL.SUCCESSFUL,
-            ).delete()
+        ).delete()
 
         pingedurl_queryset = PingedURL.objects.filter(
             content_type=ContentType.objects.get_for_model(Entry))
@@ -93,10 +94,11 @@ class Command(NoArgsCommand):
         Entry.objects.filter(
             id__in=pingedurl_queryset.filter(
                 status=PingedURL.SUCCESSFUL).values('object_id')
-            ).update(pinging=Entry.SENT)
+        ).update(pinging=Entry.SENT)
 
         # Update entries where pinging has failed (this time)
         Entry.objects.filter(
             id__in=pingedurl_queryset.filter(
-                status__in=(PingedURL.ERROR, PingedURL.FAILED)).values('object_id')
-            ).update(pinging=Entry.QUEUED)
+                status__in=(PingedURL.ERROR, PingedURL.FAILED),
+            ).values('object_id')
+        ).update(pinging=Entry.QUEUED)

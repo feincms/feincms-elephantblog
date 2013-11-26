@@ -27,9 +27,11 @@ def date_tree():
         if year == first_day.year:
             date_tree[year] = months[first_day.month - 1:]
         if year == today.year:
-            # list might be missing some elements because it is also the first year.
+            # list might be missing some elements because it is also the
+            # first year.
             months_this_year = range(1, today.month + 1)
-            date_tree[year] = [m for m in date_tree[year] if m in months_this_year]
+            date_tree[year] = [
+                m for m in date_tree[year] if m in months_this_year]
     return date_tree.items()
 
 
@@ -57,4 +59,4 @@ class BlogCategoriesNavigationExtension(NavigationExtension):
                 lft=page.lft + 1,
                 rght=len(categories) + 1,
                 _mptt_meta=getattr(page, '_mptt_meta', None),
-                )
+            )

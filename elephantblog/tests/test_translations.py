@@ -1,16 +1,17 @@
 # coding: utf-8
-from django.test.utils import override_settings
-import factory
-from django.core import management
+
+from django.test import Client
 from django.test.testcases import TestCase
+from django.test.utils import override_settings
 from django.utils import translation
 
-from elephantblog.models import Entry
-#from feincms.module.extensions import translations
-from django.test import Client
-from .factories import EntryFactory, create_entries, create_chinese_entries
 from feincms.translations import short_language_code
+
+from elephantblog.models import Entry
+from .factories import EntryFactory, create_entries, create_chinese_entries
 from .utils import reset_db
+
+import factory
 
 
 class NoTranslationsTest(TestCase):
@@ -48,13 +49,13 @@ class TranslationsTest(TestCase):
     def setUpClass(cls):
         Entry.register_extensions('feincms.module.extensions.translations',)
         reset_db()
+
         class EntryFactory(factory.DjangoModelFactory):
             FACTORY_FOR = Entry
-            is_active=True
-            is_featured=False
+            is_active = True
+            is_featured = False
 
         create_chinese_entries(EntryFactory)
-
 
     def testTranslation(self):
         # Make sure the Entry has a translation extension
@@ -96,7 +97,6 @@ class TranslationsTest(TestCase):
             self.assertEqual(len(response.context['object_list']), 4)
             self.assertEqual(response.status_code, 200)
 
-
         with translation.override('en'):
             c = Client()
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='en')
@@ -105,7 +105,6 @@ class TranslationsTest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, u'Entry 1')
             self.assertNotContains(response, u'Eintrag 1')
-
 
         with translation.override('zh-cn'):
             c = Client()
@@ -117,7 +116,6 @@ class TranslationsTest(TestCase):
             self.assertContains(response, u'Entry 2 chinese traditional')
             self.assertNotContains(response, u'Eintrag 1')
 
-
         with translation.override('zh-tw'):
             c = Client()
             self.assertEqual(translation.get_language(), 'zh-tw')
@@ -127,12 +125,3 @@ class TranslationsTest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, u'Entry 2 chinese simplified')
             self.assertNotContains(response, u'Eintrag 1')
-
-
-
-
-
-# AttributeError: 'Settings' object has no attribute '_original_allowed_hosts'
-# fixed in Django 1.6
-
-# https://github.com/django/django/commit/e2b86571bfa3503fe43adfa92e9c9f4271a7a135

@@ -10,7 +10,7 @@ CategoryTranslationInline = admin_translationinline(
     models.CategoryTranslation,
     prepopulated_fields={
         'slug': ('title',)
-        })
+    })
 
 
 class CategoryAdmin(admin.ModelAdmin):

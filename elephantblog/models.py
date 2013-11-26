@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _, ungettext
+
 from feincms import translations
 from feincms.admin import item_editor
 from feincms.management.checker import check_database_schema
@@ -11,6 +12,7 @@ from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin
 from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformManager
+
 try:
     from django.utils import timezone
     now = timezone.now
@@ -28,12 +30,12 @@ class Category(models.Model, translations.TranslatedObjectMixin):
 
     ordering = models.SmallIntegerField(_('ordering'), default=0)
 
+    objects = translations.TranslatedObjectManager()
+
     class Meta:
         verbose_name = _('category')
         verbose_name_plural = _('categories')
         ordering = ['ordering']
-
-    objects = translations.TranslatedObjectManager()
 
     def __unicode__(self):
         trans = translations.TranslatedObjectMixin.__unicode__(self)
@@ -56,7 +58,7 @@ class CategoryTranslation(translations.Translation(Category)):
     def get_absolute_url(self):
         return reverse('elephantblog_category_detail', kwargs={
             'slug': self.slug,
-            })
+        })
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -80,8 +82,10 @@ EntryManager.add_to_active_filters(
 
 
 class Entry(Base, ContentModelMixin):
-    is_active = models.BooleanField(_('is active'), default=True, db_index=True)
-    is_featured = models.BooleanField(_('is featured'), default=False, db_index=True)
+    is_active = models.BooleanField(
+        _('is active'), default=True, db_index=True)
+    is_featured = models.BooleanField(
+        _('is featured'), default=False, db_index=True)
 
     title = models.CharField(_('title'), max_length=100)
     slug = models.SlugField(_('slug'), max_length=100,
@@ -99,13 +103,13 @@ class Entry(Base, ContentModelMixin):
     categories = models.ManyToManyField(Category, verbose_name=_('categories'),
         related_name='blogentries', null=True, blank=True)
 
+    objects = EntryManager()
+
     class Meta:
         get_latest_by = 'published_on'
         ordering = ['-published_on']
         verbose_name = _('entry')
         verbose_name_plural = _('entries')
-
-    objects = EntryManager()
 
     def __unicode__(self):
         return self.title
@@ -132,7 +136,7 @@ class Entry(Base, ContentModelMixin):
             'month': pub_date.strftime('%m'),
             'day': pub_date.strftime('%d'),
             'slug': self.slug,
-            })
+        })
 
     @classmethod
     def register_extension(cls, register_fn):
@@ -159,14 +163,15 @@ def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
 class EntryAdmin(item_editor.ItemEditor):
     date_hierarchy = 'published_on'
     filter_horizontal = ['categories']
-    list_display = ['title', 'is_active', 'is_featured', 'published_on', 'author']
+    list_display = ['title', 'is_active', 'is_featured', 'published_on',
+        'author']
     list_editable = ['is_active', 'is_featured']
     list_filter = ['is_active', 'is_featured', 'categories', 'author']
     raw_id_fields = ['author']
     search_fields = ['title', 'slug']
     prepopulated_fields = {
         'slug': ('title',),
-        }
+    }
 
     fieldset_insertion_index = 1
     fieldsets = [

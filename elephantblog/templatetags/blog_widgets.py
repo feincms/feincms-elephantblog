@@ -26,13 +26,16 @@ def get_entries(context, limit):
 
 @register.simple_tag(takes_context=True)
 def get_frontpage(context, category=None):
+    queryset = Entry.objects.featured()
+
     try:
-        queryset = Entry.objects.featured().filter(language=short_language_code())
+        queryset = queryset.filter(language=short_language_code())
     except (AttributeError, FieldError):
-        queryset = Entry.objects.featured()
+        pass
 
     if category:
-        queryset = queryset.filter(categories__translations__title=category).distinct()
+        queryset = queryset.filter(
+            categories__translations__title=category).distinct()
 
     context['entries'] = queryset
     return ''

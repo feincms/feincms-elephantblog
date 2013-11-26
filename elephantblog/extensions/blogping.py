@@ -23,8 +23,14 @@ def register(cls, admin_cls):
         (cls.UNKNOWN, _('unknown')),
     )
 
-    cls.add_to_class('pinging', models.SmallIntegerField(_('ping'),
-        editable=False, default=cls.SLEEPING, choices=PINGING_CHOICES)
+    cls.add_to_class(
+        'pinging',
+        models.SmallIntegerField(
+            _('ping'),
+            editable=False,
+            default=cls.SLEEPING,
+            choices=PINGING_CHOICES,
+        )
     )
 
     if admin_cls:

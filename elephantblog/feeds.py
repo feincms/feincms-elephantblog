@@ -6,7 +6,10 @@ from feincms.translations import short_language_code
 from elephantblog.models import Entry
 
 
-if not hasattr(settings, 'BLOG_TITLE') or not hasattr(settings, 'BLOG_DESCRIPTION'):
+if not (
+        hasattr(settings, 'BLOG_TITLE')
+        and hasattr(settings, 'BLOG_DESCRIPTION')
+):
     import warnings
     warnings.warn('BLOG_TITLE and/or BLOG_DESCRIPTION not defined in'
         ' settings.py. Standard values used for the Feed')
