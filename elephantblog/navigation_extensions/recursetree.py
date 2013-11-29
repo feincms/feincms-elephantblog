@@ -66,12 +66,12 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
 
         yield PagePretender(
             title=_('Categories'),
-            url='#',
+            url='./',
             tree_id=page.tree_id,
             level=page.level + 1,
             parent=page,
             parent_id=page.id,
-            slug='#',
+            slug='',
             language=getattr(page, 'language', settings.LANGUAGE_CODE),
             get_children=return_children,
             lft=page.lft + 1,
@@ -106,10 +106,10 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
 
         yield PagePretender(
             title=_('Archive'),
-            url='#',
+            url='./',
             tree_id=page.tree_id,
             level=page.level + 1,
-            slug='#',
+            slug='',
             parent=page,
             parent_id=page.id,
             language=getattr(page, 'language', settings.LANGUAGE_CODE),
