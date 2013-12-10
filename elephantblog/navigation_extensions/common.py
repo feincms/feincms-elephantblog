@@ -3,8 +3,8 @@ from django.utils.datastructures import SortedDict
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from feincms.module.page.extensions.navigation import (NavigationExtension,
-    PagePretender)
+from feincms.module.page.extensions.navigation import (
+    NavigationExtension, PagePretender)
 
 from elephantblog.models import Entry, Category
 

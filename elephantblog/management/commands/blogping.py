@@ -25,12 +25,14 @@ except AttributeError:
 
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
-        make_option('--dry-run', '-d',
+        make_option(
+            '--dry-run', '-d',
             action='store_true',
             dest='dryrun',
             default=False,
             help='Does not send any pings and does not change the database'),
-        make_option('--nosend', '-n',
+        make_option(
+            '--nosend', '-n',
             action='store_true',
             dest='nosend',
             default=False,
@@ -40,7 +42,8 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         if not PingServer.objects.count():
-            raise CommandError('No servers defined.\nAdd at least one server'
+            raise CommandError(
+                'No servers defined.\nAdd at least one server'
                 ' in the admin interface.')
 
         self.use_sites = 'sites' in getattr(Entry, '_feincms_extensions', ())

@@ -89,7 +89,8 @@ class TimezoneTest(TestCase):
                 (pytz.timezone("Europe/Moscow"), 3, 1),
         ]:
             published_date = datetime.datetime(
-                year=2012, month=3, day=day, hour=hour, minute=30, tzinfo=tzinfo)
+                year=2012, month=3, day=day, hour=hour, minute=30,
+                tzinfo=tzinfo)
 
             entry = Entry.objects.create(
                 is_active=True,
@@ -116,7 +117,8 @@ class NoTimezoneTest(TestCase):
             password='elephant')
 
     def test_chicago_night(self):
-        published_date = datetime.datetime(year=2012, month=3, day=3, hour=1, minute=30)
+        published_date = datetime.datetime(
+            year=2012, month=3, day=3, hour=1, minute=30)
         entry = Entry.objects.create(
             is_active=True,
             author=self.author,
@@ -130,7 +132,8 @@ class NoTimezoneTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_chicago_evening(self):
-        published_date = datetime.datetime(year=2012, month=3, day=3, hour=22, minute=30)
+        published_date = datetime.datetime(
+            year=2012, month=3, day=3, hour=22, minute=30)
         entry = Entry.objects.create(
             is_active=True,
             author=self.author,
@@ -143,7 +146,8 @@ class NoTimezoneTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_moscow_night(self):
-        published_date = datetime.datetime(year=2012, month=3, day=3, hour=1, minute=30)
+        published_date = datetime.datetime(
+            year=2012, month=3, day=3, hour=1, minute=30)
         entry = Entry.objects.create(
             is_active=True,
             author=self.author,

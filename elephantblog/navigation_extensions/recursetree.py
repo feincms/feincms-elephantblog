@@ -2,8 +2,8 @@
 from django.conf import settings
 from django.utils.translation import ugettext as _, ugettext_lazy
 
-from .common import (Category, NavigationExtension, PagePretender, all_months,
-    date_tree)
+from .common import (
+    Category, NavigationExtension, PagePretender, all_months, date_tree)
 
 
 class RBlogDateNavigationExtension(NavigationExtension):

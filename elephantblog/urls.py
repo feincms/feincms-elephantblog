@@ -7,26 +7,34 @@ through ApplicationContent::
 
     def elephantblog_entry_url_app(self):
         from feincms.content.application.models import app_reverse
-        return app_reverse('elephantblog_entry_detail', 'elephantblog', kwargs={
-            'year': self.published_on.strftime('%Y'),
-            'month': self.published_on.strftime('%m'),
-            'day': self.published_on.strftime('%d'),
-            'slug': self.slug,
+        return app_reverse(
+            'elephantblog_entry_detail',
+            'elephantblog',
+            kwargs={
+                'year': self.published_on.strftime('%Y'),
+                'month': self.published_on.strftime('%m'),
+                'day': self.published_on.strftime('%d'),
+                'slug': self.slug,
             })
 
     def elephantblog_categorytranslation_url_app(self):
         from feincms.content.application.models import app_reverse
-        return app_reverse('elephantblog_category_detail', 'elephantblog', kwargs={
-            'slug': self.slug,
+        return app_reverse(
+            'elephantblog_category_detail',
+            'elephantblog',
+            kwargs={
+                'slug': self.slug,
             })
 
     ABSOLUTE_URL_OVERRIDES = {
         'elephantblog.entry': elephantblog_entry_url_app,
-        'elephantblog.categorytranslation': elephantblog_categorytranslation_url_app,
+        'elephantblog.categorytranslation':\
+            elephantblog_categorytranslation_url_app,
     }
 
 
-NOTE! You need to register the app as follows for the application content snippet::
+NOTE! You need to register the app as follows for the application content
+snippet::
 
     Page.create_content_type(ApplicationContent, APPLICATIONS=(
         ('elephantblog', _('Blog'), {'urls': 'elephantblog.urls'}),
@@ -53,7 +61,8 @@ def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
     - The format of the month (three chars or two digits)
     - etc.
     """
-    return patterns('',
+    return patterns(
+        '',
         url(r'^feed/$', EntryFeed()),
         url(r'^$',
             views.ArchiveIndexView.as_view(**list_kwargs),
@@ -67,7 +76,8 @@ def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
         url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
             views.DayArchiveView.as_view(**list_kwargs),
             name='elephantblog_entry_archive_day'),
-        url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
+        url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/'
+            r'(?P<slug>[-\w]+)/$',
             views.DateDetailView.as_view(**detail_kwargs),
             name='elephantblog_entry_detail'),
         url(r'^category/(?P<slug>[-\w]+)/$',

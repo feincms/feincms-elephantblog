@@ -45,7 +45,8 @@ class Category(models.Model, translations.TranslatedObjectMixin):
 class CategoryTranslation(translations.Translation(Category)):
     title = models.CharField(_('category title'), max_length=100)
     slug = models.SlugField(_('slug'), unique=True)
-    description = models.CharField(_('description'), max_length=250, blank=True)
+    description = models.CharField(
+        _('description'), max_length=250, blank=True)
 
     class Meta:
         verbose_name = _('category translation')
@@ -88,19 +89,23 @@ class Entry(Base, ContentModelMixin):
         _('is featured'), default=False, db_index=True)
 
     title = models.CharField(_('title'), max_length=100)
-    slug = models.SlugField(_('slug'), max_length=100,
+    slug = models.SlugField(
+        _('slug'), max_length=100,
         unique_for_date='published_on')
     author = models.ForeignKey(
         getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
         related_name='blogentries',
         limit_choices_to={'is_staff': True}, verbose_name=_('author'))
-    published_on = models.DateTimeField(_('published on'),
+    published_on = models.DateTimeField(
+        _('published on'),
         blank=True, null=True, default=now, db_index=True,
-        help_text=_('Will be filled in automatically when entry gets published.'))
-    last_changed = models.DateTimeField(_('last change'),
-        auto_now=True, editable=False)
+        help_text=_(
+            'Will be filled in automatically when entry gets published.'))
+    last_changed = models.DateTimeField(
+        _('last change'), auto_now=True, editable=False)
 
-    categories = models.ManyToManyField(Category, verbose_name=_('categories'),
+    categories = models.ManyToManyField(
+        Category, verbose_name=_('categories'),
         related_name='blogentries', null=True, blank=True)
 
     objects = EntryManager()
@@ -163,8 +168,8 @@ def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
 class EntryAdmin(item_editor.ItemEditor):
     date_hierarchy = 'published_on'
     filter_horizontal = ['categories']
-    list_display = ['title', 'is_active', 'is_featured', 'published_on',
-        'author']
+    list_display = [
+        'title', 'is_active', 'is_featured', 'published_on', 'author']
     list_editable = ['is_active', 'is_featured']
     list_filter = ['is_active', 'is_featured', 'categories', 'author']
     raw_id_fields = ['author']

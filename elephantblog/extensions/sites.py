@@ -7,7 +7,8 @@ from django.db.models import ManyToManyField, Q
 
 
 def register(cls, admin_cls):
-    cls.add_to_class('sites', ManyToManyField(Site, blank=True,
+    cls.add_to_class('sites', ManyToManyField(
+        Site, blank=True,
         help_text=_('The sites where the blogpost should appear.'),
         default=Site.objects.get_current))
 

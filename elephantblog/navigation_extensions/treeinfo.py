@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext as _, ugettext_lazy
 
-from .common import (Category, NavigationExtension, PagePretender, all_months,
-    date_tree)
+from .common import (
+    Category, NavigationExtension, PagePretender, all_months, date_tree)
 
 
 class BlogDateNavigationExtension(NavigationExtension):
@@ -31,7 +31,8 @@ class BlogDateNavigationExtension(NavigationExtension):
             for month in months:
                 yield PagePretender(
                     title=u'%s' % _(all_months[month - 1].strftime('%B')),
-                    url='%s%04d/%02d/' % (page.get_absolute_url(), year, month),
+                    url='%s%04d/%02d/' % (
+                        page.get_absolute_url(), year, month),
                     tree_id=page.tree_id,
                     lft=0,
                     rght=0,
@@ -91,7 +92,8 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
             for month in months:
                 yield PagePretender(
                     title=u'%s' % _(all_months[month - 1].strftime('%B')),
-                    url='%s%04d/%02d/' % (page.get_absolute_url(), year, month),
+                    url='%s%04d/%02d/' % (
+                        page.get_absolute_url(), year, month),
                     tree_id=page.tree_id,
                     lft=0,
                     rght=0,

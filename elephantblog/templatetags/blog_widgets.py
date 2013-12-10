@@ -13,7 +13,8 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def get_entries(context, limit):
     try:
-        queryset = Entry.objects.active().filter(language=short_language_code())
+        queryset = Entry.objects.active().filter(
+            language=short_language_code())
     except (AttributeError, FieldError):
         queryset = Entry.objects.active()
 

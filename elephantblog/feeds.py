@@ -11,7 +11,8 @@ if not (
         and hasattr(settings, 'BLOG_DESCRIPTION')
 ):
     import warnings
-    warnings.warn('BLOG_TITLE and/or BLOG_DESCRIPTION not defined in'
+    warnings.warn(
+        'BLOG_TITLE and/or BLOG_DESCRIPTION not defined in'
         ' settings.py. Standard values used for the Feed')
 
 

@@ -20,8 +20,10 @@ except ImportError:
     timezone = None
 
 
-__all__ = ('ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
-    'DayArchiveView', 'DateDetailView', 'CategoryArchiveIndexView')
+__all__ = (
+    'ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
+    'DayArchiveView', 'DateDetailView', 'CategoryArchiveIndexView',
+)
 
 
 PAGINATE_BY = getattr(settings, 'BLOG_PAGINATE_BY', 10)
@@ -74,7 +76,8 @@ class TranslationMixin(object):
                 return queryset
 
 
-class ArchiveIndexView(TranslationMixin, ElephantblogMixin, dates.ArchiveIndexView):
+class ArchiveIndexView(
+        TranslationMixin, ElephantblogMixin, dates.ArchiveIndexView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
     date_field = 'published_on'
@@ -82,7 +85,8 @@ class ArchiveIndexView(TranslationMixin, ElephantblogMixin, dates.ArchiveIndexVi
     allow_empty = True
 
 
-class YearArchiveView(TranslationMixin, ElephantblogMixin, dates.YearArchiveView):
+class YearArchiveView(
+        TranslationMixin, ElephantblogMixin, dates.YearArchiveView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
     date_field = 'published_on'
@@ -90,7 +94,8 @@ class YearArchiveView(TranslationMixin, ElephantblogMixin, dates.YearArchiveView
     template_name_suffix = '_archive'
 
 
-class MonthArchiveView(TranslationMixin, ElephantblogMixin, dates.MonthArchiveView):
+class MonthArchiveView(
+        TranslationMixin, ElephantblogMixin, dates.MonthArchiveView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
     month_format = '%m'
@@ -98,7 +103,8 @@ class MonthArchiveView(TranslationMixin, ElephantblogMixin, dates.MonthArchiveVi
     template_name_suffix = '_archive'
 
 
-class DayArchiveView(TranslationMixin, ElephantblogMixin, dates.DayArchiveView):
+class DayArchiveView(
+        TranslationMixin, ElephantblogMixin, dates.DayArchiveView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
     month_format = '%m'
@@ -106,8 +112,8 @@ class DayArchiveView(TranslationMixin, ElephantblogMixin, dates.DayArchiveView):
     template_name_suffix = '_archive'
 
 
-class DateDetailView(ContentObjectMixin, ElephantblogMixin,
-        dates.DateDetailView):
+class DateDetailView(
+        ContentObjectMixin, ElephantblogMixin, dates.DateDetailView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
     month_format = '%m'
@@ -148,10 +154,12 @@ class DateDetailView(ContentObjectMixin, ElephantblogMixin,
             """
             if isinstance(field, models.DateTimeField):
                 date_range = (
-                    timezone.make_aware(datetime.datetime.combine(
-                                        date, datetime.time.min), timezone.utc),
-                    timezone.make_aware(datetime.datetime.combine(
-                                        date, datetime.time.max), timezone.utc)
+                    timezone.make_aware(
+                        datetime.datetime.combine(date, datetime.time.min),
+                        timezone.utc),
+                    timezone.make_aware(
+                        datetime.datetime.combine(date, datetime.time.max),
+                        timezone.utc)
                 )
                 return {'%s__range' % field.name: date_range}
             else:
@@ -160,7 +168,8 @@ class DateDetailView(ContentObjectMixin, ElephantblogMixin,
         year = self.get_year()
         month = self.get_month()
         day = self.get_day()
-        date = dates._date_from_string(year, self.get_year_format(),
+        date = dates._date_from_string(
+            year, self.get_year_format(),
             month, self.get_month_format(),
             day, self.get_day_format())
 
@@ -168,8 +177,9 @@ class DateDetailView(ContentObjectMixin, ElephantblogMixin,
         qs = queryset or self.get_queryset()
 
         if not self.get_allow_future() and date > datetime.date.today():
-            raise Http404(_(u"Future %(verbose_name_plural)s not available"
-                " because %(class_name)s.allow_future is False.") % {
+            raise Http404(_(
+                u"Future %(verbose_name_plural)s not available"
+                u" because %(class_name)s.allow_future is False.") % {
                 'verbose_name_plural': qs.model._meta.verbose_name_plural,
                 'class_name': self.__class__.__name__,
             })

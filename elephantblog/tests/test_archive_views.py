@@ -92,16 +92,18 @@ class GenericViewsTest(TestCase):
 
         response = c.get('/blog/category/category-1/')
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(isinstance(response.context['view'],
-            blogviews.CategoryArchiveIndexView))
+        self.assertTrue(
+            isinstance(response.context['view'],
+                       blogviews.CategoryArchiveIndexView))
         self.assertEqual(len(response.context['object_list']), 1)
         self.assertContains(response, u'Entry 1')
         self.assertNotContains(response, u'Eintrag 1')
 
         response = c.get('/blog/category/category-2/')
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(isinstance(response.context['view'],
-            blogviews.CategoryArchiveIndexView))
+        self.assertTrue(
+            isinstance(response.context['view'],
+                       blogviews.CategoryArchiveIndexView))
         self.assertEqual(len(response.context['object_list']), 2)
         self.assertContains(response, u'Entry 1')
         self.assertContains(response, u'Eintrag 1')
@@ -109,8 +111,8 @@ class GenericViewsTest(TestCase):
         # Test detail view
         response = c.get('/blog/2012/08/12/entry-1/')
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(isinstance(response.context['view'],
-                            blogviews.DateDetailView))
+        self.assertTrue(
+            isinstance(response.context['view'], blogviews.DateDetailView))
         self.assertContains(response, u'Entry 1')
         self.assertContains(response, u'Category 1')
         self.assertContains(response, u'Category 2')
