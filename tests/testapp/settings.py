@@ -5,7 +5,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sitemaps',
     'feincms',
-    'elephantblog.tests.testapp',
+    'testapp',
     'elephantblog',
     #'django_nose',
 )
@@ -33,7 +33,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
 )
 
-ROOT_URLCONF = 'elephantblog.tests.testapp.urls'
+ROOT_URLCONF = 'testapp.urls'
 BLOG_TITLE = u'Blog of the usual elephant'
 BLOG_DESCRIPTION = ''
 TIME_ZONE = 'America/Chicago'
