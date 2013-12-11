@@ -5,4 +5,5 @@ from feincms.content.richtext.models import RichTextContent
 Entry.register_regions(
     ('main', 'Main content area'),
 )
+Entry.register_extensions('feincms.module.extensions.translations',)
 Entry.create_content_type(RichTextContent, cleanse=False, regions=('main',))

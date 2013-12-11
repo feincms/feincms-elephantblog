@@ -45,6 +45,8 @@ LANGUAGES = (
     ('zh-cn', 'Chinese simplified'),
     ('zh-tw', 'Chinese traditional'),
 )
+LANGUAGE_CODE = 'en'
+USE_I18N = True
 
 DEBUG = True  # tests run with DEBUG=False
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'

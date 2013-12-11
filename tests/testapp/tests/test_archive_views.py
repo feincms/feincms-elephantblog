@@ -15,11 +15,6 @@ class GenericViewsTest(TestCase):
         create_entries(EntryFactory)
 
     def testURLs(self):
-        # Make sure the Entry has no translation attribute
-        entry = Entry()
-        self.assertFalse(hasattr(entry, 'language'))
-        self.assertFalse(hasattr(entry, 'translation_of'))
-
         c = Client()
         # Test Archive URL
         response = c.get('/blog/')

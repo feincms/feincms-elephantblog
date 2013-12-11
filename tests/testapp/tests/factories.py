@@ -1,9 +1,14 @@
 # coding: utf-8
-from django.template.defaultfilters import slugify
-import factory
+
 import datetime
-from elephantblog.models import Entry, Category, CategoryTranslation
+
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
+from django.utils.translation import get_language
+
+import factory
+
+from elephantblog.models import Entry, Category, CategoryTranslation
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -28,7 +33,8 @@ def create_entries(factory):
         title=u'Entry 1',
         published_on=datetime.datetime(2012, 8, 12, 11, 0, 0),
         last_changed=datetime.datetime(2012, 8, 12, 15, 0, 0),
-        slug='entry-1'
+        slug='entry-1',
+        language='en',
     ))
     entries.append(factory.create(
         pk=2,
@@ -36,7 +42,8 @@ def create_entries(factory):
         title=u'Eintrag 1',
         published_on=datetime.datetime(2012, 10, 12, 11, 0, 0),
         last_changed=datetime.datetime(2012, 10, 12, 15, 0, 0),
-        slug='eintrag-1'
+        slug='eintrag-1',
+        language='en',
     ))
     return entries
 

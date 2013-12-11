@@ -103,10 +103,6 @@ class TimezoneTest(TestCase):
         url_chicago, url_moscow = urls
         self.assertEqual(url_chicago, url_moscow)
 
-        # Make sure the translation extension is not loaded for this test.
-        entry = Entry()
-        self.assertFalse(hasattr(entry, 'language'))
-
 
 @override_settings(USE_TZ=False)
 class NoTimezoneTest(TestCase):
