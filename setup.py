@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from setuptools import setup, find_packages
 import os
+from setuptools import setup, find_packages
 
 import elephantblog
 
@@ -21,5 +21,27 @@ setup(
     packages=find_packages(
         exclude=['tests'],
     ),
-    include_package_data=True
+    include_package_data=True,
+    install_requires=[
+        'Django>=1.4.2',
+        'FeinCMS>=1.7',
+    ],
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Software Development',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
+    ],
+    zip_safe=False,
 )
