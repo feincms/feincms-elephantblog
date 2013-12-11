@@ -7,20 +7,18 @@ from django.utils import translation
 from feincms.translations import short_language_code
 
 from elephantblog.models import Entry
-from .factories import EntryFactory, create_entries, create_chinese_entries
-from .utils import reset_db
+from .factories import EntryFactory, create_chinese_entries
 
 
 class TranslationsTest(TestCase):
-    @classmethod
-    def setUpClass(cls):
+    def testTranslation(self):
         create_chinese_entries(EntryFactory)
 
-    def testTranslation(self):
         # Make sure the Entry has a translation extension
         entry = Entry()
         self.assertTrue(hasattr(entry, 'language'))
         self.assertTrue(hasattr(entry, 'translation_of'))
+
         # define the language of entry 2
         entries = Entry.objects.order_by('pk')
         entry1 = entries[0]
