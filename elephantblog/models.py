@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _, ungettext
+from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
 
 from feincms import translations
 from feincms.admin import item_editor
@@ -38,6 +38,17 @@ class Category(models.Model, translations.TranslatedObjectMixin):
         verbose_name = _('category')
         verbose_name_plural = _('categories')
         ordering = ['ordering']
+
+    def __str__(self):
+        try:
+            translation = self.translation
+        except models.ObjectDoesNotExist:
+            return ugettext('Unnamed category')
+
+        if translation:
+            return u'%s' % translation
+
+        return ugettext('Unnamed category')
 
 
 @python_2_unicode_compatible
