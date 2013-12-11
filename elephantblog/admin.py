@@ -15,7 +15,7 @@ CategoryTranslationInline = admin_translationinline(
 
 class CategoryAdmin(admin.ModelAdmin):
     inlines = [CategoryTranslationInline]
-    list_display = ['__unicode__', 'ordering', 'entries']
+    list_display = ['__str__', 'ordering', 'entries']
     list_editable = ['ordering']
     search_fields = ['translations__title']
 

@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _, ungettext
 
 from feincms import translations
@@ -22,6 +23,7 @@ except ImportError:
     now = datetime.now
 
 
+@python_2_unicode_compatible
 class Category(models.Model, translations.TranslatedObjectMixin):
     """
     Category is language-aware and connected to the Entry model via
@@ -37,11 +39,12 @@ class Category(models.Model, translations.TranslatedObjectMixin):
         verbose_name_plural = _('categories')
         ordering = ['ordering']
 
-    def __unicode__(self):
-        trans = translations.TranslatedObjectMixin.__unicode__(self)
+    def __str__(self):
+        trans = translations.TranslatedObjectMixin.__str__(self)
         return trans or _('Unnamed category')
 
 
+@python_2_unicode_compatible
 class CategoryTranslation(translations.Translation(Category)):
     title = models.CharField(_('category title'), max_length=100)
     slug = models.SlugField(_('slug'), unique=True)
@@ -53,7 +56,7 @@ class CategoryTranslation(translations.Translation(Category)):
         verbose_name_plural = _('category translations')
         ordering = ['title']
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def get_absolute_url(self):
@@ -82,6 +85,7 @@ EntryManager.add_to_active_filters(
     key='published_on_past')
 
 
+@python_2_unicode_compatible
 class Entry(Base, ContentModelMixin):
     is_active = models.BooleanField(
         _('is active'), default=True, db_index=True)
@@ -116,7 +120,7 @@ class Entry(Base, ContentModelMixin):
         verbose_name = _('entry')
         verbose_name_plural = _('entries')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def __init__(self, *args, **kwargs):
