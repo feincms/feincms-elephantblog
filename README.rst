@@ -64,5 +64,6 @@ Read the docs: http://feincms-elephantblog.readthedocs.org/en/latest/
 Read the source: https://github.com/feincms/feincms-elephantblog
 
 Travis CI:
+
 .. image:: https://travis-ci.org/feincms/feincms-elephantblog.png?branch=master
    :target: https://travis-ci.org/feincms/feincms-elephantblog
