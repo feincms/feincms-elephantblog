@@ -6,9 +6,9 @@
 
 {% block content %}
 {% block content_title %}
-<h1>News {% if year %}{% trans "for" %} {{ year|date:"Y" }}{% endif %}
-  {% if month %}{% trans "for" %} {{ month|date:"F Y" }}{% endif %}
-  {% if day %}{% trans "for" %} {{ day|date:"DATE_FORMAT" }}{% endif %}
+<h1>News {% if year %}{% trans "for" %} {{ year|date:"Y"|default:year }}{% endif %}
+  {% if month %}{% trans "for" %} {{ month|date:"F Y"|default:month }}{% endif %}
+  {% if day %}{% trans "for" %} {{ day|date:"DATE_FORMAT"|default:day }}{% endif %}
   {% if category %}{% trans "for" %} {{ category }}{% endif %}
 </h1>
 {% endblock %}
