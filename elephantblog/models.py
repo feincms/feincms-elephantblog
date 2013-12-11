@@ -39,10 +39,6 @@ class Category(models.Model, translations.TranslatedObjectMixin):
         verbose_name_plural = _('categories')
         ordering = ['ordering']
 
-    def __str__(self):
-        trans = translations.TranslatedObjectMixin.__str__(self)
-        return trans or _('Unnamed category')
-
 
 @python_2_unicode_compatible
 class CategoryTranslation(translations.Translation(Category)):
