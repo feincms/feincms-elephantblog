@@ -37,12 +37,15 @@ class ElephantblogMixin(object):
     This requires at least FeinCMS v1.5.
     """
 
+    entry_class = Entry
+
     def get_context_data(self, **kwargs):
         kwargs.update({'view': self})
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
     def get_queryset(self):
-        return Entry.objects.active().transform(entry_list_lookup_related)
+        return self.entry_class.objects.active().transform(
+            entry_list_lookup_related)
 
     def render_to_response(self, context, **response_kwargs):
         if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
@@ -119,8 +122,8 @@ class DateDetailView(
     def get_queryset(self):
         if (self.request.user.is_authenticated() and self.request.user.is_staff
                 and self.request.GET.get('eb_preview')):
-            return Entry.objects.all()
-        return Entry.objects.active()
+            return self.entry_class.objects.all()
+        return self.entry_class.objects.active()
 
     def _make_date_lookup_arg(self, value):
         """
