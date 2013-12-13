@@ -5,7 +5,7 @@ from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
+from django.utils.translation import ugettext_lazy as _, ugettext
 
 from feincms import translations
 from feincms.admin import item_editor
@@ -153,20 +153,6 @@ class Entry(Base, ContentModelMixin):
 
 
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
-
-
-def entry_admin_update_fn(new_state, new_state_dict, short_description=None):
-    def _fn(self, request, queryset):
-        rows_updated = queryset.update(**new_state_dict)
-
-        self.message_user(request, ungettext(
-            'One entry was successfully marked as %(state)s',
-            '%(count)s entries were successfully marked as %(state)s',
-            rows_updated) % {'state': new_state, 'count': rows_updated})
-
-    if short_description:
-        _fn.short_description = short_description
-    return _fn
 
 
 class EntryAdmin(item_editor.ItemEditor):
