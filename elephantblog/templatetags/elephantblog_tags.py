@@ -28,6 +28,26 @@ def elephantblog_categories(show_empty_categories=False):
 
 @register.assignment_tag
 def elephantblog_archive_months():
+    """
+    Assigns a list of months with active entries to a template variable of
+    your choice. Especialyl useful to generate archive links::
+
+        {% elephantblog_archive_months as months %}
+        <ul>
+        {% for month in months %}
+            <li>
+                <a href="{% url 'elephantblog_entry_archive_month'
+                        year=month.year
+                        month=month|date:"m" %}">
+                    {{ month|date:"F Y" }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+
+    (Wrapped for legibility, the ``{% url %}`` template tag must be on a
+    single line.)
+    """
     return Entry.objects.active().dates('published_on', 'month', 'DESC')
 
 
