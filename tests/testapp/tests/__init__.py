@@ -11,3 +11,4 @@ from .test_translations import *  # noqa
 from .test_timezones import *  # noqa
 from .test_archive_views import *  # noqa
 from .test_templatetags import *  # noqa
+from .test_feed import *  # noqa

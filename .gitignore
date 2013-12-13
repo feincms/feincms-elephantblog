@@ -1,6 +1,6 @@
 *.pyc
 *~
-.*.swp
+.*.sw?
 \#*#
 /.idea
 /.settings
