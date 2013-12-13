@@ -13,3 +13,4 @@ from .test_archive_views import *  # noqa
 from .test_templatetags import *  # noqa
 from .test_feed import *  # noqa
 from .test_contents import *  # noqa
+from .test_admin import *  # noqa

@@ -4,6 +4,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sitemaps',
+    'django.contrib.admin',
+    'django.contrib.staticfiles',
     'feincms',
     'testapp',
     'elephantblog',
@@ -31,6 +33,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'testapp.urls'
@@ -50,3 +53,14 @@ USE_I18N = True
 
 DEBUG = True  # tests run with DEBUG=False
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    # request context processor is needed
+    'django.core.context_processors.request',
+)
+STATIC_URL = '/static/'
