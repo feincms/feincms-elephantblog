@@ -51,8 +51,9 @@ class EntryAdmin(item_editor.ItemEditor):
                 'categories',
             ]
         }],
-        [None, {
+        [_('Other options'), {
             'fields': [],
+            'classes': ('collapse',),
         }],
         item_editor.FEINCMS_CONTENT_FIELDSET,
     ]
