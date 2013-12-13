@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import signals, Q
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _, ugettext, ungettext
 
@@ -13,14 +14,6 @@ from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin
 from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformManager
-
-try:
-    from django.utils import timezone
-    now = timezone.now
-except ImportError:
-    timezone = None
-    from datetime import datetime
-    now = datetime.now
 
 
 @python_2_unicode_compatible
@@ -88,7 +81,7 @@ EntryManager.add_to_active_filters(
     key='cleared')
 
 EntryManager.add_to_active_filters(
-    lambda queryset: queryset.filter(published_on__lte=now),
+    lambda queryset: queryset.filter(published_on__lte=timezone.now),
     key='published_on_past')
 
 
@@ -109,7 +102,7 @@ class Entry(Base, ContentModelMixin):
         limit_choices_to={'is_staff': True}, verbose_name=_('author'))
     published_on = models.DateTimeField(
         _('published on'),
-        blank=True, null=True, default=now, db_index=True,
+        blank=True, null=True, default=timezone.now, db_index=True,
         help_text=_(
             'Will be filled in automatically when entry gets published.'))
     last_changed = models.DateTimeField(
@@ -136,7 +129,7 @@ class Entry(Base, ContentModelMixin):
 
     def save(self, *args, **kwargs):
         if self.is_active and not self.published_on:
-            self.published_on = now()
+            self.published_on = timezone.now()
 
         super(Entry, self).save(*args, **kwargs)
     save.alters_data = True

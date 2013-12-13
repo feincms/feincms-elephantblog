@@ -1,12 +1,14 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from optparse import make_option
 
 from django.core.management.base import NoArgsCommand, CommandError
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django.utils import timezone
 
 from elephantblog.models import Entry, EntryManager
+
 from pinging.models import PingedURL, PingServer
 
 
@@ -86,7 +88,7 @@ class Command(NoArgsCommand):
 
         # Delete old entries (why?)
         PingedURL.objects.filter(
-            created=datetime.now() - timedelta(days=7),
+            created=timezone.now() - timedelta(days=7),
             status=PingedURL.SUCCESSFUL,
         ).delete()
 
