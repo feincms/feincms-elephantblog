@@ -1,3 +1,4 @@
 FeinCMS
+coverage
 factory-boy
 pytz

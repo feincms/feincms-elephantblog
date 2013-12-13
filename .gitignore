@@ -12,3 +12,5 @@
 venv
 /feincms_elephantblog.egg-info
 .tox
+.coverage
+htmlcov
