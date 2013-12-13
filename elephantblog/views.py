@@ -6,6 +6,7 @@ from django.core import paginator
 from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.translation import ugettext as _, get_language
 from django.views.generic import dates
 
@@ -13,11 +14,6 @@ from feincms.module.mixins import ContentObjectMixin
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
-
-try:
-    from django.utils import timezone
-except ImportError:
-    timezone = None
 
 
 __all__ = (
