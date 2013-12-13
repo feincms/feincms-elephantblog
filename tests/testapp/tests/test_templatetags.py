@@ -48,5 +48,3 @@ class TemplateTagsTest(TestCase):
         self.assertIn(
             '<p>entries+limit:Eintrag 1,</p>',
             html)
-
-        print html
