@@ -22,7 +22,6 @@ class ContentsTestCase(TestCase):
         entries[1].categories.add(category)
         create_category(title='Empty category')
 
-
         content = BlogEntryListContent()
 
         content.process(Request)
@@ -92,7 +91,6 @@ class ContentsTestCase(TestCase):
             html.count('<h2'),
             1,
         )
-
 
         content = BlogCategoryListContent()
         html = content.render()

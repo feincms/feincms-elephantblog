@@ -8,7 +8,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from feincms import translations
-from feincms.admin import item_editor
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin
@@ -149,43 +148,8 @@ class Entry(Base, ContentModelMixin):
 
     @classmethod
     def register_extension(cls, register_fn):
+        from .modeladmins import EntryAdmin
         register_fn(cls, EntryAdmin)
 
 
 signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
-
-
-class EntryAdmin(item_editor.ItemEditor):
-    date_hierarchy = 'published_on'
-    filter_horizontal = ['categories']
-    list_display = [
-        'title', 'is_active', 'is_featured', 'published_on', 'author']
-    list_editable = ['is_active', 'is_featured']
-    list_filter = ['is_active', 'is_featured', 'categories', 'author']
-    raw_id_fields = ['author']
-    search_fields = ['title', 'slug']
-    prepopulated_fields = {
-        'slug': ('title',),
-    }
-
-    fieldset_insertion_index = 1
-    fieldsets = [
-        [None, {
-            'fields': [
-                ('is_active', 'is_featured', 'published_on'),
-                ('title', 'slug'),
-                'author',
-                'categories',
-            ]
-        }],
-        [None, {
-            'fields': [],
-        }],
-        item_editor.FEINCMS_CONTENT_FIELDSET,
-    ]
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'author':
-            kwargs['initial'] = request.user.id
-        return super(EntryAdmin, self).formfield_for_foreignkey(
-            db_field, request, **kwargs)
