@@ -1,0 +1,25 @@
+{% load elephantblog_tags %}
+
+{% elephantblog_categories as categories %}
+<p>categories:{% for c in categories %}{{ c }},{% endfor %}</p>
+
+{% elephantblog_categories show_empty_categories=True as categories %}
+<p>categories+empty:{% for c in categories %}{{ c }},{% endfor %}</p>
+
+{% elephantblog_archive_months as months %}
+<p>months:{% for m in months %}{{ m|date:"m.y" }},{% endfor %}</p>
+
+{% elephantblog_entries as entries %}
+<p>entries:{% for e in entries %}{{ e }},{% endfor %}</p>
+
+{% elephantblog_entries featured_only=True as entries %}
+<p>entries+featured:{% for e in entries %}{{ e }},{% endfor %}</p>
+
+{% elephantblog_entries category=categories.0 as entries %}
+<p>entries+category0:{% for e in entries %}{{ e }},{% endfor %}</p>
+
+{% elephantblog_entries category=categories.1 as entries %}
+<p>entries+category1:{% for e in entries %}{{ e }},{% endfor %}</p>
+
+{% elephantblog_entries limit=1 as entries %}
+<p>entries+limit:{% for e in entries %}{{ e }},{% endfor %}</p>

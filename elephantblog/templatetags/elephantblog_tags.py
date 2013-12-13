@@ -1,6 +1,9 @@
 from django import template
+from django.db.models import FieldDoesNotExist
+from django.utils.translation import get_language
 
 from elephantblog.models import Category, Entry
+from elephantblog.utils import entry_list_lookup_related
 
 
 register = template.Library()
@@ -26,3 +29,44 @@ def elephantblog_categories(show_empty_categories=False):
 @register.assignment_tag
 def elephantblog_archive_months():
     return Entry.objects.active().dates('published_on', 'month', 'DESC')
+
+
+@register.assignment_tag
+def elephantblog_entries(limit=10,
+                         featured_only=False,
+                         active_language_only=True,
+                         category=None):
+    """
+    Usage::
+
+        {% elephantblog_entries limit=2 featured_only=True as entries %}
+
+    or::
+
+        {% elephantblog_entries limit=10 as entries %}
+
+    or::
+
+        {% elephantblog_entries active_language_only=False as entries %}
+
+    or::
+
+        {% elephantblog_entries category=some_category as entries %}
+    """
+
+    queryset = Entry.objects.active()
+    if featured_only:
+        queryset = queryset.filter(is_featured=True)
+
+    try:
+        queryset.model._meta.get_field_by_name('language')
+    except FieldDoesNotExist:
+        pass
+    else:
+        if active_language_only:
+            queryset = queryset.filter(language=get_language())
+
+    if category is not None:
+        queryset = queryset.filter(categories=category)
+
+    return queryset.transform(entry_list_lookup_related)[:limit]
