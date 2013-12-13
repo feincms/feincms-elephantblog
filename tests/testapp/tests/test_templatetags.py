@@ -2,11 +2,6 @@
 
 from django.template.loader import render_to_string
 from django.test.testcases import TestCase
-from django.test.utils import override_settings
-from django.test import Client
-
-from elephantblog.models import Entry
-from elephantblog import views as blogviews
 
 from .factories import EntryFactory, create_entries, create_category
 
