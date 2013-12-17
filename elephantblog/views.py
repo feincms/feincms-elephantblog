@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _, get_language
 from django.views.generic import dates
 
@@ -206,6 +207,24 @@ class DateDetailView(
         self.kwargs = kwargs
         self.object = self.get_object()
         return self.handler(request, *args, **kwargs)
+
+    @cached_property
+    def next_or_none(self):
+        try:
+            return self.get_queryset().filter(
+                published_on__gte=self.object.published_on,
+            ).exclude(id=self.object.id).order_by('published_on')[0]
+        except IndexError:
+            return None
+
+    @cached_property
+    def previous_or_none(self):
+        try:
+            return self.get_queryset().filter(
+                published_on__lte=self.object.published_on,
+            ).exclude(id=self.object.id).order_by('-published_on')[0]
+        except IndexError:
+            return None
 
 
 class CategoryArchiveIndexView(ArchiveIndexView):
