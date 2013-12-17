@@ -19,11 +19,7 @@ setup(
     license='BSD License',
     platforms=['OS Independent'],
     packages=find_packages(
-        exclude=[
-            'tests',
-            'tests.testapp',
-            'tests.testapp.tests',
-        ],
+        exclude=[],
     ),
     include_package_data=True,
     install_requires=[
