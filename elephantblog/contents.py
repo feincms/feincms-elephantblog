@@ -2,9 +2,7 @@
 
 from django.db import models
 from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _
-
-from feincms.translations import short_language_code
+from django.utils.translation import ugettext_lazy as _, get_language
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
@@ -46,7 +44,7 @@ class BlogEntryListContent(models.Model):
 
         if self.only_active_language:
             entries = entries.filter(
-                language__istartswith=short_language_code())
+                language=get_language())
 
         entries = entries.transform(entry_list_lookup_related)
 

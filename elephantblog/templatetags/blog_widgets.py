@@ -1,7 +1,6 @@
 from django import template
 from django.core.exceptions import FieldError
-
-from feincms.translations import short_language_code
+from django.utils.translation import get_language
 
 from elephantblog.models import Entry
 from elephantblog.utils import entry_list_lookup_related, same_category_entries
@@ -14,7 +13,7 @@ register = template.Library()
 def get_entries(context, limit):
     try:
         queryset = Entry.objects.active().filter(
-            language=short_language_code())
+            language=get_language())
     except (AttributeError, FieldError):
         queryset = Entry.objects.active()
 
@@ -30,7 +29,7 @@ def get_frontpage(context, category=None):
     queryset = Entry.objects.featured()
 
     try:
-        queryset = queryset.filter(language=short_language_code())
+        queryset = queryset.filter(language=get_language())
     except (AttributeError, FieldError):
         pass
 

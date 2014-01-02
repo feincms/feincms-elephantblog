@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.syndication.views import Feed
-
-from feincms.translations import short_language_code
+from django.utils.translation import get_language
 
 from elephantblog.models import Entry
 
@@ -31,7 +30,7 @@ class EntryFeed(Feed):
     def items(self):
         if hasattr(Entry, 'translation_of'):
             return Entry.objects.active().filter(
-                language=short_language_code).order_by('-published_on')[:20]
+                language=get_language()).order_by('-published_on')[:20]
         else:
             return Entry.objects.active().order_by('-published_on')[:20]
 
