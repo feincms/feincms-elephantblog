@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 from .common import (
@@ -20,7 +22,7 @@ class BlogDateNavigationExtension(NavigationExtension):
     def children(self, page, **kwargs):
         for year, months in date_tree():
             yield PagePretender(
-                title=u'%s' % year,
+                title='%s' % year,
                 url='%s%s/' % (page.get_absolute_url(), year),
                 tree_id=page.tree_id,
                 lft=0,
@@ -30,7 +32,7 @@ class BlogDateNavigationExtension(NavigationExtension):
             )
             for month in months:
                 yield PagePretender(
-                    title=u'%s' % _(all_months[month - 1].strftime('%B')),
+                    title='%s' % _(all_months[month - 1].strftime('%B')),
                     url='%s%04d/%02d/' % (
                         page.get_absolute_url(), year, month),
                     tree_id=page.tree_id,
@@ -80,7 +82,7 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
 
         for year, months in date_tree():
             yield PagePretender(
-                title=u'%s' % year,
+                title='%s' % year,
                 url='%s%s/' % (page.get_absolute_url(), year),
                 tree_id=page.tree_id,
                 lft=0,
@@ -91,7 +93,7 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
 
             for month in months:
                 yield PagePretender(
-                    title=u'%s' % _(all_months[month - 1].strftime('%B')),
+                    title='%s' % _(all_months[month - 1].strftime('%B')),
                     url='%s%04d/%02d/' % (
                         page.get_absolute_url(), year, month),
                     tree_id=page.tree_id,

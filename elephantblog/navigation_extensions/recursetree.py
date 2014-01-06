@@ -1,4 +1,7 @@
 """ optimized for use with the feincms_nav and recursetree template tag. """
+
+from __future__ import absolute_import, unicode_literals
+
 from django.conf import settings
 from django.utils.translation import ugettext as _, ugettext_lazy
 
@@ -17,7 +20,7 @@ class RBlogDateNavigationExtension(NavigationExtension):
             def return_months():
                 for month in months:
                     yield PagePretender(
-                        title=u'%s' % _(all_months[month - 1].strftime('%B')),
+                        title='%s' % _(all_months[month - 1].strftime('%B')),
                         url='%s%04d/%02d/' % (
                             page.get_absolute_url(), year, month),
                         tree_id=page.tree_id,
@@ -31,7 +34,7 @@ class RBlogDateNavigationExtension(NavigationExtension):
                     )
 
             yield PagePretender(
-                title=u'%s' % year,
+                title='%s' % year,
                 url='%s%s/' % (page.get_absolute_url(), year),
                 tree_id=page.tree_id,
                 language=getattr(page, 'language', settings.LANGUAGE_CODE),
@@ -87,7 +90,7 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
                 def return_months():
                     for month in months:
                         yield PagePretender(
-                            title=u'%s' % _(
+                            title='%s' % _(
                                 all_months[month - 1].strftime('%B')),
                             url='%s%04d/%02d/' % (
                                 page.get_absolute_url(), year, month),
@@ -98,7 +101,7 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
                             slug='%04d/%02d' % (year, month),
                         )
                 yield PagePretender(
-                    title=u'%s' % year,
+                    title='%s' % year,
                     url='%s%s/' % (page.get_absolute_url(), year),
                     tree_id=page.tree_id,
                     level=page.level + 2,

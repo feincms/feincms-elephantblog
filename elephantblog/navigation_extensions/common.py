@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 import datetime
 from django.utils.datastructures import SortedDict
 from django.utils.translation import ugettext_lazy as _

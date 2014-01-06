@@ -1,4 +1,7 @@
 # coding: utf-8
+
+from __future__ import absolute_import, unicode_literals
+
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
 from django.test import Client
@@ -22,8 +25,8 @@ class GenericViewsTest(TestCase):
             response.context['view'], blogviews.ArchiveIndexView))
         self.assertEqual(len(response.context['object_list']), 2)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, u'Entry 1')
-        self.assertContains(response, u'Eintrag 1')
+        self.assertContains(response, 'Entry 1')
+        self.assertContains(response, 'Eintrag 1')
 
         # Test year archive
         response = c.get('/blog/2012/')
@@ -31,11 +34,11 @@ class GenericViewsTest(TestCase):
             response.context['view'], blogviews.YearArchiveView))
         self.assertEqual(len(response.context['object_list']), 2)
         self.assertEqual(response.context['view'].get_template_names(),
-                         [u'elephantblog/entry_archive.html'])
+                         ['elephantblog/entry_archive.html'])
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, u'News for 2012')
-        self.assertContains(response, u'Entry 1')
-        self.assertContains(response, u'Eintrag 1')
+        self.assertContains(response, 'News for 2012')
+        self.assertContains(response, 'Entry 1')
+        self.assertContains(response, 'Eintrag 1')
         # No entries in 2011:
         response = c.get('/blog/2011/')
         self.assertEqual(response.status_code, 404)
@@ -48,12 +51,12 @@ class GenericViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRegexpMatches(
             response.content.decode('utf-8'), r'News\s+for October 2012')
-        self.assertContains(response, u'Eintrag 1')
+        self.assertContains(response, 'Eintrag 1')
         response = c.get('/blog/2012/08/')
         self.assertEqual(len(response.context['object_list']), 1)
         self.assertRegexpMatches(
             response.content.decode('utf-8'), r'News\s+for August 2012')
-        self.assertContains(response, u'Entry 1')
+        self.assertContains(response, 'Entry 1')
         response = c.get('/blog/2012/06/')
         self.assertEqual(response.status_code, 404)
 
@@ -65,14 +68,14 @@ class GenericViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRegexpMatches(
             response.content.decode('utf-8'),
-            u'News\s+for Oct. 12, 2012')
-        self.assertContains(response, u'Eintrag 1')
+            'News\s+for Oct. 12, 2012')
+        self.assertContains(response, 'Eintrag 1')
         response = c.get('/blog/2012/08/12/')
         self.assertEqual(len(response.context['object_list']), 1)
         self.assertRegexpMatches(
             response.content.decode('utf-8'),
-            u'News\s+for Aug. 12, 2012')
-        self.assertContains(response, u'Entry 1')
+            'News\s+for Aug. 12, 2012')
+        self.assertContains(response, 'Entry 1')
         # No entries in 2011:
         response = c.get('/blog/2012/10/13/')
         self.assertEqual(response.status_code, 404)
@@ -93,8 +96,8 @@ class GenericViewsTest(TestCase):
             isinstance(response.context['view'],
                        blogviews.CategoryArchiveIndexView))
         self.assertEqual(len(response.context['object_list']), 1)
-        self.assertContains(response, u'Entry 1')
-        self.assertNotContains(response, u'Eintrag 1')
+        self.assertContains(response, 'Entry 1')
+        self.assertNotContains(response, 'Eintrag 1')
 
         response = c.get('/blog/category/category-2/')
         self.assertEqual(response.status_code, 200)
@@ -102,14 +105,14 @@ class GenericViewsTest(TestCase):
             isinstance(response.context['view'],
                        blogviews.CategoryArchiveIndexView))
         self.assertEqual(len(response.context['object_list']), 2)
-        self.assertContains(response, u'Entry 1')
-        self.assertContains(response, u'Eintrag 1')
+        self.assertContains(response, 'Entry 1')
+        self.assertContains(response, 'Eintrag 1')
 
         # Test detail view
         response = c.get('/blog/2012/08/12/entry-1/')
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
             isinstance(response.context['view'], blogviews.DateDetailView))
-        self.assertContains(response, u'Entry 1')
-        self.assertContains(response, u'Category 1')
-        self.assertContains(response, u'Category 2')
+        self.assertContains(response, 'Entry 1')
+        self.assertContains(response, 'Category 1')
+        self.assertContains(response, 'Category 2')

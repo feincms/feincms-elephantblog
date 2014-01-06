@@ -1,4 +1,7 @@
 # -*- coding:utf-8 -*-
+
+from __future__ import absolute_import, unicode_literals
+
 from elephantblog.models import Entry
 from feincms.content.richtext.models import RichTextContent
 

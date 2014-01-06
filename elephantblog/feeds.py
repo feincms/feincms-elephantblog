@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.translation import get_language
@@ -19,7 +21,7 @@ def tryrender(content):
     try:
         return content.render()
     except TypeError:  # Required request argument or something else?
-        return u''
+        return ''
 
 
 class EntryFeed(Feed):
@@ -38,7 +40,7 @@ class EntryFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        content = u''.join(tryrender(c) for c in item.content.main)
+        content = ''.join(tryrender(c) for c in item.content.main)
         return content
 
     def item_pubdate(self, item):

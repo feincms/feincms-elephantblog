@@ -7,6 +7,8 @@ django app that is fully functional.
 3. run the tests: ``manage.py test testapp``
 """
 
+from __future__ import absolute_import, unicode_literals
+
 from .test_translations import *  # noqa
 from .test_timezones import *  # noqa
 from .test_archive_views import *  # noqa

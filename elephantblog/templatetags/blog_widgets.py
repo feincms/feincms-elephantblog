@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django import template
 from django.core.exceptions import FieldError
 from django.utils.translation import get_language
@@ -21,7 +23,7 @@ def get_entries(context, limit):
         queryset = queryset[:limit]
 
     context['entries'] = queryset
-    return u''
+    return ''
 
 
 @register.simple_tag(takes_context=True)

@@ -1,6 +1,9 @@
 """
 Allows the blog to use the sites framework.
 """
+
+from __future__ import absolute_import, unicode_literals
+
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
 from django.db.models import ManyToManyField, Q
@@ -18,7 +21,7 @@ def register(cls, admin_cls):
 
     def sites_admin(self, obj):
         available_sites = self.obj.all()
-        return u', '.join(u'%s' % site.name for site in available_sites)
+        return ', '.join('%s' % site.name for site in available_sites)
 
     sites_admin.allow_tags = True
     sites_admin.short_description = _('Sites')

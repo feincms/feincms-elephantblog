@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,7 +39,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'testapp.urls'
-BLOG_TITLE = u'Blog of the usual elephant'
+BLOG_TITLE = 'Blog of the usual elephant'
 BLOG_DESCRIPTION = ''
 TIME_ZONE = 'America/Chicago'
 USE_TZ = False

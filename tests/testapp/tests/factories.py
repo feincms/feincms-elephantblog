@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from __future__ import absolute_import, unicode_literals
+
 import datetime
 
 from django.contrib.auth.models import User
@@ -29,7 +31,7 @@ def create_entries(factory):
     entries.append(factory.create(
         pk=1,
         author=author,
-        title=u'Entry 1',
+        title='Entry 1',
         published_on=datetime.datetime(2012, 8, 12, 11, 0, 0),
         last_changed=datetime.datetime(2012, 8, 12, 15, 0, 0),
         slug='entry-1',
@@ -38,7 +40,7 @@ def create_entries(factory):
     entries.append(factory.create(
         pk=2,
         author=author,
-        title=u'Eintrag 1',
+        title='Eintrag 1',
         published_on=datetime.datetime(2012, 10, 12, 11, 0, 0),
         last_changed=datetime.datetime(2012, 10, 12, 15, 0, 0),
         slug='eintrag-1',
@@ -53,7 +55,7 @@ def create_chinese_entries(factory):
     factory.create(
         pk=3,
         author=author,
-        title=u'Entry 2 chinese traditional',
+        title='Entry 2 chinese traditional',
         language='zh-cn',
         translation_of=entries[0],
         published_on=datetime.datetime(2012, 10, 12, 12, 0, 0),
@@ -63,7 +65,7 @@ def create_chinese_entries(factory):
     factory.create(
         pk=4,
         author=author,
-        title=u'Entry 2 chinese simplified',
+        title='Entry 2 chinese simplified',
         language='zh-tw',
         translation_of=entries[0],
         published_on=datetime.datetime(2012, 10, 12, 12, 0, 0),

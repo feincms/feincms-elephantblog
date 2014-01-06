@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from __future__ import absolute_import, unicode_literals
+
 from django.test import Client
 from django.test.testcases import TestCase
 from django.utils import translation
@@ -23,12 +25,12 @@ class TranslationsTest(TestCase):
         entries = Entry.objects.order_by('pk')
         entry1 = entries[0]
         self.assertEqual(entry1.pk, 1)
-        self.assertEqual(entry1.title, u'Entry 1')
+        self.assertEqual(entry1.title, 'Entry 1')
         entry1.language = 'en'
         entry1.save()
         entry2 = entries[1]
         self.assertEqual(entry2.pk, 2)
-        self.assertEqual(entry2.title, u'Eintrag 1')
+        self.assertEqual(entry2.title, 'Eintrag 1')
         entry2.language = 'de'
         entry2.translation_of = entry1
         entry2.save()
@@ -38,7 +40,7 @@ class TranslationsTest(TestCase):
         self.assertEqual(entry4.language, 'zh-tw')
 
         entry = Entry.objects.get(language='de')
-        self.assertEqual(entry.title, u'Eintrag 1')
+        self.assertEqual(entry.title, 'Eintrag 1')
 
         with translation.override('de'):
             c = Client()
@@ -47,8 +49,8 @@ class TranslationsTest(TestCase):
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='de')
             self.assertEqual(len(response.context['object_list']), 1)
             self.assertEqual(response.status_code, 200)
-            self.assertNotContains(response, u'Entry 1')
-            self.assertContains(response, u'Eintrag 1')
+            self.assertNotContains(response, 'Entry 1')
+            self.assertContains(response, 'Eintrag 1')
             # test all languages override
             response = c.get('/multilang/', HTTP_ACCEPT_LANGUAGE='de')
             self.assertEqual(len(response.context['object_list']), 4)
@@ -60,8 +62,8 @@ class TranslationsTest(TestCase):
             self.assertEqual(short_language_code(), 'en')
             self.assertEqual(len(response.context['object_list']), 1)
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, u'Entry 1')
-            self.assertNotContains(response, u'Eintrag 1')
+            self.assertContains(response, 'Entry 1')
+            self.assertNotContains(response, 'Eintrag 1')
 
         with translation.override('zh-cn'):
             c = Client()
@@ -70,8 +72,8 @@ class TranslationsTest(TestCase):
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-cn')
             self.assertEqual(len(response.context['object_list']), 1)
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, u'Entry 2 chinese traditional')
-            self.assertNotContains(response, u'Eintrag 1')
+            self.assertContains(response, 'Entry 2 chinese traditional')
+            self.assertNotContains(response, 'Eintrag 1')
 
         with translation.override('zh-tw'):
             c = Client()
@@ -80,5 +82,5 @@ class TranslationsTest(TestCase):
             response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-tw')
             self.assertEqual(len(response.context['object_list']), 1)
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, u'Entry 2 chinese simplified')
-            self.assertNotContains(response, u'Eintrag 1')
+            self.assertContains(response, 'Entry 2 chinese simplified')
+            self.assertNotContains(response, 'Eintrag 1')

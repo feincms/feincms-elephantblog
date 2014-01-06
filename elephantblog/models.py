@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -38,7 +40,7 @@ class Category(models.Model, translations.TranslatedObjectMixin):
             return ugettext('Unnamed category')
 
         if translation:
-            return u'%s' % translation
+            return '%s' % translation
 
         return ugettext('Unnamed category')
 

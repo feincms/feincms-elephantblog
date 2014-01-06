@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 import datetime
 
 from django.conf import settings
@@ -177,8 +179,8 @@ class DateDetailView(
 
         if not self.get_allow_future() and date > datetime.date.today():
             raise Http404(_(
-                u"Future %(verbose_name_plural)s not available"
-                u" because %(class_name)s.allow_future is False.") % {
+                "Future %(verbose_name_plural)s not available"
+                " because %(class_name)s.allow_future is False.") % {
                 'verbose_name_plural': qs.model._meta.verbose_name_plural,
                 'class_name': self.__class__.__name__,
             })

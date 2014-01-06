@@ -1,4 +1,7 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.contrib import admin
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
 from feincms.admin import item_editor
@@ -21,8 +24,8 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['translations__title']
 
     def entries(self, obj):
-        return u', '.join(
-            unicode(entry)
+        return ', '.join(
+            force_text(entry)
             for entry in Entry.objects.filter(categories=obj)
         ) or '-'
     entries.short_description = _('Blog entries in category')
