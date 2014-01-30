@@ -114,7 +114,8 @@ class DayArchiveView(
 
 
 class DateDetailView(
-        ContentObjectMixin, ElephantblogMixin, dates.DateDetailView):
+        TranslationMixin, ContentObjectMixin, ElephantblogMixin,
+        dates.DateDetailView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
     month_format = '%m'
@@ -125,7 +126,7 @@ class DateDetailView(
         if (self.request.user.is_authenticated() and self.request.user.is_staff
                 and self.request.GET.get('eb_preview')):
             return self.entry_class.objects.all()
-        return self.entry_class.objects.active()
+        return super(DateDetailView, self).get_queryset()
 
     def _make_date_lookup_arg(self, value):
         """
