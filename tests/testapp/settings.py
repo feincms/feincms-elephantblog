@@ -11,17 +11,17 @@ INSTALLED_APPS = (
     'feincms',
     'testapp',
     'elephantblog',
-    #'django_nose',
+    # 'django_nose',
 )
 
-#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 SECRET_KEY = 'elephant'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'runserver.sqlite',
-        #'TEST_NAME': 'blog_test.sqlite',
+        # 'TEST_NAME': 'blog_test.sqlite',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
