@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, print_function, unicode_literals
 
 from datetime import timedelta
 from optparse import make_option
@@ -60,7 +60,7 @@ class Command(NoArgsCommand):
         batch = Entry.objects.active()
 
         if len(batch) > MAX_POSTS:
-            print 'More than ' + MAX_POSTS + 'posts. Aborting.'
+            print('More than ' + MAX_POSTS + 'posts. Aborting.')
             return False
 
         for entry in batch:
