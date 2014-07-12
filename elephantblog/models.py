@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _, ugettext
 
+from feincms import settings as feincms_settings
 from feincms import translations
 from feincms.management.checker import check_database_schema
 from feincms.models import Base
@@ -154,4 +155,7 @@ class Entry(Base, ContentModelMixin):
         register_fn(cls, EntryAdmin)
 
 
-signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
+if getattr(feincms_settings, 'FEINCMS_CHECK_DATABASE_SCHEMA', True):
+    signals.post_syncdb.connect(
+        check_database_schema(Entry, __name__),
+        weak=False)
