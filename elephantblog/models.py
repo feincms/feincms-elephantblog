@@ -155,7 +155,12 @@ class Entry(Base, ContentModelMixin):
         register_fn(cls, EntryAdmin)
 
 
-if getattr(feincms_settings, 'FEINCMS_CHECK_DATABASE_SCHEMA', True):
+try:
+    _do_check = feincms_settings.FEINCMS_CHECK_DATABASE_SCHEMA
+except KeyError:
+    _do_check = True
+
+if _do_check:
     signals.post_syncdb.connect(
         check_database_schema(Entry, __name__),
         weak=False)
