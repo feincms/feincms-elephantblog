@@ -157,7 +157,7 @@ class Entry(Base, ContentModelMixin):
 
 try:
     _do_check = feincms_settings.FEINCMS_CHECK_DATABASE_SCHEMA
-except KeyError:
+except:
     _do_check = True
 
 if _do_check:
