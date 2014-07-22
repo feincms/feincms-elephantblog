@@ -31,6 +31,10 @@ class AdminTestCase(TestCase):
                 'richtextcontent_set-TOTAL_FORMS': 0,
                 'richtextcontent_set-INITIAL_FORMS': 0,
                 'richtextcontent_set-MAX_NUM_FORMS': 1000,
+
+                'mediafilecontent_set-TOTAL_FORMS': 0,
+                'mediafilecontent_set-INITIAL_FORMS': 0,
+                'mediafilecontent_set-MAX_NUM_FORMS': 1000,
             }
         )
 
@@ -54,6 +58,10 @@ class AdminTestCase(TestCase):
                 'richtextcontent_set-TOTAL_FORMS': 0,
                 'richtextcontent_set-INITIAL_FORMS': 0,
                 'richtextcontent_set-MAX_NUM_FORMS': 1000,
+
+                'mediafilecontent_set-TOTAL_FORMS': 0,
+                'mediafilecontent_set-INITIAL_FORMS': 0,
+                'mediafilecontent_set-MAX_NUM_FORMS': 1000,
             }
         )
 

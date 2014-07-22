@@ -41,8 +41,8 @@ def create_entries(factory):
         pk=2,
         author=author,
         title='Eintrag 1',
-        published_on=datetime.datetime(2012, 10, 12, 11, 0, 0),
-        last_changed=datetime.datetime(2012, 10, 12, 15, 0, 0),
+        published_on=datetime.datetime(2012, 10, 12, 11, 1, 0),
+        last_changed=datetime.datetime(2012, 10, 12, 15, 1, 0),
         slug='eintrag-1',
         language='en',
     ))

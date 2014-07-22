@@ -208,7 +208,32 @@ class DateDetailView(
         self.args = args
         self.kwargs = kwargs
         self.object = self.get_object()
+        self.lookup_related()
         return self.handler(request, *args, **kwargs)
+
+    def lookup_related(self):
+        """
+        This method mirrors ``entry_list_lookup_related``, and assigns
+        ``first_richtext`` and ``first_image`` to the elephantblog entry
+        if suitable contents can be found.
+        """
+        from feincms.content.medialibrary.models import MediaFileContent
+        from feincms.content.richtext.models import RichTextContent
+
+        try:
+            self.object.first_image = [
+                mediafile
+                for mediafile in self.object.content.all_of_type(
+                    MediaFileContent)
+                if mediafile.mediafile.type == 'image'][0]
+        except IndexError:
+            pass
+
+        try:
+            self.object.first_richtext = self.object.content.all_of_type(
+                RichTextContent)[0]
+        except IndexError:
+            pass
 
     def get_next_or_none(self):
         try:

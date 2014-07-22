@@ -1,6 +1,9 @@
 # -*- coding:utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+import os
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -9,6 +12,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.staticfiles',
     'feincms',
+    'feincms.module.medialibrary',
     'testapp',
     'elephantblog',
     # 'django_nose',
@@ -66,3 +70,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+MEDIA_URL = '/media/'

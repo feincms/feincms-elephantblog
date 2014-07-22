@@ -6,6 +6,8 @@ from django.test.testcases import TestCase
 from django.test.utils import override_settings
 from django.test import Client
 
+from feincms.module.medialibrary.models import MediaFile
+
 from elephantblog.models import Entry
 from elephantblog import views as blogviews
 
@@ -108,11 +110,37 @@ class GenericViewsTest(TestCase):
         self.assertContains(response, 'Entry 1')
         self.assertContains(response, 'Eintrag 1')
 
-        # Test detail view
+    def test_lookup_related(self):
+        entry = Entry.objects.get(slug='entry-1')
+        richtext = entry.richtextcontent_set.create(
+            ordering=1,
+            region='main',
+            text='<b>Hello</b>')
+
+        image = entry.mediafilecontent_set.create(
+            ordering=2,
+            region='main',
+            mediafile=MediaFile.objects.create(
+                type='image',
+                file='test.jpg',
+            ))
+
+        c = Client()
+
         response = c.get('/blog/2012/08/12/entry-1/')
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
             isinstance(response.context['view'], blogviews.DateDetailView))
         self.assertContains(response, 'Entry 1')
-        self.assertContains(response, 'Category 1')
-        self.assertContains(response, 'Category 2')
+        self.assertContains(response, '<b>Hello</b>')
+        self.assertContains(response, 'src="/media/test.jpg"')
+
+        self.assertEqual(response.context['object'].first_image, image)
+        self.assertEqual(response.context['object'].first_richtext, richtext)
+
+        response = c.get('/blog/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context['object_list'][1].first_image, image)
+        self.assertEqual(
+            response.context['object_list'][1].first_richtext, richtext)
