@@ -135,8 +135,8 @@ class GenericViewsTest(TestCase):
         self.assertContains(response, '<b>Hello</b>')
         self.assertContains(response, 'src="/media/test.jpg"')
 
-        self.assertEqual(response.context['object'].first_image, image)
-        self.assertEqual(response.context['object'].first_richtext, richtext)
+        self.assertEqual(response.context['entry'].first_image, image)
+        self.assertEqual(response.context['entry'].first_richtext, richtext)
 
         response = c.get('/blog/')
         self.assertEqual(response.status_code, 200)
