@@ -83,7 +83,7 @@ EntryManager.add_to_active_filters(
     key='cleared')
 
 EntryManager.add_to_active_filters(
-    lambda queryset: queryset.filter(published_on__lte=timezone.now),
+    lambda queryset: queryset.filter(published_on__lte=timezone.now()),
     key='published_on_past')
 
 
