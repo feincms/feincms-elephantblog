@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+import django
 from django import template
 from django.db.models import FieldDoesNotExist
 from django.utils.translation import get_language
@@ -32,7 +33,7 @@ def elephantblog_categories(show_empty_categories=False):
 def elephantblog_archive_months():
     """
     Assigns a list of months with active entries to a template variable of
-    your choice. Especialyl useful to generate archive links::
+    your choice. Especially useful to generate archive links::
 
         {% elephantblog_archive_months as months %}
         <ul>
@@ -50,7 +51,12 @@ def elephantblog_archive_months():
     (Wrapped for legibility, the ``{% url %}`` template tag must be on a
     single line.)
     """
-    return Entry.objects.active().dates('published_on', 'month', 'DESC')
+    if django.VERSION < (1, 6):
+        return Entry.objects.active().dates(
+            'published_on', 'month', 'DESC')
+
+    return Entry.objects.active().datetimes(
+        'published_on', 'month', 'DESC')
 
 
 @register.assignment_tag
