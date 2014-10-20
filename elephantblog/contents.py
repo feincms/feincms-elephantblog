@@ -54,11 +54,11 @@ class BlogEntryListContent(models.Model):
             paginator = Paginator(entries, self.paginate_by)
             page = request.GET.get('page', 1)
             try:
-                self.entries = paginator.page(page).object_list
+                self.entries = paginator.page(page)
             except PageNotAnInteger:
-                self.entries = paginator.page(1).object_list
+                self.entries = paginator.page(1)
             except EmptyPage:
-                self.entries = paginator.page(paginator.num_pages).object_list
+                self.entries = paginator.page(paginator.num_pages)
 
         else:
             self.entries = entries
