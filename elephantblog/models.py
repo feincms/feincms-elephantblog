@@ -11,7 +11,6 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 
 from feincms import settings as feincms_settings
 from feincms import translations
-from feincms.management.checker import check_database_schema
 from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin
 from feincms.utils.managers import ActiveAwareContentManagerMixin
@@ -153,14 +152,3 @@ class Entry(Base, ContentModelMixin):
     def register_extension(cls, register_fn):
         from .modeladmins import EntryAdmin
         register_fn(cls, EntryAdmin)
-
-
-try:
-    _do_check = feincms_settings.FEINCMS_CHECK_DATABASE_SCHEMA
-except:
-    _do_check = True
-
-if _do_check:
-    signals.post_syncdb.connect(
-        check_database_schema(Entry, __name__),
-        weak=False)
