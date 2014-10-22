@@ -3,9 +3,12 @@
 from __future__ import absolute_import, unicode_literals
 
 import datetime
+import pytz
 
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.utils.dateparse import parse_datetime
+from django.conf import settings
 
 import factory
 
@@ -28,12 +31,19 @@ class EntryFactory(factory.DjangoModelFactory):
 def create_entries(factory):
     author = UserFactory()
     entries = []
+    date1 = datetime.datetime(2012, 8, 12, 11, 0, 0)
+    delta = datetime.timedelta(hours=4)
+    date2 = datetime.datetime(2012, 10, 12, 11, 1, 0)
+    if settings.USE_TZ:
+        date1 = pytz.timezone(settings.TIME_ZONE).localize(date1, is_dst=None)
+        date2 = pytz.timezone(settings.TIME_ZONE).localize(date2, is_dst=None)
+
     entries.append(factory.create(
         pk=1,
         author=author,
         title='Entry 1',
-        published_on=datetime.datetime(2012, 8, 12, 11, 0, 0),
-        last_changed=datetime.datetime(2012, 8, 12, 15, 0, 0),
+        published_on=date1,
+        last_changed=date1+delta,
         slug='entry-1',
         language='en',
     ))
@@ -41,8 +51,8 @@ def create_entries(factory):
         pk=2,
         author=author,
         title='Eintrag 1',
-        published_on=datetime.datetime(2012, 10, 12, 11, 1, 0),
-        last_changed=datetime.datetime(2012, 10, 12, 15, 1, 0),
+        published_on=date2,
+        last_changed=date2+delta,
         slug='eintrag-1',
         language='en',
     ))
