@@ -7,7 +7,6 @@ import pytz
 
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-from django.utils.dateparse import parse_datetime
 from django.conf import settings
 
 import factory

@@ -1,7 +1,6 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
-import django
 from django.template.loader import render_to_string
 from django.test import TransactionTestCase
 from django.test.utils import override_settings
