@@ -67,5 +67,4 @@ class TimezoneTemplateTagsTest(TemplateTagsTest):
         entries[0].categories.add(category)
         entries[1].is_featured = True
         entries[1].save()
-        import pdb; pdb.set_trace()
         self.methods()
