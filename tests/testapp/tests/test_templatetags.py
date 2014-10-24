@@ -8,9 +8,9 @@ from django.test.utils import override_settings
 
 from .factories import EntryFactory, create_entries, create_category
 
-class TemplateTagsTest(TransactionTestCase):
 
-    def test_templatetags(self):
+class TemplateTagsTest(TransactionTestCase):
+    def setUp(self):
         entries = create_entries(EntryFactory)
         category = create_category(title='Category 1')
         create_category(title='Category 2')
@@ -18,10 +18,8 @@ class TemplateTagsTest(TransactionTestCase):
         entries[0].categories.add(category)
         entries[1].is_featured = True
         entries[1].save()
-        self.methods()
 
-    def methods(self):
-
+    def test_templatetags(self):
         html = render_to_string('test_templatetags.html', {})
 
         self.assertIn(
@@ -31,9 +29,8 @@ class TemplateTagsTest(TransactionTestCase):
             '<p>categories+empty:Category 1,Category 2,</p>',
             html)
         self.assertIn(
-            '<p>months:10.12,08.12,</p>',
+            '<p>months:10.2012,08.2012,</p>',
             html)
-        self.assert_months(html)
         self.assertIn(
             '<p>entries:Eintrag 1,Entry 1,</p>',
             html)
@@ -50,21 +47,7 @@ class TemplateTagsTest(TransactionTestCase):
             '<p>entries+limit:Eintrag 1,</p>',
             html)
 
-    def assert_months(self, html):
-        self.assertIn(
-            '<p>months:10.12,08.12,</p>',
-            html)
-
 
 @override_settings(USE_TZ=True, TIME_ZONE='America/Chicago')
 class TimezoneTemplateTagsTest(TemplateTagsTest):
-
-    def test_templatetags(self):
-        entries = create_entries(EntryFactory)
-        category = create_category(title='Category 1')
-        create_category(title='Category 2')
-
-        entries[0].categories.add(category)
-        entries[1].is_featured = True
-        entries[1].save()
-        self.methods()
+    pass
