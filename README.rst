@@ -67,3 +67,6 @@ Travis CI:
 
 .. image:: https://travis-ci.org/feincms/feincms-elephantblog.png?branch=master
    :target: https://travis-ci.org/feincms/feincms-elephantblog
+.. image:: https://pypip.in/wheel/feincms-elephantblog/badge.svg
+    :target: https://pypi.python.org/pypi/feincms-elephantblog/
+    :alt: Wheel Status

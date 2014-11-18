@@ -27,7 +27,7 @@ setup(
         'FeinCMS>=1.7',
     ],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
@@ -40,6 +40,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
