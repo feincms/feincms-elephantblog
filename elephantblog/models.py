@@ -3,13 +3,12 @@ from __future__ import absolute_import, unicode_literals
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models import signals, Q
+from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from feincms import settings as feincms_settings
 from feincms import translations
 from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin

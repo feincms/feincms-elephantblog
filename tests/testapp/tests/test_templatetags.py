@@ -1,15 +1,15 @@
 # coding: utf-8
-
 from __future__ import absolute_import, unicode_literals
 
 from django.template.loader import render_to_string
-from django.test.testcases import TestCase
+from django.test import TransactionTestCase
+from django.test.utils import override_settings
 
 from .factories import EntryFactory, create_entries, create_category
 
 
-class TemplateTagsTest(TestCase):
-    def test_templatetags(self):
+class TemplateTagsTest(TransactionTestCase):
+    def setUp(self):
         entries = create_entries(EntryFactory)
         category = create_category(title='Category 1')
         create_category(title='Category 2')
@@ -18,6 +18,7 @@ class TemplateTagsTest(TestCase):
         entries[1].is_featured = True
         entries[1].save()
 
+    def test_templatetags(self):
         html = render_to_string('test_templatetags.html', {})
 
         self.assertIn(
@@ -27,9 +28,8 @@ class TemplateTagsTest(TestCase):
             '<p>categories+empty:Category 1,Category 2,</p>',
             html)
         self.assertIn(
-            '<p>months:10.12,08.12,</p>',
+            '<p>months:10.2012,08.2012,</p>',
             html)
-
         self.assertIn(
             '<p>entries:Eintrag 1,Entry 1,</p>',
             html)
@@ -45,3 +45,8 @@ class TemplateTagsTest(TestCase):
         self.assertIn(
             '<p>entries+limit:Eintrag 1,</p>',
             html)
+
+
+@override_settings(USE_TZ=True, TIME_ZONE='America/Chicago')
+class TimezoneTemplateTagsTest(TemplateTagsTest):
+    pass
