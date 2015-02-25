@@ -69,8 +69,8 @@ class Command(NoArgsCommand):
                     create_kwargs = {
                         'content_object': entry,
                         'weblogname': site.name,
-                        'weblogurl': site.domain + ':/' + PINGING_WEBLOG_URL,
-                        'changesurl': site.domain + ':/' + entry.get_absolute_url(),  # noqa
+                        'weblogurl': 'http://' + site.domain + PINGING_WEBLOG_URL,
+                        'changesurl': 'http://' + site.domain + entry.get_absolute_url(),  # noqa
                     }
                     if not options.get('dryrun'):
                         PingedURL.objects.create_for_servers(**create_kwargs)
@@ -79,7 +79,7 @@ class Command(NoArgsCommand):
                     'content_object': entry,
                     'weblogname': PINGING_WEBLOG_NAME,
                     'weblogurl': PINGING_WEBLOG_URL,
-                    'changesurl': domain + ':/' + entry.get_absolute_url(),
+                    'changesurl': 'http://' + domain + entry.get_absolute_url(),
                 }
                 if not options.get('dryrun'):
                     PingedURL.objects.create_for_servers(**create_kwargs)
