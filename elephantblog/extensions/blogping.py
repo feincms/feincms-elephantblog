@@ -55,6 +55,10 @@ class Extension(FeincmsExtension):
         pre_save.connect(Extension.pre_save_handler, sender=self.model)
 
     def handle_modeladmin(self, modeladmin):
+        """
+        Extend the ModelAdmin
+        :param modeladmin: ModelAdmin instance
+        """
         if not hasattr(modeladmin, 'actions'):
             setattr(modeladmin, 'actions', [])
         modeladmin.actions.append(Extension._entry_admin_update_fn(
