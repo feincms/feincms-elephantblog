@@ -12,7 +12,7 @@ Entry.register_extensions('elephantblog.extensions.blogping',)
 
 
 @override_settings(SITE_ID=1)
-class GenericViewsTest(TestCase):
+class BlogpingTest(TestCase):
 
     def setUp(self):
         create_entries(EntryFactory)
