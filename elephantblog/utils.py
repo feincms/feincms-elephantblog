@@ -2,19 +2,26 @@ from __future__ import absolute_import, unicode_literals
 
 from elephantblog.models import Category, Entry
 
+from feincms.content.richtext.models import RichTextContent
+from feincms.content.medialibrary.models import MediaFileContent
+
 
 def entry_list_lookup_related(entry_qs):
     entry_dict = dict((e.pk, e) for e in entry_qs)
 
-    if hasattr(Entry, 'richtextcontent_set'):
-        for content in Entry.richtextcontent_set.related.model.objects.filter(
-                parent__in=entry_dict.keys()).reverse():
+    model = Entry.content_type_for(RichTextContent)
+    if model:
+        for content in model.objects.filter(
+                parent__in=entry_dict.keys(),
+        ).reverse():
             entry_dict[content.parent_id].first_richtext = content
 
-    if hasattr(Entry, 'mediafilecontent_set'):
-        for content in Entry.mediafilecontent_set.related.model.objects.filter(
+    model = Entry.content_type_for(MediaFileContent)
+    if model:
+        for content in model.objects.filter(
                 parent__in=entry_dict.keys(),
-                mediafile__type='image').reverse().select_related('mediafile'):
+                mediafile__type='image',
+        ).reverse().select_related('mediafile'):
             entry_dict[content.parent_id].first_image = content
 
     m2mfield = Entry._meta.get_field('categories')
