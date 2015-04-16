@@ -23,8 +23,8 @@ setup(
     ),
     include_package_data=True,
     install_requires=[
-        'Django>=1.4.2',
-        'FeinCMS>=1.7',
+        'Django',
+        'FeinCMS',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
