@@ -23,7 +23,7 @@ setup(
     ),
     include_package_data=True,
     install_requires=[
-        'FeinCMS',
+        'FeinCMS>=1.7',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
