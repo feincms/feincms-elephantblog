@@ -19,6 +19,4 @@ Then register the extension. In yourapp.models.py::
 Add `pinging` to your `settings.INSTALLED_APPS`.
 
 Here is a list of servers that can be used for pinging:
-`<http://www.webpage-designer.net/65-wordpress-pinging-urls-you-need-to-know/>`_
-
-
+`<http://dessky.com/blog/wordpress-ping-list-2015/>`_
