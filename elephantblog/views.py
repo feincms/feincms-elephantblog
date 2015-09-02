@@ -119,8 +119,7 @@ class DateDetailView(
     context_object_name = 'entry'
 
     def get_queryset(self):
-        if (self.request.user.is_authenticated() and self.request.user.is_staff
-                and self.request.GET.get('eb_preview')):
+        if self.request.user.is_staff and self.request.GET.get('eb_preview'):
             return self.entry_class.objects.all()
         return super(DateDetailView, self).get_queryset()
 
