@@ -17,7 +17,8 @@ class Extension(FeincmsExtension):
             instance.pinging = instance.QUEUED
 
     @staticmethod
-    def _entry_admin_update_fn(new_state, new_state_dict, short_description=None):
+    def _entry_admin_update_fn(new_state, new_state_dict,
+                               short_description=None):
         def _fn(modeladmin, request, queryset):
             rows_updated = queryset.update(**new_state_dict)
 
@@ -43,7 +44,8 @@ class Extension(FeincmsExtension):
             (self.model.UNKNOWN, _('unknown')),
         )
 
-        self.model.add_to_class('pinging',
+        self.model.add_to_class(
+            'pinging',
             models.SmallIntegerField(
                 _('ping'),
                 editable=False,
