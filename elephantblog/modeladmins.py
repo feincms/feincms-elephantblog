@@ -32,6 +32,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class EntryAdmin(item_editor.ItemEditor):
+    actions = []
+
     date_hierarchy = 'published_on'
     filter_horizontal = ['categories']
     list_display = [

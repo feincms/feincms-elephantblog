@@ -18,10 +18,10 @@ class Extension(FeincmsExtension):
 
     @staticmethod
     def _entry_admin_update_fn(new_state, new_state_dict, short_description=None):
-        def _fn(self, request, queryset):
+        def _fn(modeladmin, request, queryset):
             rows_updated = queryset.update(**new_state_dict)
 
-            self.message_user(request, ungettext(
+            modeladmin.message_user(request, ungettext(
                 'One entry was successfully marked as %(state)s',
                 '%(count)s entries were successfully marked as %(state)s',
                 rows_updated) % {'state': new_state, 'count': rows_updated})
@@ -55,13 +55,8 @@ class Extension(FeincmsExtension):
         pre_save.connect(Extension.pre_save_handler, sender=self.model)
 
     def handle_modeladmin(self, modeladmin):
-        """
-        Extend the ModelAdmin
-        :param modeladmin: ModelAdmin instance
-        """
-        if not hasattr(modeladmin, 'actions'):
-            setattr(modeladmin, 'actions', [])
-        modeladmin.actions.append(Extension._entry_admin_update_fn(
+        actions = modeladmin.actions
+        actions.append(Extension._entry_admin_update_fn(
             _('queued'),
             {'pinging': self.model.QUEUED},
             short_description=_('Ping Again')
