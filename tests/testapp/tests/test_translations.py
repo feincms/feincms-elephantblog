@@ -36,8 +36,8 @@ class TranslationsTest(TestCase):
         entry2.save()
         entry3 = entries[2]
         entry4 = entries[3]
-        self.assertEqual(entry3.language, 'zh-cn')
-        self.assertEqual(entry4.language, 'zh-tw')
+        self.assertEqual(entry3.language, 'zh-hans')
+        self.assertEqual(entry4.language, 'zh-hant')
 
         entry = Entry.objects.get(language='de')
         self.assertEqual(entry.title, 'Eintrag 1')
@@ -65,21 +65,21 @@ class TranslationsTest(TestCase):
             self.assertContains(response, 'Entry 1')
             self.assertNotContains(response, 'Eintrag 1')
 
-        with translation.override('zh-cn'):
+        with translation.override('zh-hans'):
             c = Client()
-            self.assertEqual(translation.get_language(), 'zh-cn')
+            self.assertEqual(translation.get_language(), 'zh-hans')
             self.assertEqual(short_language_code(), 'zh')
-            response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-cn')
+            response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-hans')
             self.assertEqual(len(response.context['object_list']), 1)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, 'Entry 2 chinese traditional')
             self.assertNotContains(response, 'Eintrag 1')
 
-        with translation.override('zh-tw'):
+        with translation.override('zh-hant'):
             c = Client()
-            self.assertEqual(translation.get_language(), 'zh-tw')
+            self.assertEqual(translation.get_language(), 'zh-hant')
             self.assertEqual(short_language_code(), 'zh')
-            response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-tw')
+            response = c.get('/blog/', HTTP_ACCEPT_LANGUAGE='zh-hant')
             self.assertEqual(len(response.context['object_list']), 1)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, 'Entry 2 chinese simplified')

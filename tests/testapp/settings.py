@@ -51,8 +51,8 @@ DEFAULT_CHARSET = 'utf-8'
 LANGUAGES = (
     ('en', 'English'),
     ('de', 'German'),
-    ('zh-cn', 'Chinese simplified'),
-    ('zh-tw', 'Chinese traditional'),
+    ('zh-hans', 'Chinese simplified'),
+    ('zh-hant', 'Chinese traditional'),
 )
 LANGUAGE_CODE = 'en'
 USE_I18N = True
