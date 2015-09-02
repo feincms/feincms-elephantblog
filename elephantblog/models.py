@@ -135,11 +135,17 @@ class Entry(Base, ContentModelMixin):
     save.alters_data = True
 
     def get_absolute_url(self):
-        # We use naive date using UTC for conversion for permalink
-        if getattr(settings, 'USE_TZ', False):
-            pub_date = timezone.make_naive(self.published_on, timezone.utc)
+        # The view/template layer always works with visitors' local time.
+        # Therefore, also generate localtime URLs, otherwise visitors will
+        # hit 404s on blog entry URLs generated for them. Unfortunately, this
+        # also means that you cannot send a permalink around half the globe
+        # and expect it to work...
+        # https://code.djangoproject.com/ticket/18794
+        if settings.USE_TZ:
+            pub_date = timezone.localtime(self.published_on)
         else:
             pub_date = self.published_on
+
         return reverse('elephantblog_entry_detail', kwargs={
             'year': pub_date.strftime('%Y'),
             'month': pub_date.strftime('%m'),
