@@ -9,7 +9,7 @@ sudo: false
 
 env:
   - REQ="Django>=1.7,<1.8 FeinCMS>=1.11,<1.12"
-  - REQ="Django>=1.8,<1.8 FeinCMS>=1.11,<1.12"
+  - REQ="Django>=1.8,<1.9 FeinCMS>=1.11,<1.12"
   - REQ="Django>=1.8,<1.9 FeinCMS==2.0a2"
 
 install:
