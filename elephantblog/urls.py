@@ -44,7 +44,7 @@ snippet::
 
 from __future__ import absolute_import, unicode_literals
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from elephantblog.feeds import EntryFeed
 from elephantblog import views
@@ -63,8 +63,7 @@ def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
     - The format of the month (three chars or two digits)
     - etc.
     """
-    return patterns(
-        '',
+    return [
         url(r'^feed/$', EntryFeed()),
         url(r'^$',
             views.ArchiveIndexView.as_view(**list_kwargs),
@@ -85,7 +84,7 @@ def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
         url(r'^category/(?P<slug>[-\w]+)/$',
             views.CategoryArchiveIndexView.as_view(**list_kwargs),
             name='elephantblog_category_detail'),
-    )
+    ]
 
 
 # Backwards compatibility: Create a URL patterns object with the default
