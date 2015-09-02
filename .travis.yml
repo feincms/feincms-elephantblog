@@ -10,7 +10,7 @@ sudo: false
 env:
   - REQ="Django>=1.7,<1.8 FeinCMS>=1.11,<1.12"
   - REQ="Django>=1.8,<1.9 FeinCMS>=1.11,<1.12"
-  - REQ="Django>=1.8,<1.9 FeinCMS==2.0a2"
+  # - REQ="Django>=1.8,<1.9 FeinCMS==2.0a2"
 
 install:
   - pip install -q $REQ django-mptt==0.7.4 factory_boy==2.5.2 pytz==2015.4 flake8
