@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
 from django.test import Client
+from django.utils import six
 
 from feincms.module.medialibrary.models import MediaFile
 
@@ -51,13 +52,13 @@ class GenericViewsTest(TestCase):
             response.context['view'], blogviews.MonthArchiveView))
         self.assertEqual(len(response.context['object_list']), 1)
         self.assertEqual(response.status_code, 200)
-        self.assertRegexpMatches(
-            response.content.decode('utf-8'), r'News\s+for October 2012')
+        six.assertRegex(
+            self, response.content.decode('utf-8'), r'News\s+for October 2012')
         self.assertContains(response, 'Eintrag 1')
         response = c.get('/blog/2012/08/')
         self.assertEqual(len(response.context['object_list']), 1)
-        self.assertRegexpMatches(
-            response.content.decode('utf-8'), r'News\s+for August 2012')
+        six.assertRegex(
+            self, response.content.decode('utf-8'), r'News\s+for August 2012')
         self.assertContains(response, 'Entry 1')
         response = c.get('/blog/2012/06/')
         self.assertEqual(response.status_code, 404)
@@ -68,13 +69,15 @@ class GenericViewsTest(TestCase):
             response.context['view'], blogviews.DayArchiveView))
         self.assertEqual(len(response.context['object_list']), 1)
         self.assertEqual(response.status_code, 200)
-        self.assertRegexpMatches(
+        six.assertRegex(
+            self,
             response.content.decode('utf-8'),
             'News\s+for Oct. 12, 2012')
         self.assertContains(response, 'Eintrag 1')
         response = c.get('/blog/2012/08/12/')
         self.assertEqual(len(response.context['object_list']), 1)
-        self.assertRegexpMatches(
+        six.assertRegex(
+            self,
             response.content.decode('utf-8'),
             'News\s+for Aug. 12, 2012')
         self.assertContains(response, 'Entry 1')
