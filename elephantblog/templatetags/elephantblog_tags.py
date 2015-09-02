@@ -87,7 +87,7 @@ def elephantblog_entries(limit=10,
         queryset = queryset.filter(is_featured=True)
 
     try:
-        queryset.model._meta.get_field_by_name('language')
+        queryset.model._meta.get_field('language')
     except FieldDoesNotExist:
         pass
     else:

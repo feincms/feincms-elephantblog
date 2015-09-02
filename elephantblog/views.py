@@ -67,7 +67,7 @@ class TranslationMixin(object):
     def get_queryset(self):
         queryset = super(TranslationMixin, self).get_queryset()
         try:
-            queryset.model._meta.get_field_by_name('language')
+            queryset.model._meta.get_field('language')
         except FieldDoesNotExist:
             return queryset
         else:
