@@ -15,14 +15,16 @@ from elephantblog.models import Entry, Category, CategoryTranslation
 
 
 class UserFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = User
+    class Meta:
+        model = User
     username = 'author'
     password = 'elephant'
     email = 'admin@elephantblog.ch'
 
 
 class EntryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Entry
+    class Meta:
+        model = Entry
     is_active = True
     is_featured = False
 
@@ -84,11 +86,13 @@ def create_chinese_entries(factory):
 
 
 class CategoryTranslationFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = CategoryTranslation
+    class Meta:
+        model = CategoryTranslation
 
 
 class CategoryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Category
+    class Meta:
+        model = Category
 
 
 def create_category(title):
