@@ -3,8 +3,13 @@
 from __future__ import absolute_import, unicode_literals
 
 from elephantblog.models import Entry
-from feincms.content.medialibrary.models import MediaFileContent
-from feincms.content.richtext.models import RichTextContent
+
+try:
+    from feincms.contents import RichTextContent, MediaFileContent
+except ImportError:
+    from feincms.content.richtext.models import RichTextContent
+    from feincms.content.medialibrary.models import MediaFileContent
+
 
 Entry.register_regions(
     ('main', 'Main content area'),

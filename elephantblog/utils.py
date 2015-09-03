@@ -2,8 +2,11 @@ from __future__ import absolute_import, unicode_literals
 
 from elephantblog.models import Category, Entry
 
-from feincms.content.richtext.models import RichTextContent
-from feincms.content.medialibrary.models import MediaFileContent
+try:
+    from feincms.contents import RichTextContent, MediaFileContent
+except ImportError:
+    from feincms.content.richtext.models import RichTextContent
+    from feincms.content.medialibrary.models import MediaFileContent
 
 
 def entry_list_lookup_related(entry_qs):
