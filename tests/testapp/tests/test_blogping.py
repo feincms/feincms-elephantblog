@@ -3,16 +3,18 @@ from __future__ import absolute_import, unicode_literals
 
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
+from django.contrib import admin
 
 from elephantblog.models import Entry
 
 from .factories import EntryFactory, create_entries
+from feincms.extensions import ExtensionModelAdmin
 
 Entry.register_extensions('elephantblog.extensions.blogping',)
 
 
 @override_settings(SITE_ID=1)
-class GenericViewsTest(TestCase):
+class BlogpingTest(TestCase):
 
     def setUp(self):
         create_entries(EntryFactory)
@@ -41,3 +43,7 @@ class GenericViewsTest(TestCase):
         entry.is_active = True
         entry.save()
         self.assertEqual(entry.pinging, entry.QUEUED)
+
+    def testModelAdmin(self):
+        modeladmin = ExtensionModelAdmin(Entry, admin.site)
+        self.assertEqual(type(modeladmin.model), type(Entry))
