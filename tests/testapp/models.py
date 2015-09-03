@@ -16,7 +16,7 @@ Entry.register_regions(
 )
 try:
     # FeinCMS 2.0
-    import feincms.extensions.translations
+    import feincms.extensions.translations  # noqa
 except ImportError:
     Entry.register_extensions('feincms.module.extensions.translations')
 else:
