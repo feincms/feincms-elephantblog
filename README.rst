@@ -12,8 +12,8 @@ you don't find an extension, you can quickly write your own and use it with
 ElephantBlog.
 
 
-How it works:
-=============
+How it works
+============
 
 Basically, ElephantBlog just uses what FeinCMS already has in a blog way. A blog way means:
 Multiple entries in a timeline. One blogentry is similar to a FeinCMS page: It can have
@@ -28,8 +28,8 @@ FeinCMS site. But if you want to run a blog only, then you don't have to activat
 page module.
 
 
-Features:
-=========
+Features
+========
 
 The biggest feature may be that there are only a few features:
 
@@ -40,8 +40,8 @@ The biggest feature may be that there are only a few features:
   content types
 
 
-Bundled extensions:
--------------------
+Bundled extensions
+------------------
 
 You can, if you want, activate those extensions:
 
@@ -53,8 +53,8 @@ You can, if you want, activate those extensions:
 * ... (more to come, you name it!)
 
 
-Getting started:
-================
+Getting started
+===============
 
 If you are not familiar with FeinCMS then you probably want to learn more about FeinCMS:
 http://feincms.org
@@ -68,3 +68,12 @@ Read the source: https://github.com/feincms/feincms-elephantblog
 .. image:: https://pypip.in/wheel/feincms-elephantblog/badge.svg
     :target: https://pypi.python.org/pypi/feincms-elephantblog/
     :alt: Wheel Status
+
+
+
+Changelog
+=========
+
+- 1.0.2: Support for Django 1.8 and FeinCMS 2.0
+- 1.0.1: Support for Django 1.7
+- 1.0.0: First official release

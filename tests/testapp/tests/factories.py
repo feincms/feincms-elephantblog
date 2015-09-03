@@ -4,12 +4,12 @@ from __future__ import absolute_import, unicode_literals
 
 import datetime
 import pytz
+import factory
 
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.conf import settings
 
-import factory
 
 from elephantblog.models import Entry, Category, CategoryTranslation
 
