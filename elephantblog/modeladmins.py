@@ -50,14 +50,16 @@ class EntryAdmin(item_editor.ItemEditor):
     fieldsets = [
         [None, {
             'fields': [
-                ('is_active', 'is_featured', 'published_on'),
-                ('title', 'slug'),
-                'author',
-                'categories',
+                ('is_active', 'is_featured', 'author'),
+                'title',
             ]
         }],
         [_('Other options'), {
-            'fields': [],
+            'fields': [
+                'categories',
+                'published_on',
+                'slug',
+            ],
             'classes': ('collapse',),
         }],
         item_editor.FEINCMS_CONTENT_FIELDSET,
