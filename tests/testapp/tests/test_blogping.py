@@ -44,8 +44,6 @@ class BlogpingTest(TestCase):
         entry.save()
         self.assertEqual(entry.pinging, entry.QUEUED)
 
-
     def testModelAdmin(self):
         modeladmin = ExtensionModelAdmin(Entry, admin.site)
         self.assertEqual(type(modeladmin.model), type(Entry))
-

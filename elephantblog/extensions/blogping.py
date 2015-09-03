@@ -17,7 +17,8 @@ class Extension(FeincmsExtension):
             instance.pinging = instance.QUEUED
 
     @staticmethod
-    def _entry_admin_update_fn(new_state, new_state_dict, short_description=None):
+    def _entry_admin_update_fn(new_state, new_state_dict,
+                               short_description=None):
         def _fn(modeladmin, request, queryset):
             rows_updated = queryset.update(**new_state_dict)
 
@@ -36,7 +37,7 @@ class Extension(FeincmsExtension):
         self.model.add_to_class('SENT', 30)
         self.model.add_to_class('UNKNOWN', 0)
 
-        PINGING_CHOICES = (
+        pinging_choices = (
             (self.model.SLEEPING, _('sleeping')),
             (self.model.QUEUED, _('queued')),
             (self.model.SENT, _('sent')),
@@ -44,13 +45,13 @@ class Extension(FeincmsExtension):
         )
 
         self.model.add_to_class('pinging',
-            models.SmallIntegerField(
-                _('ping'),
-                editable=False,
-                default=self.model.SLEEPING,
-                choices=PINGING_CHOICES,
-            )
-        )
+                                models.SmallIntegerField(
+                                    _('ping'),
+                                    editable=False,
+                                    default=self.model.SLEEPING,
+                                    choices=pinging_choices,
+                                    )
+                                )
 
         pre_save.connect(Extension.pre_save_handler, sender=self.model)
 
