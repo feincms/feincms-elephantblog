@@ -24,7 +24,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django>=1.7',
-        'FeinCMS>=1.7',
+        'FeinCMS>=1.11',  # For Django 1.7, 1.10.x would work as well...
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
