@@ -139,8 +139,11 @@ class DateDetailView(
         ``first_richtext`` and ``first_image`` to the elephantblog entry
         if suitable contents can be found.
         """
-        from feincms.content.medialibrary.models import MediaFileContent
-        from feincms.content.richtext.models import RichTextContent
+        try:
+            from feincms.contents import RichTextContent, MediaFileContent
+        except ImportError:
+            from feincms.content.richtext.models import RichTextContent
+            from feincms.content.medialibrary.models import MediaFileContent
 
         try:
             self.object.first_image = [
