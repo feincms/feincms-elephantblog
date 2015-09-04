@@ -14,6 +14,7 @@ except ImportError:
 Entry.register_regions(
     ('main', 'Main content area'),
 )
+
 try:
     # FeinCMS 2.0
     import feincms.extensions.translations  # noqa
