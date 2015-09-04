@@ -110,7 +110,7 @@ class Entry(Base, ContentModelMixin):
 
     categories = models.ManyToManyField(
         Category, verbose_name=_('categories'),
-        related_name='blogentries', null=True, blank=True)
+        related_name='blogentries', blank=True)
 
     objects = EntryManager()
 
