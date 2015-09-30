@@ -140,8 +140,9 @@ class DateDetailView(
         if suitable contents can be found.
         """
         try:
-            from feincms.contents import RichTextContent, MediaFileContent
-        except ImportError:
+            from feincms.contents import RichTextContent
+            from feincms.module.medialibrary.contents import MediaFileContent
+        except ImportError:  # FeinCMS<2
             from feincms.content.richtext.models import RichTextContent
             from feincms.content.medialibrary.models import MediaFileContent
 

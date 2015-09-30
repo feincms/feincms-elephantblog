@@ -32,8 +32,8 @@ You can install elephantblog using ``pip install feincms-elephantblog``.
 In your ``application/models.py`` register the blog module, extensions and
 content types::
 
-    from feincms.content.richtext.models import RichTextContent
-    from feincms.content.medialibrary.models import MediaFileContent
+    from feincms.contents import RichTextContent
+
     import feincms_cleanse
 
     from elephantblog.models import Entry
@@ -47,9 +47,6 @@ content types::
     )
     Entry.create_content_type(RichTextContent,
                         cleanse=feincms_cleanse.cleanse_html, regions=('main',))
-    Entry.create_content_type(MediaFileContent, TYPE_CHOICES=(
-        ('default', _('default')),
-    ))
 
 
 .. note::
