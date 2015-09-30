@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from elephantblog.models import Entry
@@ -47,7 +48,7 @@ class AdminTestCase(TestCase):
         self.assertEqual(entry.published_on, None)
 
         response = self.client.post(
-            '/admin/elephantblog/entry/{0}/'.format(entry.id),
+            reverse('admin:elephantblog_entry_change', args=(entry.id,)),
             {
                 'title': 'First entry',
                 'slug': 'first-entry',
