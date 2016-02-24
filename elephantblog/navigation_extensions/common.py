@@ -1,9 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
+from collections import OrderedDict
 import datetime
-from django.utils.datastructures import SortedDict
-from django.utils.translation import ugettext_lazy as _
+
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from feincms.module.page.extensions.navigation import (
     NavigationExtension, PagePretender)
@@ -24,7 +25,7 @@ def date_tree():
     today = datetime.date.today()
     first_day = date_of_first_entry()
     years = range(today.year, first_day.year - 1, -1)
-    date_tree = SortedDict((year, range(1, 13)) for year in years)
+    date_tree = OrderedDict((year, range(1, 13)) for year in years)
     for year, months in date_tree.items():
         if year == first_day.year:
             date_tree[year] = months[first_day.month - 1:]
