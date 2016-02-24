@@ -125,7 +125,7 @@ Add those lines to the ``models.py`` of your app::
 
     from elephantblog.navigation_extensions import treeinfo  # so the extensions can be found.
 
-    Page.register_extensions('navigation',)
+    Page.register_extensions('feincms.module.page.extensions.navigation',)
 
 
 Settings
