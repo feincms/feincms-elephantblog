@@ -1,6 +1,5 @@
 from __future__ import absolute_import, unicode_literals
 
-import django
 from django import template
 from django.db.models import FieldDoesNotExist
 from django.utils.translation import get_language
@@ -51,10 +50,6 @@ def elephantblog_archive_months():
     (Wrapped for legibility, the ``{% url %}`` template tag must be on a
     single line.)
     """
-    if django.VERSION < (1, 6):
-        return Entry.objects.active().dates(
-            'published_on', 'month', 'DESC')
-
     return Entry.objects.active().datetimes(
         'published_on', 'month', 'DESC')
 
