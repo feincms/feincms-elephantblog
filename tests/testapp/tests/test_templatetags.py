@@ -28,6 +28,9 @@ class TemplateTagsTest(TransactionTestCase):
             '<p>categories+empty:Category 1,Category 2,</p>',
             html)
         self.assertIn(
+            '<p>years:2012,</p>',
+            html)
+        self.assertIn(
             '<p>months:10.2012,08.2012,</p>',
             html)
         self.assertIn(
