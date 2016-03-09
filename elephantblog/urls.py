@@ -64,7 +64,7 @@ def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
     - etc.
     """
     return [
-        url(r'^feed/$', EntryFeed()),
+        url(r'^feed/$', EntryFeed(), name='elephantblog_feed'),
         url(r'^$',
             views.ArchiveIndexView.as_view(**list_kwargs),
             name='elephantblog_entry_archive'),
