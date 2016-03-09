@@ -20,7 +20,7 @@ if not (
 def tryrender(content):
     try:
         return content.render()
-    except TypeError:  # Required request argument or something else?
+    except Exception:  # Required request argument or something else?
         return ''
 
 
