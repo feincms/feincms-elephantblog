@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django import template
+from django.contrib.auth import get_user_model
 from django.db.models import FieldDoesNotExist
 from django.utils.translation import get_language
 
@@ -118,3 +119,10 @@ def elephantblog_entries(limit=10,
         queryset = queryset.filter(categories=category)
 
     return queryset.transform(entry_list_lookup_related)[:limit]
+
+
+@register.assignment_tag
+def elephantblog_authors():
+    return get_user_model().objects.filter(
+        id__in=Entry.objects.active().order_by().values('author'),
+    )

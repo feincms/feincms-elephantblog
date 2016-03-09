@@ -84,6 +84,9 @@ def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
         url(r'^category/(?P<slug>[-\w]+)/$',
             views.CategoryArchiveIndexView.as_view(**list_kwargs),
             name='elephantblog_category_detail'),
+        url(r'^author/(?P<pk>[-\w]+)/$',
+            views.AuthorArchiveIndexView.as_view(**list_kwargs),
+            name='elephantblog_author_detail'),
     ]
 
 

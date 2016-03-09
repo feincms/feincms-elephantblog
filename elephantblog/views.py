@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from django.conf import settings
 from django.http import Http404
 from django.core import paginator
+from django.contrib.auth import get_user_model
 from django.db.models.fields import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
@@ -204,4 +205,23 @@ class CategoryArchiveIndexView(ArchiveIndexView):
     def get_context_data(self, **kwargs):
         return super(CategoryArchiveIndexView, self).get_context_data(
             category=self.category,
+            **kwargs)
+
+
+class AuthorArchiveIndexView(ArchiveIndexView):
+    template_name_suffix = '_archive'
+
+    def get_queryset(self):
+        self.author = get_object_or_404(
+            get_user_model(),
+            is_staff=True,
+            pk=self.kwargs['pk'],
+        )
+        return super(AuthorArchiveIndexView, self).get_queryset().filter(
+            author=self.author,
+        )
+
+    def get_context_data(self, **kwargs):
+        return super(AuthorArchiveIndexView, self).get_context_data(
+            author=self.author,
             **kwargs)
