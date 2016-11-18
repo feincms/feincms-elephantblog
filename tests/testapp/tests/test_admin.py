@@ -45,7 +45,7 @@ class AdminTestCase(TestCase):
         )
 
         entry = Entry.objects.get()
-        self.assertEqual(entry.published_on, None)
+        self.assertTrue(entry.published_on is not None)
 
         response = self.client.post(
             reverse('admin:elephantblog_entry_change', args=(entry.id,)),

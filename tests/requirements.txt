@@ -1,4 +1,4 @@
-FeinCMS>=1.9
 coverage
 factory-boy==2.5.1
 pytz
+-e git+git@github.com:feincms/feincms.git@next#egg=feincms

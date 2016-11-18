@@ -6,6 +6,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _, get_language
 
+from elephantblog._internal import ct_render_to_string
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
 
@@ -84,11 +85,12 @@ class BlogCategoryListContent(models.Model):
         else:
             categories = Category.objects.exclude(blogentries__isnull=True)
 
-        return render_to_string(
+        return ct_render_to_string(
             'content/elephantblog/category_list.html',
             {
                 'content': self,
                 'categories': categories,
             },
             context_instance=kwargs.get('context'),
+            request=kwargs.get('request'),
         )
