@@ -1,4 +1,6 @@
 coverage
-factory-boy==2.5.1
+Django
+factory-boy
+FeinCMS
+Pillow
 pytz
--e git+git@github.com:feincms/feincms.git@next#egg=feincms
