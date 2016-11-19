@@ -74,6 +74,8 @@ Read the source: https://github.com/feincms/feincms-elephantblog
 Changelog
 =========
 
+- 1.1: Support for Django 1.8 and FeinCMS 1.11 to Django 1.10 and
+       FeinCMS 1.13 (not all combinations).
 - 1.0.2: Support for Django 1.8 and FeinCMS 1.11
          Experimental support for FeinCMS 2
 - 1.0.1: Support for Django 1.7
