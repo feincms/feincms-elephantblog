@@ -20,6 +20,7 @@ except ImportError:
 class BlogEntryListContent(models.Model):
     category = models.ForeignKey(
         Category, blank=True, null=True, related_name='+',
+        on_delete=models.CASCADE,
         verbose_name=_('category'),
         help_text=_('Only show entries from this category.'))
     paginate_by = models.PositiveIntegerField(

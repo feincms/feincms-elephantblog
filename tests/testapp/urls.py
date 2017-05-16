@@ -19,7 +19,7 @@ sitemaps = {
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^blog/', include('elephantblog.urls')),
     url(
         r'^sitemap\.xml$',

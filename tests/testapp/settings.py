@@ -33,7 +33,7 @@ DATABASES = {
     }
 }
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -41,6 +41,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
+SILENCED_SYSTEM_CHECKS = ['1_10.W001']
 
 ROOT_URLCONF = 'testapp.urls'
 BLOG_TITLE = 'Blog of the usual elephant'

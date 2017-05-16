@@ -98,6 +98,7 @@ class Entry(Base, ContentModelMixin):
         unique_for_date='published_on')
     author = models.ForeignKey(
         getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
+        on_delete=models.CASCADE,
         related_name='blogentries',
         limit_choices_to={'is_staff': True}, verbose_name=_('author'))
     published_on = models.DateTimeField(

@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+import django
 from django import template
 from django.contrib.auth import get_user_model
 from django.db.models import FieldDoesNotExist
@@ -10,9 +11,13 @@ from elephantblog.utils import entry_list_lookup_related
 
 
 register = template.Library()
+assignment_tag = (
+    register.simple_tag if django.VERSION >= (1, 9)
+    else register.assignment_tag
+)
 
 
-@register.assignment_tag
+@assignment_tag
 def elephantblog_categories(show_empty_categories=False):
     """
     Assigns the list of categories to a template variable of your choice. The
@@ -29,7 +34,7 @@ def elephantblog_categories(show_empty_categories=False):
     return Category.objects.exclude(blogentries__isnull=True)
 
 
-@register.assignment_tag
+@assignment_tag
 def elephantblog_archive_years():
     """
     Assigns a list of years with active entries to a template variable of
@@ -54,7 +59,7 @@ def elephantblog_archive_years():
         'published_on', 'year', 'DESC')
 
 
-@register.assignment_tag
+@assignment_tag
 def elephantblog_archive_months():
     """
     Assigns a list of months with active entries to a template variable of
@@ -80,7 +85,7 @@ def elephantblog_archive_months():
         'published_on', 'month', 'DESC')
 
 
-@register.assignment_tag
+@assignment_tag
 def elephantblog_entries(limit=10,
                          featured_only=False,
                          active_language_only=True,
@@ -121,7 +126,7 @@ def elephantblog_entries(limit=10,
     return queryset.transform(entry_list_lookup_related)[:limit]
 
 
-@register.assignment_tag
+@assignment_tag
 def elephantblog_authors():
     return get_user_model().objects.filter(
         id__in=Entry.objects.active().order_by().values('author'),

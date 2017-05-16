@@ -41,7 +41,7 @@ class AdminTestCase(TestCase):
 
         self.assertRedirects(
             response,
-            'http://testserver/admin/elephantblog/entry/',
+            '/admin/elephantblog/entry/',
         )
 
         entry = Entry.objects.get()
