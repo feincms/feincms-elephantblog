@@ -23,8 +23,8 @@ setup(
     ),
     include_package_data=True,
     install_requires=[
-        'Django>=1.7',
-        'FeinCMS>=1.11',  # For Django 1.7, 1.10.x would work as well...
+        'Django>=1.8',
+        'FeinCMS>=1.11',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -37,9 +37,9 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
