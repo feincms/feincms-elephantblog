@@ -23,7 +23,7 @@ setup(
     ),
     include_package_data=True,
     install_requires=[
-        'Django>=1.8',
+        'Django>=1.8',  # For Django 2.0 you need Python 3.4 or newer.
         'FeinCMS>=1.11',
     ],
     classifiers=[
