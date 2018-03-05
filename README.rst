@@ -65,7 +65,7 @@ Read the source: https://github.com/feincms/feincms-elephantblog
 
 .. image:: https://travis-ci.org/feincms/feincms-elephantblog.png?branch=master
    :target: https://travis-ci.org/feincms/feincms-elephantblog
-.. image:: https://pypip.in/wheel/feincms-elephantblog/badge.svg
+.. image:: https://img.shields.io/pypi/wheel/feincms-elephantblog.svg
     :target: https://pypi.python.org/pypi/feincms-elephantblog/
     :alt: Wheel Status
 
