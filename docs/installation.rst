@@ -27,11 +27,19 @@ Installation
 
 You can install elephantblog using ``pip install feincms-elephantblog``.
 
-For the below to run, you will also need to install feincms_cleanse typing ``pip install feincms_cleanse``.
+The first step is to create a new app. As an example, let's name it ``blog``. You can use ``manage.py`` to create it::
 
-* Add ``elephantblog`` to your ``INSTALLED_APPS`` in your ``settings.py``
+    python manage.py startapp blog
 
-In your ``application/models.py`` register the blog module, extensions and
+Then, add ``elephantblog`` and ``blog`` to your ``INSTALLED_APPS`` in your ``settings.py``::
+
+    INSTALLED_APPS = [
+        'blog.apps.BlogConfig',
+        'elephantblog',
+        # Your other apps,
+    ]
+
+In the ``models.py`` file of your ``blog`` app, register the elephantblog module, extensions and
 content types::
 
     from feincms.contents import RichTextContent
@@ -123,7 +131,7 @@ Just make sure you have registered the ``navigation`` extension on your Page obj
 You have to import the correct module depending on the mptt tags you are using
 to build your navigation. Available are ``treeinfo`` and ``recursetree``.
 
-Add those lines to the ``models.py`` of your app::
+Add those lines to the ``models.py`` file of your ``blog`` app::
 
     from elephantblog.navigation_extensions import treeinfo  # so the extensions can be found.
 
