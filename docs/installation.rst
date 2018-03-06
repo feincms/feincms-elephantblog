@@ -54,6 +54,32 @@ content types::
     Of course, you can create all of the content types that you have for your
     FeinCMS Page.
 
+Migrations
+----------
+
+Specify the migration modules of your ``blog`` app to your ``Migration_MODULES`` in your ``settings.py`` file::
+
+    Migration_MODULES = {
+        'category': 'blog.category_migrations',
+        'categorytranslation': 'blog.categorytranslation_migrations',
+        'entry': 'blog.entry_migrations',
+    }
+
+Create an empty migration file for ``elephantblog``::
+
+    python manage.py makemigrations --empty elephantblog
+
+Perform the migration for ``elephantblog``::
+
+    python manage.py migrate elephantblog
+
+Once you will be finished with the integration (see below) perform the migration of your ``blog`` app by running again::
+
+    python manage.py makemigrations
+
+and::
+
+    python manage.py migrate
 
 Integrating Standalone:
 -----------------------
