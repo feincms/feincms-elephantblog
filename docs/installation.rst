@@ -57,9 +57,9 @@ content types::
 Migrations
 ----------
 
-Specify the migration modules of your ``blog`` app to your ``Migration_MODULES`` in your ``settings.py`` file::
+Specify the migration modules of your ``blog`` app to your ``MIGRATION_MODULES`` in your ``settings.py`` file::
 
-    Migration_MODULES = {
+    MIGRATION_MODULES = {
         'category': 'blog.category_migrations',
         'categorytranslation': 'blog.categorytranslation_migrations',
         'entry': 'blog.entry_migrations',
