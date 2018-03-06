@@ -27,6 +27,8 @@ Installation
 
 You can install elephantblog using ``pip install feincms-elephantblog``.
 
+For the below to run, you will also need to install feincms_cleanse typing ``pip install feincms_cleanse``.
+
 * Add ``elephantblog`` to your ``INSTALLED_APPS`` in your ``settings.py``
 
 In your ``application/models.py`` register the blog module, extensions and
