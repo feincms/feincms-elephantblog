@@ -50,7 +50,11 @@ class EntryAdmin(item_editor.ItemEditor):
     fieldsets = [
         [None, {
             'fields': [
-                ('is_active', 'is_featured', 'author'),
+                [
+                    'is_active', 
+                    'is_featured', 
+                    'author',
+                ],
                 'title',
             ]
         }],
