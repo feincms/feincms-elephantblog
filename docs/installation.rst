@@ -40,7 +40,7 @@ Then, add ``elephantblog`` and ``blog`` to your ``INSTALLED_APPS`` in your ``set
     INSTALLED_APPS = [
         'blog.apps.BlogConfig',
         'elephantblog',
-        # Your other apps,
+        # Your other apps, e.g. 'feincms.module.medialibrary' etc.
     ]
 
 In the ``models.py`` file of your ``blog`` app, register the elephantblog module, extensions and
