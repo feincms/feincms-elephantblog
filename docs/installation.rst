@@ -98,20 +98,27 @@ Integrating Standalone:
 
 Add the following lines to your urls.py::
 
+    from django.urls import include, url
+
     # Elephantblog urls
-    urlpatterns += patterns('',
+    urlpatterns += [
         url(r'^blog/', include('elephantblog.urls')),
-    )
+    ]
 
 If you're using the ``translations`` extension, and don't want to have your
 entries filtered by language use this snippet instead::
 
+    from django.urls import include, url
     from elephantblog.urls import elephantblog_patterns
-    urlpatterns += patterns('',
-        url(r'^blog/', include(elephantblog_patterns(
-            list_kwargs={'only_active_language': False },
-            ))),
-    )
+
+    urlpatterns += [
+        url(
+            r'^blog/',
+            include(elephantblog_patterns(
+                list_kwargs={'only_active_language': False },
+            )),
+        ),
+    ]
 
 
 FeinCMS Integration as ApplicationContent
