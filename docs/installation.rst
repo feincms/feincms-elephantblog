@@ -26,6 +26,8 @@ Installation
 ============
 
 You can install elephantblog using ``pip install feincms-elephantblog``.
+It is also recommended to use a HTML sanitizer for rich text content,
+e.g. ``pip install html-sanitizer``
 
 * Add ``elephantblog`` to your ``INSTALLED_APPS`` in your ``settings.py``
 
@@ -44,21 +46,25 @@ Then, add ``elephantblog`` and ``blog`` to your ``INSTALLED_APPS`` in your ``set
 In the ``models.py`` file of your ``blog`` app, register the elephantblog module, extensions and
 content types::
 
+    from django.utils.translation import ugettext_lazy as _
     from feincms.contents import RichTextContent
-
-    import feincms_cleanse
+    from html_sanitizer.django import get_sanitizer
 
     from elephantblog.models import Entry
 
-    Entry.register_extensions('feincms.module.extensions.datepublisher',
-                              'feincms.module.extensions.translations',
-                              'elephantblog.extensions.blogping',
+    Entry.register_extensions(
+        'feincms.module.extensions.datepublisher',
+        'feincms.module.extensions.translations',
+        'elephantblog.extensions.blogping',
     )
     Entry.register_regions(
         ('main', _('Main content area')),
     )
-    Entry.create_content_type(RichTextContent,
-                        cleanse=feincms_cleanse.cleanse_html, regions=('main',))
+    Entry.create_content_type(
+        RichTextContent,
+        cleanse=get_sanitizer().sanitize,
+        regions=('main',),
+    )
 
 
 .. note::
