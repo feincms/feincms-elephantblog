@@ -12,19 +12,15 @@ except ImportError:  # FeinCMS<2
     from feincms.content.medialibrary.models import MediaFileContent
 
 
-Entry.register_regions(
-    ('main', 'Main content area'),
-)
+Entry.register_regions(("main", "Main content area"),)
 
 try:
     # FeinCMS 2.0
     import feincms.extensions.translations  # noqa
 except ImportError:
-    Entry.register_extensions('feincms.module.extensions.translations')
+    Entry.register_extensions("feincms.module.extensions.translations")
 else:
-    Entry.register_extensions('feincms.extensions.translations')
+    Entry.register_extensions("feincms.extensions.translations")
 
-Entry.create_content_type(RichTextContent, cleanse=False, regions=('main',))
-Entry.create_content_type(
-    MediaFileContent,
-    TYPE_CHOICES=(('default', 'default'),))
+Entry.create_content_type(RichTextContent, cleanse=False, regions=("main",))
+Entry.create_content_type(MediaFileContent, TYPE_CHOICES=(("default", "default"),))

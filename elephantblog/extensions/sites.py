@@ -10,22 +10,25 @@ from django.db.models import ManyToManyField, Q
 
 
 def register(cls, admin_cls):
-    cls.add_to_class('sites', ManyToManyField(
-        Site, blank=True,
-        help_text=_('The sites where the blogpost should appear.'),
-        default=Site.objects.get_current))
+    cls.add_to_class(
+        "sites",
+        ManyToManyField(
+            Site,
+            blank=True,
+            help_text=_("The sites where the blogpost should appear."),
+            default=Site.objects.get_current,
+        ),
+    )
 
-    cls.objects.add_to_active_filters(
-        Q(sites=Site.objects.get_current),
-        key='sites')
+    cls.objects.add_to_active_filters(Q(sites=Site.objects.get_current), key="sites")
 
     def sites_admin(self, obj):
         available_sites = self.obj.all()
-        return ', '.join('%s' % site.name for site in available_sites)
+        return ", ".join("%s" % site.name for site in available_sites)
 
     sites_admin.allow_tags = True
-    sites_admin.short_description = _('Sites')
+    sites_admin.short_description = _("Sites")
 
     admin_cls.sites_admin = sites_admin
-    admin_cls.list_filter.append('sites')
-    admin_cls.list_display.append('sites_admin')
+    admin_cls.list_filter.append("sites")
+    admin_cls.list_display.append("sites_admin")

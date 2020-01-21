@@ -16,12 +16,16 @@ from elephantblog.utils import entry_list_lookup_related
 
 
 __all__ = (
-    'ArchiveIndexView', 'YearArchiveView', 'MonthArchiveView',
-    'DayArchiveView', 'DateDetailView', 'CategoryArchiveIndexView',
+    "ArchiveIndexView",
+    "YearArchiveView",
+    "MonthArchiveView",
+    "DayArchiveView",
+    "DateDetailView",
+    "CategoryArchiveIndexView",
 )
 
 
-PAGINATE_BY = getattr(settings, 'BLOG_PAGINATE_BY', 10)
+PAGINATE_BY = getattr(settings, "BLOG_PAGINATE_BY", 10)
 
 
 class ElephantblogMixin(object):
@@ -39,19 +43,19 @@ class ElephantblogMixin(object):
     entry_class = Entry
 
     def get_context_data(self, **kwargs):
-        kwargs.update({'view': self})
+        kwargs.update({"view": self})
         return super(ElephantblogMixin, self).get_context_data(**kwargs)
 
     def get_queryset(self):
-        return self.entry_class.objects.active().transform(
-            entry_list_lookup_related)
+        return self.entry_class.objects.active().transform(entry_list_lookup_related)
 
     def render_to_response(self, context, **response_kwargs):
-        if 'app_config' in getattr(self.request, '_feincms_extra_context', {}):
+        if "app_config" in getattr(self.request, "_feincms_extra_context", {}):
             return self.get_template_names(), context
 
         return super(ElephantblogMixin, self).render_to_response(
-            context, **response_kwargs)
+            context, **response_kwargs
+        )
 
 
 class TranslationMixin(object):
@@ -59,12 +63,13 @@ class TranslationMixin(object):
     #: Determines, whether list views should only display entries from
     #: the active language at a time. Requires the translations extension.
     """
+
     only_active_language = True
 
     def get_queryset(self):
         queryset = super(TranslationMixin, self).get_queryset()
         try:
-            queryset.model._meta.get_field('language')
+            queryset.model._meta.get_field("language")
         except FieldDoesNotExist:
             return queryset
         else:
@@ -74,53 +79,49 @@ class TranslationMixin(object):
                 return queryset
 
 
-class ArchiveIndexView(
-        TranslationMixin, ElephantblogMixin, dates.ArchiveIndexView):
+class ArchiveIndexView(TranslationMixin, ElephantblogMixin, dates.ArchiveIndexView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
-    date_field = 'published_on'
-    template_name_suffix = '_archive'
+    date_field = "published_on"
+    template_name_suffix = "_archive"
     allow_empty = True
 
 
-class YearArchiveView(
-        TranslationMixin, ElephantblogMixin, dates.YearArchiveView):
+class YearArchiveView(TranslationMixin, ElephantblogMixin, dates.YearArchiveView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
-    date_field = 'published_on'
+    date_field = "published_on"
     make_object_list = True
-    template_name_suffix = '_archive'
+    template_name_suffix = "_archive"
 
 
-class MonthArchiveView(
-        TranslationMixin, ElephantblogMixin, dates.MonthArchiveView):
+class MonthArchiveView(TranslationMixin, ElephantblogMixin, dates.MonthArchiveView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
-    month_format = '%m'
-    date_field = 'published_on'
-    template_name_suffix = '_archive'
+    month_format = "%m"
+    date_field = "published_on"
+    template_name_suffix = "_archive"
 
 
-class DayArchiveView(
-        TranslationMixin, ElephantblogMixin, dates.DayArchiveView):
+class DayArchiveView(TranslationMixin, ElephantblogMixin, dates.DayArchiveView):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
-    month_format = '%m'
-    date_field = 'published_on'
-    template_name_suffix = '_archive'
+    month_format = "%m"
+    date_field = "published_on"
+    template_name_suffix = "_archive"
 
 
 class DateDetailView(
-        TranslationMixin, ContentObjectMixin, ElephantblogMixin,
-        dates.DateDetailView):
+    TranslationMixin, ContentObjectMixin, ElephantblogMixin, dates.DateDetailView
+):
     paginator_class = paginator.Paginator
     paginate_by = PAGINATE_BY
-    month_format = '%m'
-    date_field = 'published_on'
-    context_object_name = 'entry'
+    month_format = "%m"
+    date_field = "published_on"
+    context_object_name = "entry"
 
     def get_queryset(self):
-        if self.request.user.is_staff and self.request.GET.get('eb_preview'):
+        if self.request.user.is_staff and self.request.GET.get("eb_preview"):
             return self.entry_class.objects.all()
         return super(DateDetailView, self).get_queryset()
 
@@ -150,47 +151,52 @@ class DateDetailView(
         try:
             self.object.first_image = [
                 mediafile
-                for mediafile in self.object.content.all_of_type(
-                    MediaFileContent)
-                if mediafile.mediafile.type == 'image'][0]
+                for mediafile in self.object.content.all_of_type(MediaFileContent)
+                if mediafile.mediafile.type == "image"
+            ][0]
         except IndexError:
             pass
 
         try:
             self.object.first_richtext = self.object.content.all_of_type(
-                RichTextContent)[0]
+                RichTextContent
+            )[0]
         except IndexError:
             pass
 
     def get_next_or_none(self):
         try:
-            return self.get_queryset().filter(
-                published_on__gte=self.object.published_on,
-            ).exclude(id=self.object.id).order_by('published_on')[0]
+            return (
+                self.get_queryset()
+                .filter(published_on__gte=self.object.published_on,)
+                .exclude(id=self.object.id)
+                .order_by("published_on")[0]
+            )
         except IndexError:
             return None
 
     def get_previous_or_none(self):
         try:
-            return self.get_queryset().filter(
-                published_on__lte=self.object.published_on,
-            ).exclude(id=self.object.id).order_by('-published_on')[0]
+            return (
+                self.get_queryset()
+                .filter(published_on__lte=self.object.published_on,)
+                .exclude(id=self.object.id)
+                .order_by("-published_on")[0]
+            )
         except IndexError:
             return None
 
 
 class CategoryArchiveIndexView(ArchiveIndexView):
-    template_name_suffix = '_archive'
+    template_name_suffix = "_archive"
 
     def get_queryset(self):
-        slug = self.kwargs['slug']
+        slug = self.kwargs["slug"]
 
         try:
-            self.category = Category.objects.get(
-                translations__slug=slug,
-            )
+            self.category = Category.objects.get(translations__slug=slug,)
         except Category.DoesNotExist:
-            raise Http404('Category with slug %s does not exist' % slug)
+            raise Http404("Category with slug %s does not exist" % slug)
 
         except Category.MultipleObjectsReturned:
             self.category = get_object_or_404(
@@ -204,24 +210,24 @@ class CategoryArchiveIndexView(ArchiveIndexView):
 
     def get_context_data(self, **kwargs):
         return super(CategoryArchiveIndexView, self).get_context_data(
-            category=self.category,
-            **kwargs)
+            category=self.category, **kwargs
+        )
 
 
 class AuthorArchiveIndexView(ArchiveIndexView):
-    template_name_suffix = '_archive'
+    template_name_suffix = "_archive"
 
     def get_queryset(self):
         self.author = get_object_or_404(
-            get_user_model(),
-            is_staff=True,
-            pk=self.kwargs['pk'],
+            get_user_model(), is_staff=True, pk=self.kwargs["pk"],
         )
-        return super(AuthorArchiveIndexView, self).get_queryset().filter(
-            author=self.author,
+        return (
+            super(AuthorArchiveIndexView, self)
+            .get_queryset()
+            .filter(author=self.author,)
         )
 
     def get_context_data(self, **kwargs):
         return super(AuthorArchiveIndexView, self).get_context_data(
-            author=self.author,
-            **kwargs)
+            author=self.author, **kwargs
+        )

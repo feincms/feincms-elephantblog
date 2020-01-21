@@ -14,16 +14,15 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def get_entries(context, limit):
     try:
-        queryset = Entry.objects.active().filter(
-            language=get_language())
+        queryset = Entry.objects.active().filter(language=get_language())
     except (AttributeError, FieldError):
         queryset = Entry.objects.active()
 
     if limit:
         queryset = queryset[:limit]
 
-    context['entries'] = queryset
-    return ''
+    context["entries"] = queryset
+    return ""
 
 
 @register.simple_tag(takes_context=True)
@@ -36,11 +35,10 @@ def get_frontpage(context, category=None):
         pass
 
     if category:
-        queryset = queryset.filter(
-            categories__translations__title=category).distinct()
+        queryset = queryset.filter(categories__translations__title=category).distinct()
 
-    context['entries'] = queryset
-    return ''
+    context["entries"] = queryset
+    return ""
 
 
 @register.simple_tag(takes_context=True)
@@ -49,13 +47,13 @@ def get_others(context, number=3, same_category=True, featured_only=False):
         other related entries
     """
     if same_category:
-        entries = same_category_entries(context['object'])
+        entries = same_category_entries(context["object"])
     else:
-        entries = Entry.objects.exclude(pk=context['object'].pk)
+        entries = Entry.objects.exclude(pk=context["object"].pk)
     if featured_only:
         entries.filter(is_featured=True)
 
     entries = entries[:number]
     entries = entries.transform(entry_list_lookup_related)
-    context['others'] = entries
-    return ''
+    context["others"] = entries
+    return ""

@@ -1,6 +1,0 @@
-coverage
-Django
-factory-boy
-FeinCMS
-Pillow
-pytz

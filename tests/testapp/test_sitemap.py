@@ -10,22 +10,17 @@ class SitemapTestCase(TestCase):
     def test_sitemap(self):
         entries = create_entries(EntryFactory)
         entries[0].richtextcontent_set.create(
-            region='main',
-            ordering=1,
-            text='Hello world')
+            region="main", ordering=1, text="Hello world"
+        )
 
-        response = self.client.get('/sitemap.xml')
+        response = self.client.get("/sitemap.xml")
 
-        today = date.today().strftime('%Y-%m-%d')
+        today = date.today().strftime("%Y-%m-%d")
 
         self.assertContains(
-            response,
-            '<lastmod>{0}</lastmod>'.format(today),
-            2,
+            response, "<lastmod>{0}</lastmod>".format(today), 2,
         )
 
         self.assertContains(
-            response,
-            '<loc>http://testserver/multilang/',
-            2,
+            response, "<loc>http://testserver/multilang/", 2,
         )

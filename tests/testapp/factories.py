@@ -18,9 +18,9 @@ class UserFactory(factory.DjangoModelFactory):
     class Meta:
         model = User
 
-    username = 'author'
-    password = 'elephant'
-    email = 'admin@elephantblog.ch'
+    username = "author"
+    password = "elephant"
+    email = "admin@elephantblog.ch"
 
 
 class EntryFactory(factory.DjangoModelFactory):
@@ -41,24 +41,28 @@ def create_entries(factory):
         date1 = pytz.timezone(settings.TIME_ZONE).localize(date1, is_dst=None)
         date2 = pytz.timezone(settings.TIME_ZONE).localize(date2, is_dst=None)
 
-    entries.append(factory.create(
-        pk=1,
-        author=author,
-        title='Entry 1',
-        published_on=date1,
-        last_changed=date1+delta,
-        slug='entry-1',
-        language='en',
-    ))
-    entries.append(factory.create(
-        pk=2,
-        author=author,
-        title='Eintrag 1',
-        published_on=date2,
-        last_changed=date2+delta,
-        slug='eintrag-1',
-        language='en',
-    ))
+    entries.append(
+        factory.create(
+            pk=1,
+            author=author,
+            title="Entry 1",
+            published_on=date1,
+            last_changed=date1 + delta,
+            slug="entry-1",
+            language="en",
+        )
+    )
+    entries.append(
+        factory.create(
+            pk=2,
+            author=author,
+            title="Eintrag 1",
+            published_on=date2,
+            last_changed=date2 + delta,
+            slug="eintrag-1",
+            language="en",
+        )
+    )
     return entries
 
 
@@ -68,22 +72,22 @@ def create_chinese_entries(factory):
     factory.create(
         pk=3,
         author=author,
-        title='Entry 2 chinese traditional',
-        language='zh-hans',
+        title="Entry 2 chinese traditional",
+        language="zh-hans",
         translation_of=entries[0],
         published_on=datetime.datetime(2012, 10, 12, 12, 0, 0),
         last_changed=datetime.datetime(2012, 10, 12, 16, 0, 0),
-        slug='entry-2-cn'
+        slug="entry-2-cn",
     )
     factory.create(
         pk=4,
         author=author,
-        title='Entry 2 chinese simplified',
-        language='zh-hant',
+        title="Entry 2 chinese simplified",
+        language="zh-hant",
         translation_of=entries[0],
         published_on=datetime.datetime(2012, 10, 12, 12, 0, 0),
         last_changed=datetime.datetime(2012, 10, 12, 16, 0, 0),
-        slug='entry-2-tw'
+        slug="entry-2-tw",
     )
 
 
@@ -99,9 +103,5 @@ class CategoryFactory(factory.DjangoModelFactory):
 
 def create_category(title):
     category = CategoryFactory.create()
-    CategoryTranslationFactory.create(
-        parent=category,
-        title=title,
-        slug=slugify(title)
-    )
+    CategoryTranslationFactory.create(parent=category, title=title, slug=slugify(title))
     return category

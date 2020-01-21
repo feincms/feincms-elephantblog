@@ -12,8 +12,7 @@ from elephantblog.utils import entry_list_lookup_related
 
 register = template.Library()
 assignment_tag = (
-    register.simple_tag if django.VERSION >= (1, 9)
-    else register.assignment_tag
+    register.simple_tag if django.VERSION >= (1, 9) else register.assignment_tag
 )
 
 
@@ -55,8 +54,7 @@ def elephantblog_archive_years():
     (Wrapped for legibility, the ``{% url %}`` template tag must be on a
     single line.)
     """
-    return Entry.objects.active().datetimes(
-        'published_on', 'year', 'DESC')
+    return Entry.objects.active().datetimes("published_on", "year", "DESC")
 
 
 @assignment_tag
@@ -81,15 +79,13 @@ def elephantblog_archive_months():
     (Wrapped for legibility, the ``{% url %}`` template tag must be on a
     single line.)
     """
-    return Entry.objects.active().datetimes(
-        'published_on', 'month', 'DESC')
+    return Entry.objects.active().datetimes("published_on", "month", "DESC")
 
 
 @assignment_tag
-def elephantblog_entries(limit=10,
-                         featured_only=False,
-                         active_language_only=True,
-                         category=None):
+def elephantblog_entries(
+    limit=10, featured_only=False, active_language_only=True, category=None
+):
     """
     Usage::
 
@@ -113,7 +109,7 @@ def elephantblog_entries(limit=10,
         queryset = queryset.filter(is_featured=True)
 
     try:
-        queryset.model._meta.get_field('language')
+        queryset.model._meta.get_field("language")
     except FieldDoesNotExist:
         pass
     else:
@@ -129,5 +125,5 @@ def elephantblog_entries(limit=10,
 @assignment_tag
 def elephantblog_authors():
     return get_user_model().objects.filter(
-        id__in=Entry.objects.active().order_by().values('author'),
+        id__in=Entry.objects.active().order_by().values("author"),
     )
