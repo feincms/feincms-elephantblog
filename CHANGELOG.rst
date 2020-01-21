@@ -7,7 +7,7 @@ Change log
 ~~~~~~~~~~~~~~~
 
 
-`v1.2.0`_ (unreleased)
+`v1.2.0`_ (2020-01-21)
 ~~~~~~~~~~~~~~~~~~~~~~
 
 - Reformatted the code using black.
@@ -15,5 +15,5 @@ Change log
 
 
 
-.. _v1.20: https://github.com/feincms/feincms-elephantblog/compare/v1.1.0...v1.2.0
+.. _v1.2.0: https://github.com/feincms/feincms-elephantblog/compare/v1.1.0...v1.2.0
 .. _Next version: https://github.com/feincms/feincms-elephantblog/compare/v1.2.0...master
