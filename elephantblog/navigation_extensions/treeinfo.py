@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.translation import gettext as _, gettext_lazy
 
 from .common import Category, NavigationExtension, PagePretender, all_months, date_tree
 
@@ -17,7 +17,7 @@ class BlogDateNavigationExtension(NavigationExtension):
     2010
     """
 
-    name = ugettext_lazy("Blog date")
+    name = gettext_lazy("Blog date")
 
     def children(self, page, **kwargs):
         for year, months in date_tree():
@@ -43,7 +43,7 @@ class BlogDateNavigationExtension(NavigationExtension):
 
 
 class CategoryAndDateNavigationExtension(NavigationExtension):
-    name = ugettext_lazy("Blog category and date")
+    name = gettext_lazy("Blog category and date")
 
     def children(self, page, **kwargs):
         all_categories = Category.objects.all()

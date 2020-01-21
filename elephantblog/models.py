@@ -10,7 +10,7 @@ from django.db import models
 from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import gettext_lazy as _, gettext
 
 import six
 
@@ -41,12 +41,12 @@ class Category(models.Model, translations.TranslatedObjectMixin):
         try:
             translation = self.translation
         except models.ObjectDoesNotExist:
-            return ugettext("Unnamed category")
+            return gettext("Unnamed category")
 
         if translation:
             return "%s" % translation
 
-        return ugettext("Unnamed category")
+        return gettext("Unnamed category")
 
 
 @six.python_2_unicode_compatible

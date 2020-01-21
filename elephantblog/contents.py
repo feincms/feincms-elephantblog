@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _, get_language
+from django.utils.translation import gettext_lazy as _, get_language
 
 from elephantblog._internal import ct_render_to_string
 from elephantblog.models import Category, Entry

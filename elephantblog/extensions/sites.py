@@ -4,7 +4,7 @@ Allows the blog to use the sites framework.
 
 from __future__ import absolute_import, unicode_literals
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.sites.models import Site
 from django.db.models import ManyToManyField, Q
 

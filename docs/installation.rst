@@ -40,7 +40,7 @@ Then, add ``elephantblog`` and ``blog`` to your ``INSTALLED_APPS`` in your ``set
 In the ``models.py`` file of your ``blog`` app, register the elephantblog module, extensions and
 content types::
 
-    from django.utils.translation import ugettext_lazy as _
+    from django.utils.translation import gettext_lazy as _
     from feincms.contents import RichTextContent
     from html_sanitizer.django import get_sanitizer
 
