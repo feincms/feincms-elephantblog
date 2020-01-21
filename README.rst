@@ -19,7 +19,7 @@ Basically, ElephantBlog just uses what FeinCMS already has in a blog way. A blog
 Multiple entries in a timeline. One blogentry is similar to a FeinCMS page: It can have
 multiple content types and some meta informations like title, slug, publishing date, ...
 
-If you need more, like comments, tagging, pinging, categories, translations, you name it,
+If you need more, like comments, tagging, categories, translations, you name it,
 then you can use the bundled extensions or write your own. (and please don't forget
 to publish your extensions back to the community).
 
@@ -46,10 +46,8 @@ Bundled extensions
 You can, if you want, activate those extensions:
 
 * Disqus comments
-* Pinging
 * Categories
 * Multilingual support
-* Pingback & Trackback support
 * ... (more to come, you name it!)
 
 

@@ -19,7 +19,6 @@ Contents:
    :maxdepth: 1
 
    installation
-   extensions
    contents
    widgets
 

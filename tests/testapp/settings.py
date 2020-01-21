@@ -81,3 +81,9 @@ TEMPLATES = [
 STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "media")
 MEDIA_URL = "/media/"
+
+MIGRATION_MODULES = {
+    # "page": "testapp.migrate.page",
+    "medialibrary": "testapp.migrate.medialibrary",
+    "elephantblog": "testapp.migrate.elephantblog",
+}

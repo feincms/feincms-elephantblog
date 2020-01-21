@@ -16,12 +16,6 @@ ElephantBlog needs at least:
 
 .. _TinyMCE: http://www.tinymce.com/download/download.php
 
-Optional packages:
-
-* Pinging_ for search engine pinging.
-
-.. _Pinging: https://github.com/matthiask/pinging
-
 Installation
 ============
 
@@ -55,7 +49,6 @@ content types::
     Entry.register_extensions(
         'feincms.module.extensions.datepublisher',
         'feincms.module.extensions.translations',
-        'elephantblog.extensions.blogping',
     )
     Entry.register_regions(
         ('main', _('Main content area')),
