@@ -1,19 +1,45 @@
+dist: xenial
 language: python
-cache: pip
 sudo: false
+cache: pip
 python:
-  - "3.4"
+  - "3.6"
 env:
-  - REQ="Django>=1.8,<1.9 FeinCMS>=1.11,<1.12"
-  - REQ="Django>=1.11,<2.0 FeinCMS>=1.13,<2"
-  - REQ="Django>=2.0,<2.1 FeinCMS>=1.13,<2"
+  - REQ=""
 matrix:
   include:
     - python: "2.7"
-      env: REQ="Django>=1.8,<1.9 FeinCMS>=1.11,<1.12"
-    - python: "2.7"
-      env: REQ="Django>=1.11,<2.0 FeinCMS>=1.13,<2"
+      env: REQ="Django>=1.11,<2.0 django-mptt"
+    - python: "3.4"
+      env: REQ="Django>=1.11,<2.0 django-mptt"
+    - python: "3.4"
+      env: REQ="Django>=2.0,<2.1 django-mptt"
+    - python: "3.5"
+      env: REQ="Django>=1.11,<2.0 django-mptt"
+    - python: "3.5"
+      env: REQ="Django>=2.0,<2.1 django-mptt"
+    - python: "3.5"
+      env: REQ="Django>=2.1,<2.2 django-mptt"
+    - python: "3.6"
+      env: REQ="Django>=1.11,<2.0 django-mptt"
+    - python: "3.6"
+      env: REQ="Django>=2.0,<2.1 django-mptt"
+    - python: "3.6"
+      env: REQ="Django>=2.1,<2.2 django-mptt"
+    - python: "3.6"
+      env: REQ="Django>=2.2,<3.0 django-mptt"
+    - python: "3.7"
+      env: REQ="Django>=2.2,<3.0 django-mptt"
+    - python: "3.6"
+      env: REQ="Django>=3.0,<3.1 django-mptt"
+    - python: "3.7"
+      env: REQ="Django>=3.0,<3.1 django-mptt"
+    - python: "3.7"
+      env: REQ="https://github.com/django/django/archive/master.zip django-mptt"
+  allow_failures:
+    - env: REQ="https://github.com/django/django/archive/master.zip django-mptt"
 install:
-  - pip install $REQ django-mptt==0.9.0 factory_boy pytz flake8 Pillow
+  - pip install -U pip wheel setuptools
+  - pip install $REQ FeinCMS Pillow pytz six
   - python setup.py install
-script: "cd tests && ./manage.py test testapp && cd .. && flake8 ."
+script: "cd tests && ./manage.py test testapp -v2"
