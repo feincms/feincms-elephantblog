@@ -47,6 +47,6 @@ matrix:
     - env: REQ="https://github.com/django/django/archive/master.zip django-mptt"
 install:
   - pip install -U pip wheel setuptools
-  - pip install $REQ FeinCMS Pillow pytz six
+  - pip install $REQ FeinCMS Pillow factory-boy pytz six
   - python setup.py install
 script: "cd tests && ./manage.py test testapp -v2"
