@@ -6,6 +6,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+`v1.3.0`_ (2020-01-29)
+~~~~~~~~~~~~~~~~~~~~~~
+
 - Changed contents to return a ``(template, context)`` tuple from their
   render methods. The minimum FeinCMS version supporting this is 1.15.
 
@@ -19,4 +22,5 @@ Change log
 
 
 .. _v1.2.0: https://github.com/feincms/feincms-elephantblog/compare/v1.1.0...v1.2.0
-.. _Next version: https://github.com/feincms/feincms-elephantblog/compare/v1.2.0...master
+.. _v1.3.0: https://github.com/feincms/feincms-elephantblog/compare/v1.2.0...v1.3.0
+.. _Next version: https://github.com/feincms/feincms-elephantblog/compare/v1.3.0...master
