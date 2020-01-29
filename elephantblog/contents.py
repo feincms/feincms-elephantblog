@@ -3,10 +3,8 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.db import models
-from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _, get_language
 
-from elephantblog._internal import ct_render_to_string
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
 
@@ -75,7 +73,7 @@ class BlogEntryListContent(models.Model):
         template_names = ["content/elephantblog/entry_list.html"]
         if self.featured_only:
             template_names.insert(0, "entry_list_featured.html")
-        return render_to_string(template_names, {"content": self})
+        return template_names, {"content": self}
 
 
 class BlogCategoryListContent(models.Model):
@@ -92,9 +90,7 @@ class BlogCategoryListContent(models.Model):
         else:
             categories = Category.objects.exclude(blogentries__isnull=True)
 
-        return ct_render_to_string(
+        return (
             "content/elephantblog/category_list.html",
             {"content": self, "categories": categories},
-            context_instance=kwargs.get("context"),
-            request=kwargs.get("request"),
         )

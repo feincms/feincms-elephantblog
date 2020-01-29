@@ -6,6 +6,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Changed contents to return a ``(template, context)`` tuple from their
+  render methods. The minimum FeinCMS version supporting this is 1.15.
+
 
 `v1.2.0`_ (2020-01-21)
 ~~~~~~~~~~~~~~~~~~~~~~
