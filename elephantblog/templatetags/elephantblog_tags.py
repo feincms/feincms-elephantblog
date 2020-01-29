@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import django
 from django import template
 from django.contrib.auth import get_user_model
-from django.db.models import FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist
 from django.utils.translation import get_language
 
 from elephantblog.models import Category, Entry

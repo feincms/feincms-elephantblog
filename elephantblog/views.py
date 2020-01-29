@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import Http404
 from django.core import paginator
 from django.contrib.auth import get_user_model
-from django.db.models import FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
 from django.views.generic import dates
