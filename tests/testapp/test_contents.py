@@ -24,6 +24,7 @@ class ContentsTestCase(TestCase):
         entries[1].categories.add(category)
         create_category(title="Empty category")
 
+        BlogEntryListContent._meta.abstract = False  # Hack to allow instantiation
         content = BlogEntryListContent()
 
         content.process(Request)
@@ -94,6 +95,7 @@ class ContentsTestCase(TestCase):
             1,
         )
 
+        BlogCategoryListContent._meta.abstract = False  # Hack to allow instantiation
         content = BlogCategoryListContent()
         html = render_to_string(*content.render())
         self.assertEqual(

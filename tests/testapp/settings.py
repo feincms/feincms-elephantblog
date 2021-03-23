@@ -33,6 +33,7 @@ DATABASES = {
         "PORT": "",
     }
 }
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 MIDDLEWARE_CLASSES = MIDDLEWARE = (
     "django.middleware.common.CommonMiddleware",
