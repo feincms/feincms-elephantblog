@@ -21,9 +21,17 @@ sitemaps = {
 urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(r"^blog/", include("elephantblog.urls")),
-    url(r"^sitemap\.xml$", sitemap, {"sitemaps": sitemaps},),
+    url(
+        r"^sitemap\.xml$",
+        sitemap,
+        {"sitemaps": sitemaps},
+    ),
     url(
         r"^multilang/",
-        include(elephantblog_patterns(list_kwargs={"only_active_language": False},)),
+        include(
+            elephantblog_patterns(
+                list_kwargs={"only_active_language": False},
+            )
+        ),
     ),
 ]

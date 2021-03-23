@@ -18,9 +18,13 @@ class SitemapTestCase(TestCase):
         today = date.today().strftime("%Y-%m-%d")
 
         self.assertContains(
-            response, "<lastmod>{0}</lastmod>".format(today), 2,
+            response,
+            "<lastmod>{0}</lastmod>".format(today),
+            2,
         )
 
         self.assertContains(
-            response, "<loc>http://testserver/multilang/", 2,
+            response,
+            "<loc>http://testserver/multilang/",
+            2,
         )

@@ -43,8 +43,8 @@ def get_frontpage(context, category=None):
 
 @register.simple_tag(takes_context=True)
 def get_others(context, number=3, same_category=True, featured_only=False):
-    """ This tag can be used on an entry detail page to tease
-        other related entries
+    """This tag can be used on an entry detail page to tease
+    other related entries
     """
     if same_category:
         entries = same_category_entries(context["object"])

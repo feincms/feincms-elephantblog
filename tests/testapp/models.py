@@ -12,7 +12,9 @@ except ImportError:  # FeinCMS<2
     from feincms.content.medialibrary.models import MediaFileContent
 
 
-Entry.register_regions(("main", "Main content area"),)
+Entry.register_regions(
+    ("main", "Main content area"),
+)
 
 try:
     # FeinCMS 2.0

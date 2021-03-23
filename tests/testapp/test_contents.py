@@ -29,31 +29,36 @@ class ContentsTestCase(TestCase):
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertIn(
-            'h2 class="entry-title"><a href="/multilang/2012/10/12/eintrag-1/', html,
+            'h2 class="entry-title"><a href="/multilang/2012/10/12/eintrag-1/',
+            html,
         )
         self.assertIn(
-            'h2 class="entry-title"><a href="/multilang/2012/08/12/entry-1/"', html,
+            'h2 class="entry-title"><a href="/multilang/2012/08/12/entry-1/"',
+            html,
         )
 
         content.featured_only = True
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<h2"), 1,
+            html.count("<h2"),
+            1,
         )
 
         content.category = category
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<h2"), 0,
+            html.count("<h2"),
+            0,
         )
 
         content.featured_only = False
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<h2"), 1,
+            html.count("<h2"),
+            1,
         )
 
         content = BlogEntryListContent()
@@ -61,38 +66,44 @@ class ContentsTestCase(TestCase):
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<h2"), 1,
+            html.count("<h2"),
+            1,
         )
 
         Request.GET["page"] = 2
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<h2"), 1,
+            html.count("<h2"),
+            1,
         )
 
         Request.GET["page"] = 3
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<h2"), 1,
+            html.count("<h2"),
+            1,
         )
 
         Request.GET["page"] = "abc"
         content.process(Request)
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<h2"), 1,
+            html.count("<h2"),
+            1,
         )
 
         content = BlogCategoryListContent()
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<li>"), 1,
+            html.count("<li>"),
+            1,
         )
 
         content.show_empty_categories = True
         html = render_to_string(*content.render())
         self.assertEqual(
-            html.count("<li>"), 2,
+            html.count("<li>"),
+            2,
         )

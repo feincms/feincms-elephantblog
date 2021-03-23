@@ -16,7 +16,9 @@ class FeedTestCase(TestCase):
         self.assertContains(response, "rss")
         self.assertContains(response, "xmlns:atom")
         self.assertContains(
-            response, "<title>Blog of the usual elephant</title>", 1,
+            response,
+            "<title>Blog of the usual elephant</title>",
+            1,
         )
         self.assertContains(
             response,
@@ -24,8 +26,12 @@ class FeedTestCase(TestCase):
             1,
         )
         self.assertContains(
-            response, "<guid>http://testserver/multilang/2012/08/12/entry-1/</guid>", 1,
+            response,
+            "<guid>http://testserver/multilang/2012/08/12/entry-1/</guid>",
+            1,
         )
         self.assertContains(
-            response, "<description>Hello world</description>", 1,
+            response,
+            "<description>Hello world</description>",
+            1,
         )

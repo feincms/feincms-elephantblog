@@ -125,7 +125,10 @@ class GenericViewsTest(TestCase):
         image = entry.mediafilecontent_set.create(
             ordering=2,
             region="main",
-            mediafile=MediaFile.objects.create(type="image", file="test.jpg",),
+            mediafile=MediaFile.objects.create(
+                type="image",
+                file="test.jpg",
+            ),
         )
 
         c = Client()

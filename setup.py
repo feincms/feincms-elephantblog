@@ -17,7 +17,9 @@ setup(
     url="https://github.com/feincms/feincms-elephantblog/",
     license="BSD License",
     platforms=["OS Independent"],
-    packages=find_packages(exclude=[],),
+    packages=find_packages(
+        exclude=[],
+    ),
     include_package_data=True,
     install_requires=["Django>=1.11", "FeinCMS>=1.15"],
     classifiers=[

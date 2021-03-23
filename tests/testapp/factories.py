@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 import datetime
 import pytz
-import factory
+from factory.django import DjangoModelFactory
 
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -14,7 +14,7 @@ from django.conf import settings
 from elephantblog.models import Entry, Category, CategoryTranslation
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
 
@@ -23,7 +23,7 @@ class UserFactory(factory.DjangoModelFactory):
     email = "admin@elephantblog.ch"
 
 
-class EntryFactory(factory.DjangoModelFactory):
+class EntryFactory(DjangoModelFactory):
     class Meta:
         model = Entry
 
@@ -91,12 +91,12 @@ def create_chinese_entries(factory):
     )
 
 
-class CategoryTranslationFactory(factory.DjangoModelFactory):
+class CategoryTranslationFactory(DjangoModelFactory):
     class Meta:
         model = CategoryTranslation
 
 
-class CategoryFactory(factory.DjangoModelFactory):
+class CategoryFactory(DjangoModelFactory):
     class Meta:
         model = Category
 

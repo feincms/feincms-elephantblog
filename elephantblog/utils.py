@@ -20,7 +20,9 @@ def same_category_entries(entry):
     """ @return: all entries that have at least one category in common """
     return (
         Entry.objects.active()
-        .filter(categories__in=entry.categories.all(),)
+        .filter(
+            categories__in=entry.categories.all(),
+        )
         .exclude(pk=entry.pk)
         .distinct()
     )

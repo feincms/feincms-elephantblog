@@ -20,7 +20,8 @@ class AdminTestCase(TestCase):
         self.client.login(username=author.username, password="elephant")
 
         self.assertContains(
-            self.client.get("/admin/elephantblog/entry/"), "0 entries",
+            self.client.get("/admin/elephantblog/entry/"),
+            "0 entries",
         )
 
         response = self.client.post(
@@ -40,7 +41,8 @@ class AdminTestCase(TestCase):
         )
 
         self.assertRedirects(
-            response, "/admin/elephantblog/entry/",
+            response,
+            "/admin/elephantblog/entry/",
         )
 
         entry = Entry.objects.get()

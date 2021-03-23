@@ -11,8 +11,7 @@ except ImportError:  # FeinCMS<2
 
 
 class BaseLookup(object):
-    """ The base class for the transformation instructions
-    """
+    """The base class for the transformation instructions"""
 
     @staticmethod
     def lookup(entry_qs):
@@ -41,7 +40,8 @@ class RichTextMediaFileAndCategoriesLookup(BaseLookup):
         if model:
             for content in (
                 model.objects.filter(
-                    parent__in=entry_dict.keys(), mediafile__type="image",
+                    parent__in=entry_dict.keys(),
+                    mediafile__type="image",
                 )
                 .reverse()
                 .select_related("mediafile")

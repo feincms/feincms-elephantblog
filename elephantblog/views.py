@@ -168,7 +168,9 @@ class DateDetailView(
         try:
             return (
                 self.get_queryset()
-                .filter(published_on__gte=self.object.published_on,)
+                .filter(
+                    published_on__gte=self.object.published_on,
+                )
                 .exclude(id=self.object.id)
                 .order_by("published_on")[0]
             )
@@ -179,7 +181,9 @@ class DateDetailView(
         try:
             return (
                 self.get_queryset()
-                .filter(published_on__lte=self.object.published_on,)
+                .filter(
+                    published_on__lte=self.object.published_on,
+                )
                 .exclude(id=self.object.id)
                 .order_by("-published_on")[0]
             )
@@ -194,7 +198,9 @@ class CategoryArchiveIndexView(ArchiveIndexView):
         slug = self.kwargs["slug"]
 
         try:
-            self.category = Category.objects.get(translations__slug=slug,)
+            self.category = Category.objects.get(
+                translations__slug=slug,
+            )
         except Category.DoesNotExist:
             raise Http404("Category with slug %s does not exist" % slug)
 
@@ -219,12 +225,16 @@ class AuthorArchiveIndexView(ArchiveIndexView):
 
     def get_queryset(self):
         self.author = get_object_or_404(
-            get_user_model(), is_staff=True, pk=self.kwargs["pk"],
+            get_user_model(),
+            is_staff=True,
+            pk=self.kwargs["pk"],
         )
         return (
             super(AuthorArchiveIndexView, self)
             .get_queryset()
-            .filter(author=self.author,)
+            .filter(
+                author=self.author,
+            )
         )
 
     def get_context_data(self, **kwargs):
