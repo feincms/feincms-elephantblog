@@ -3,40 +3,26 @@ language: python
 sudo: false
 cache: pip
 python:
-  - "3.6"
+  - "3.8"
 env:
   - REQ=""
 matrix:
   include:
-    - python: "2.7"
-      env: REQ="Django>=1.11,<2.0 django-mptt"
-    - python: "3.4"
-      env: REQ="Django>=1.11,<2.0 django-mptt"
-    - python: "3.4"
-      env: REQ="Django>=2.0,<2.1 django-mptt"
-    - python: "3.5"
-      env: REQ="Django>=1.11,<2.0 django-mptt"
-    - python: "3.5"
-      env: REQ="Django>=2.0,<2.1 django-mptt"
-    - python: "3.5"
-      env: REQ="Django>=2.1,<2.2 django-mptt"
-    - python: "3.6"
-      env: REQ="Django>=1.11,<2.0 django-mptt"
-    - python: "3.6"
-      env: REQ="Django>=2.0,<2.1 django-mptt"
-    - python: "3.6"
-      env: REQ="Django>=2.1,<2.2 django-mptt"
     - python: "3.6"
       env: REQ="Django>=2.2,<3.0 django-mptt"
-    - python: "3.7"
+    - python: "3.8"
       env: REQ="Django>=2.2,<3.0 django-mptt"
     - python: "3.6"
       env: REQ="Django>=3.0,<3.1 django-mptt"
-    - python: "3.7"
+    - python: "3.8"
       env: REQ="Django>=3.0,<3.1 django-mptt"
-    - python: "3.7"
-      env: REQ="https://github.com/django/django/archive/master.zip django-mptt"
-    - python: 3.7
+    - python: "3.8"
+      env: REQ="Django>=3.1,<3.2 django-mptt"
+    - python: "3.8"
+      env: REQ="Django>=3.2rc1,<4.0 django-mptt"
+    - python: "3.8"
+      env: REQ="https://github.com/django/django/archive/main.zip django-mptt"
+    - python: 3.8
       env: REQ="black flake8"
       install:
         - pip install black flake8
@@ -44,7 +30,7 @@ matrix:
         - flake8 .
         - black --check elephantblog tests
   allow_failures:
-    - env: REQ="https://github.com/django/django/archive/master.zip django-mptt"
+    - env: REQ="https://github.com/django/django/archive/main.zip django-mptt"
 install:
   - pip install -U pip wheel setuptools
   - pip install $REQ FeinCMS Pillow factory-boy pytz six
