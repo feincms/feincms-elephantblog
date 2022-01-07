@@ -1,6 +1,6 @@
 import datetime
+import zoneinfo
 
-import pytz
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -27,14 +27,12 @@ class EntryFactory(DjangoModelFactory):
 
 
 def create_entries(factory):
+    tz = zoneinfo.ZoneInfo(settings.TIME_ZONE)
     author = UserFactory()
     entries = []
-    date1 = datetime.datetime(2012, 8, 12, 11, 0, 0)
+    date1 = datetime.datetime(2012, 8, 12, 11, 0, 0, tzinfo=tz)
     delta = datetime.timedelta(hours=4)
-    date2 = datetime.datetime(2012, 10, 12, 11, 1, 0)
-    if settings.USE_TZ:
-        date1 = pytz.timezone(settings.TIME_ZONE).localize(date1, is_dst=None)
-        date2 = pytz.timezone(settings.TIME_ZONE).localize(date2, is_dst=None)
+    date2 = datetime.datetime(2012, 10, 12, 11, 1, 0, tzinfo=tz)
 
     entries.append(
         factory.create(

@@ -46,7 +46,7 @@ ROOT_URLCONF = "testapp.urls"
 BLOG_TITLE = "Blog of the usual elephant"
 BLOG_DESCRIPTION = ""
 TIME_ZONE = "America/Chicago"
-USE_TZ = False
+USE_TZ = True
 DEFAULT_CHARSET = "utf-8"
 LANGUAGES = (
     ("en", "English"),

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.syndication.views import Feed
+from django.template.loader import render_to_string
 from django.utils.translation import get_language
 
 from elephantblog.models import Entry
@@ -16,7 +17,9 @@ if not (hasattr(settings, "BLOG_TITLE") and hasattr(settings, "BLOG_DESCRIPTION"
 
 def tryrender(content):
     try:
-        return content.render()
+        return render_to_string(
+            "elephantblog/entry_description.html", {"content": content}
+        )
     except Exception:  # Required request argument or something else?
         return ""
 
@@ -40,8 +43,7 @@ class EntryFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        content = "".join(tryrender(c) for c in item.content.main)
-        return content
+        return "".join(tryrender(c) for c in item.content.main)
 
     def item_pubdate(self, item):
         return item.published_on

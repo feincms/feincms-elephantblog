@@ -30,6 +30,6 @@ class FeedTestCase(TestCase):
         )
         self.assertContains(
             response,
-            "<description>Hello world</description>",
+            "<description>Hello world",
             1,
         )
