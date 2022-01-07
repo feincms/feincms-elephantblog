@@ -16,3 +16,4 @@ class Extension(FeincmsExtension):
     def handle_modeladmin(self, modeladmin):
         if hasattr(modeladmin, "add_extension_options"):
             modeladmin.add_extension_options("tags")
+            modeladmin.extend_list("list_filter", ["tags"])
