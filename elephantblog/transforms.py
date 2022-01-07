@@ -1,12 +1,7 @@
+from feincms.content.richtext.models import RichTextContent
+from feincms.module.medialibrary.contents import MediaFileContent
+
 from elephantblog.models import Category, Entry
-
-
-try:
-    from feincms.contents import RichTextContent
-    from feincms.module.medialibrary.contents import MediaFileContent
-except ImportError:  # FeinCMS<2
-    from feincms.content.medialibrary.models import MediaFileContent
-    from feincms.content.richtext.models import RichTextContent
 
 
 class BaseLookup:
