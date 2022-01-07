@@ -1,12 +1,12 @@
 [
   {
-    "pk": 1, 
-    "model": "page.applicationcontent", 
+    "pk": 1,
+    "model": "page.applicationcontent",
     "fields": {
-      "ordering": 0, 
-      "region": "main", 
-      "parent": 1, 
-      "parameters": "", 
+      "ordering": 0,
+      "region": "main",
+      "parent": 1,
+      "parameters": "",
       "urlconf_path": "elephantblog.urls"
     }
   }

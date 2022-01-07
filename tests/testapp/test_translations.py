@@ -1,14 +1,10 @@
-# coding: utf-8
-
-from __future__ import absolute_import, unicode_literals
-
 from django.test import Client
 from django.test.testcases import TestCase
 from django.utils import translation
-
 from feincms.translations import short_language_code
 
 from elephantblog.models import Entry
+
 from .factories import EntryFactory, create_chinese_entries
 
 

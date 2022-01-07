@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.utils.translation import gettext as _, gettext_lazy
 
 from .common import Category, NavigationExtension, PagePretender, all_months, date_tree
@@ -23,7 +21,7 @@ class BlogDateNavigationExtension(NavigationExtension):
         for year, months in date_tree():
             yield PagePretender(
                 title="%s" % year,
-                url="%s%s/" % (page.get_absolute_url(), year),
+                url=f"{page.get_absolute_url()}{year}/",
                 tree_id=page.tree_id,
                 lft=0,
                 rght=len(months) + 1,
@@ -82,7 +80,7 @@ class CategoryAndDateNavigationExtension(NavigationExtension):
         for year, months in date_tree():
             yield PagePretender(
                 title="%s" % year,
-                url="%s%s/" % (page.get_absolute_url(), year),
+                url=f"{page.get_absolute_url()}{year}/",
                 tree_id=page.tree_id,
                 lft=0,
                 rght=len(months) + 1,

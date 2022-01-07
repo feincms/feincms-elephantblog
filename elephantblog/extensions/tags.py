@@ -1,9 +1,6 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.utils.translation import gettext_lazy as _
-
-from taggit.managers import TaggableManager
 from feincms.extensions import Extension as FeincmsExtension
+from taggit.managers import TaggableManager
 
 
 class Extension(FeincmsExtension):

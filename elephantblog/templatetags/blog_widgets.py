@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django import template
 from django.core.exceptions import FieldError
 from django.utils.translation import get_language

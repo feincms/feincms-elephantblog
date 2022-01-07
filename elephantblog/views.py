@@ -1,14 +1,11 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.conf import settings
-from django.http import Http404
-from django.core import paginator
 from django.contrib.auth import get_user_model
+from django.core import paginator
 from django.core.exceptions import FieldDoesNotExist
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
 from django.views.generic import dates
-
 from feincms.module.mixins import ContentObjectMixin
 
 from elephantblog.models import Category, Entry
@@ -28,7 +25,7 @@ __all__ = (
 PAGINATE_BY = getattr(settings, "BLOG_PAGINATE_BY", 10)
 
 
-class ElephantblogMixin(object):
+class ElephantblogMixin:
     """
     This mixin autodetects whether the blog is integrated through an
     ApplicationContent and automatically switches to inheritance2.0
@@ -44,7 +41,7 @@ class ElephantblogMixin(object):
 
     def get_context_data(self, **kwargs):
         kwargs.update({"view": self})
-        return super(ElephantblogMixin, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         return self.entry_class.objects.active().transform(entry_list_lookup_related)
@@ -53,12 +50,10 @@ class ElephantblogMixin(object):
         if "app_config" in getattr(self.request, "_feincms_extra_context", {}):
             return self.get_template_names(), context
 
-        return super(ElephantblogMixin, self).render_to_response(
-            context, **response_kwargs
-        )
+        return super().render_to_response(context, **response_kwargs)
 
 
-class TranslationMixin(object):
+class TranslationMixin:
     """
     #: Determines, whether list views should only display entries from
     #: the active language at a time. Requires the translations extension.
@@ -67,7 +62,7 @@ class TranslationMixin(object):
     only_active_language = True
 
     def get_queryset(self):
-        queryset = super(TranslationMixin, self).get_queryset()
+        queryset = super().get_queryset()
         try:
             queryset.model._meta.get_field("language")
         except FieldDoesNotExist:
@@ -123,7 +118,7 @@ class DateDetailView(
     def get_queryset(self):
         if self.request.user.is_staff and self.request.GET.get("eb_preview"):
             return self.entry_class.objects.all()
-        return super(DateDetailView, self).get_queryset()
+        return super().get_queryset()
 
     def dispatch(self, request, *args, **kwargs):
         if request.method.lower() not in self.http_method_names:
@@ -145,8 +140,8 @@ class DateDetailView(
             from feincms.contents import RichTextContent
             from feincms.module.medialibrary.contents import MediaFileContent
         except ImportError:  # FeinCMS<2
-            from feincms.content.richtext.models import RichTextContent
             from feincms.content.medialibrary.models import MediaFileContent
+            from feincms.content.richtext.models import RichTextContent
 
         try:
             self.object.first_image = [
@@ -211,13 +206,11 @@ class CategoryArchiveIndexView(ArchiveIndexView):
                 translations__language_code=get_language(),
             )
 
-        queryset = super(CategoryArchiveIndexView, self).get_queryset()
+        queryset = super().get_queryset()
         return queryset.filter(categories=self.category)
 
     def get_context_data(self, **kwargs):
-        return super(CategoryArchiveIndexView, self).get_context_data(
-            category=self.category, **kwargs
-        )
+        return super().get_context_data(category=self.category, **kwargs)
 
 
 class AuthorArchiveIndexView(ArchiveIndexView):
@@ -230,7 +223,7 @@ class AuthorArchiveIndexView(ArchiveIndexView):
             pk=self.kwargs["pk"],
         )
         return (
-            super(AuthorArchiveIndexView, self)
+            super()
             .get_queryset()
             .filter(
                 author=self.author,
@@ -238,6 +231,4 @@ class AuthorArchiveIndexView(ArchiveIndexView):
         )
 
     def get_context_data(self, **kwargs):
-        return super(AuthorArchiveIndexView, self).get_context_data(
-            author=self.author, **kwargs
-        )
+        return super().get_context_data(author=self.author, **kwargs)

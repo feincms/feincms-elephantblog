@@ -1,6 +1,5 @@
-from __future__ import absolute_import, unicode_literals
-
 from datetime import date
+
 from django.test import TestCase
 
 from .factories import EntryFactory, create_entries
@@ -19,7 +18,7 @@ class SitemapTestCase(TestCase):
 
         self.assertContains(
             response,
-            "<lastmod>{0}</lastmod>".format(today),
+            f"<lastmod>{today}</lastmod>",
             2,
         )
 

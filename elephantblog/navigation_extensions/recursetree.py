@@ -1,6 +1,5 @@
 """ optimized for use with the feincms_nav and recursetree template tag. """
 
-from __future__ import absolute_import, unicode_literals
 
 from django.conf import settings
 from django.utils.translation import gettext as _, gettext_lazy
@@ -34,7 +33,7 @@ class RBlogDateNavigationExtension(NavigationExtension):
 
             yield PagePretender(
                 title="%s" % year,
-                url="%s%s/" % (page.get_absolute_url(), year),
+                url=f"{page.get_absolute_url()}{year}/",
                 tree_id=page.tree_id,
                 language=getattr(page, "language", settings.LANGUAGE_CODE),
                 level=page.level + 1,
@@ -100,7 +99,7 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
 
                 yield PagePretender(
                     title="%s" % year,
-                    url="%s%s/" % (page.get_absolute_url(), year),
+                    url=f"{page.get_absolute_url()}{year}/",
                     tree_id=page.tree_id,
                     level=page.level + 2,
                     slug="%s" % year,

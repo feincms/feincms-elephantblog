@@ -1,19 +1,12 @@
-# coding: utf-8
-
-from __future__ import absolute_import, unicode_literals
-
+from django.test import Client
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
-from django.test import Client
-
-import six
-
 from feincms.module.medialibrary.models import MediaFile
 
-from elephantblog.models import Entry
 from elephantblog import views as blogviews
+from elephantblog.models import Entry
 
-from .factories import EntryFactory, create_entries, create_category
+from .factories import EntryFactory, create_category, create_entries
 
 
 @override_settings(SITE_ID=1)
@@ -56,15 +49,11 @@ class GenericViewsTest(TestCase):
         )
         self.assertEqual(len(response.context["object_list"]), 1)
         self.assertEqual(response.status_code, 200)
-        six.assertRegex(
-            self, response.content.decode("utf-8"), r"News\s+for October 2012"
-        )
+        self.assertRegex(response.content.decode("utf-8"), r"News\s+for October 2012")
         self.assertContains(response, "Eintrag 1")
         response = c.get("/blog/2012/08/")
         self.assertEqual(len(response.context["object_list"]), 1)
-        six.assertRegex(
-            self, response.content.decode("utf-8"), r"News\s+for August 2012"
-        )
+        self.assertRegex(response.content.decode("utf-8"), r"News\s+for August 2012")
         self.assertContains(response, "Entry 1")
         response = c.get("/blog/2012/06/")
         self.assertEqual(response.status_code, 404)
@@ -74,15 +63,11 @@ class GenericViewsTest(TestCase):
         self.assertTrue(isinstance(response.context["view"], blogviews.DayArchiveView))
         self.assertEqual(len(response.context["object_list"]), 1)
         self.assertEqual(response.status_code, 200)
-        six.assertRegex(
-            self, response.content.decode("utf-8"), r"News\s+for Oct. 12, 2012"
-        )
+        self.assertRegex(response.content.decode("utf-8"), r"News\s+for Oct. 12, 2012")
         self.assertContains(response, "Eintrag 1")
         response = c.get("/blog/2012/08/12/")
         self.assertEqual(len(response.context["object_list"]), 1)
-        six.assertRegex(
-            self, response.content.decode("utf-8"), r"News\s+for Aug. 12, 2012"
-        )
+        self.assertRegex(response.content.decode("utf-8"), r"News\s+for Aug. 12, 2012")
         self.assertContains(response, "Entry 1")
         # No entries in 2011:
         response = c.get("/blog/2012/10/13/")

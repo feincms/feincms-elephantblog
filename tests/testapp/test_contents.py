@@ -1,13 +1,12 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.template.loader import render_to_string
 from django.test import TestCase
 
-from elephantblog.contents import BlogEntryListContent, BlogCategoryListContent
-from .factories import EntryFactory, create_entries, create_category
+from elephantblog.contents import BlogCategoryListContent, BlogEntryListContent
+
+from .factories import EntryFactory, create_category, create_entries
 
 
-class Request(object):
+class Request:
     GET = {"page": 1}
 
 

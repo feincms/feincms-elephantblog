@@ -1,19 +1,10 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.conf import settings
-
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, gettext
-
-import six
-
+from django.utils.translation import gettext, gettext_lazy as _
 from feincms import translations
 from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin
@@ -21,7 +12,6 @@ from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformManager
 
 
-@six.python_2_unicode_compatible
 class Category(models.Model, translations.TranslatedObjectMixin):
     """
     Category is language-aware and connected to the Entry model via
@@ -49,7 +39,6 @@ class Category(models.Model, translations.TranslatedObjectMixin):
         return gettext("Unnamed category")
 
 
-@six.python_2_unicode_compatible
 class CategoryTranslation(translations.Translation(Category)):
     title = models.CharField(_("category title"), max_length=100)
     slug = models.SlugField(_("slug"), unique=True)
@@ -70,7 +59,7 @@ class CategoryTranslation(translations.Translation(Category)):
         if not self.slug:
             self.slug = slugify(self.title)
 
-        super(CategoryTranslation, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class EntryManager(ActiveAwareContentManagerMixin, TransformManager):
@@ -86,7 +75,6 @@ EntryManager.add_to_active_filters(
 )
 
 
-@six.python_2_unicode_compatible
 class Entry(Base, ContentModelMixin):
     is_active = models.BooleanField(_("is active"), default=True, db_index=True)
     is_featured = models.BooleanField(_("is featured"), default=False, db_index=True)
@@ -126,14 +114,14 @@ class Entry(Base, ContentModelMixin):
         return self.title
 
     def __init__(self, *args, **kwargs):
-        super(Entry, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._old_is_active = self.is_active
 
     def save(self, *args, **kwargs):
         if self.is_active and not self.published_on:
             self.published_on = timezone.now()
 
-        super(Entry, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     save.alters_data = True
 

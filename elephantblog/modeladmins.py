@@ -1,9 +1,6 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.contrib import admin
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
-
 from feincms.admin import item_editor
 from feincms.translations import admin_translationinline
 
@@ -24,7 +21,7 @@ class CategoryAdmin(admin.ModelAdmin):
     def entries(self, obj):
         return (
             ", ".join(
-                force_text(entry) for entry in Entry.objects.filter(categories=obj)
+                force_str(entry) for entry in Entry.objects.filter(categories=obj)
             )
             or "-"
         )
@@ -62,6 +59,4 @@ class EntryAdmin(item_editor.ItemEditor):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "author":
             kwargs["initial"] = request.user.id
-        return super(EntryAdmin, self).formfield_for_foreignkey(
-            db_field, request, **kwargs
-        )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)

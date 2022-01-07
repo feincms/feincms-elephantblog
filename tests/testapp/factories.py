@@ -1,17 +1,12 @@
-# coding: utf-8
-
-from __future__ import absolute_import, unicode_literals
-
 import datetime
-import pytz
-from factory.django import DjangoModelFactory
 
+import pytz
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-from django.conf import settings
+from factory.django import DjangoModelFactory
 
-
-from elephantblog.models import Entry, Category, CategoryTranslation
+from elephantblog.models import Category, CategoryTranslation, Entry
 
 
 class UserFactory(DjangoModelFactory):

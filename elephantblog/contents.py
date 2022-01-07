@@ -1,18 +1,15 @@
-# coding=utf-8
-
-from __future__ import absolute_import, unicode_literals
-
 from django.db import models
-from django.utils.translation import gettext_lazy as _, get_language
+from django.utils.translation import get_language, gettext_lazy as _
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
 
+
 try:
     # Load paginator with additional goodies form towel if possible
-    from towel.paginator import Paginator, EmptyPage, PageNotAnInteger
+    from towel.paginator import EmptyPage, PageNotAnInteger, Paginator
 except ImportError:
-    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+    from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 class BlogEntryListContent(models.Model):

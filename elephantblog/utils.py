@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.conf import settings
 from django.utils.module_loading import import_string
 
@@ -17,7 +15,7 @@ def entry_list_lookup_related(entry_qs):
 
 
 def same_category_entries(entry):
-    """ @return: all entries that have at least one category in common """
+    """@return: all entries that have at least one category in common"""
     return (
         Entry.objects.active()
         .filter(

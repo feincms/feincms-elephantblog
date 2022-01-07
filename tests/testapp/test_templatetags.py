@@ -1,11 +1,8 @@
-# coding: utf-8
-from __future__ import absolute_import, unicode_literals
-
 from django.template.loader import render_to_string
 from django.test import TransactionTestCase
 from django.test.utils import override_settings
 
-from .factories import EntryFactory, create_entries, create_category
+from .factories import EntryFactory, create_category, create_entries
 
 
 class TemplateTagsTest(TransactionTestCase):

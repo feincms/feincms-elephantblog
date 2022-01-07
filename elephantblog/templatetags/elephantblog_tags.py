@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 import django
 from django import template
 from django.contrib.auth import get_user_model

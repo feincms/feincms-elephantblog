@@ -1,10 +1,6 @@
-# -*- coding:utf-8 -*-
-
-from __future__ import absolute_import, unicode_literals
-
 import datetime
-import pytz
 
+import pytz
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 from django.test.utils import override_settings

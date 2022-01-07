@@ -1,15 +1,12 @@
-# -*- coding:utf-8 -*-
-
-from __future__ import absolute_import, unicode_literals
-
 from elephantblog.models import Entry
+
 
 try:
     from feincms.contents import RichTextContent
     from feincms.module.medialibrary.contents import MediaFileContent
 except ImportError:  # FeinCMS<2
-    from feincms.content.richtext.models import RichTextContent
     from feincms.content.medialibrary.models import MediaFileContent
+    from feincms.content.richtext.models import RichTextContent
 
 
 Entry.register_regions(

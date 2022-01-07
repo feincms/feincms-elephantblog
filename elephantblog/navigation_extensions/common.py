@@ -1,14 +1,11 @@
-from __future__ import absolute_import, unicode_literals
-
-from collections import OrderedDict
 import datetime
+from collections import OrderedDict
 
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-
 from feincms.module.page.extensions.navigation import NavigationExtension, PagePretender
 
-from elephantblog.models import Entry, Category
+from elephantblog.models import Category, Entry
 
 
 all_months = [datetime.date(2008, i, 1) for i in range(1, 13)]
@@ -20,7 +17,7 @@ def date_of_first_entry():
 
 
 def date_tree():
-    """ returns a dict in the form {2012: [1,2,3,4,5,6], 2011: [10,11,12]} """
+    """returns a dict in the form {2012: [1,2,3,4,5,6], 2011: [10,11,12]}"""
     today = datetime.date.today()
     first_day = date_of_first_entry()
     years = range(today.year, first_day.year - 1, -1)

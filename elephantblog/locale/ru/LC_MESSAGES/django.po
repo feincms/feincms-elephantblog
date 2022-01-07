@@ -217,9 +217,9 @@ msgstr ""
 msgid "News"
 msgstr "Новости"
 
-# I am splitting "for" translations in two contexts ("date" and category") 
+# I am splitting "for" translations in two contexts ("date" and category")
 # in order to make Russian translation grammatically correct
-# examples for date context: 
+# examples for date context:
 # "Новости за 2016", "Новости за сентябрь 2016", etc
 #: templates/elephantblog/entry_archive.html:9
 #: templates/elephantblog/entry_archive.html:10
