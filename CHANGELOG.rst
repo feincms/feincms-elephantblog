@@ -6,6 +6,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Added pre-commit.
+- Dropped compatibility with Python < 3.6, Django < 3.2.
+
+
 `v1.3.0`_ (2020-01-29)
 ~~~~~~~~~~~~~~~~~~~~~~
 
