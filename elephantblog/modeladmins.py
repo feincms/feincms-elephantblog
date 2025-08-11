@@ -18,6 +18,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_editable = ["ordering"]
     search_fields = ["translations__title"]
 
+    @admin.display(description=_("Blog entries in category"))
     def entries(self, obj):
         return (
             ", ".join(
@@ -25,8 +26,6 @@ class CategoryAdmin(admin.ModelAdmin):
             )
             or "-"
         )
-
-    entries.short_description = _("Blog entries in category")
 
 
 class EntryAdmin(item_editor.ItemEditor):
