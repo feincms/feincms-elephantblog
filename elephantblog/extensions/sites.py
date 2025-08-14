@@ -2,7 +2,6 @@
 Allows the blog to use the sites framework.
 """
 
-
 from django.contrib.sites.models import Site
 from django.db.models import ManyToManyField, Q
 from django.utils.translation import gettext_lazy as _

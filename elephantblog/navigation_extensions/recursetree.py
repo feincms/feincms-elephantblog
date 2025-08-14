@@ -1,5 +1,4 @@
-""" optimized for use with the feincms_nav and recursetree template tag. """
-
+"""optimized for use with the feincms_nav and recursetree template tag."""
 
 from django.conf import settings
 from django.utils.translation import gettext as _, gettext_lazy
