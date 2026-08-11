@@ -22,7 +22,7 @@ def register(cls, admin_cls):
 
     def sites_admin(self, obj):
         available_sites = self.obj.all()
-        return ", ".join("%s" % site.name for site in available_sites)
+        return ", ".join(f"{site.name}" for site in available_sites)
 
     sites_admin.allow_tags = True
     sites_admin.short_description = _("Sites")

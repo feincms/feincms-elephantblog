@@ -5,7 +5,6 @@ from django.utils.translation import get_language
 from elephantblog.models import Entry
 from elephantblog.utils import entry_list_lookup_related, same_category_entries
 
-
 register = template.Library()
 
 

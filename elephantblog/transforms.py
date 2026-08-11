@@ -15,7 +15,6 @@ class BaseLookup:
         Overwrite this.
         :param entry_qs: The Entry query set
         """
-        pass
 
 
 class RichTextMediaFileAndCategoriesLookup(BaseLookup):
@@ -47,8 +46,7 @@ class RichTextMediaFileAndCategoriesLookup(BaseLookup):
             blogentries__in=entry_dict.keys(),
         ).extra(
             select={
-                "entry_id": "%s.%s"
-                % (m2mfield.m2m_db_table(), m2mfield.m2m_column_name()),
+                "entry_id": f"{m2mfield.m2m_db_table()}.{m2mfield.m2m_column_name()}",
             },
         )
 

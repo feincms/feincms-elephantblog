@@ -1,7 +1,8 @@
 """optimized for use with the feincms_nav and recursetree template tag."""
 
 from django.conf import settings
-from django.utils.translation import gettext as _, gettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 from .common import Category, NavigationExtension, PagePretender, all_months, date_tree
 
@@ -16,27 +17,27 @@ class RBlogDateNavigationExtension(NavigationExtension):
     def children(self, page, **kwargs):
         for year, months in date_tree():
 
-            def return_months():
+            def return_months(year=year, months=months):
                 for month in months:
                     yield PagePretender(
-                        title="%s" % _(all_months[month - 1].strftime("%B")),
-                        url="%s%04d/%02d/" % (page.get_absolute_url(), year, month),
+                        title="{}".format(_(all_months[month - 1].strftime("%B"))),
+                        url=f"{page.get_absolute_url()}{year:04d}/{month:02d}/",
                         tree_id=page.tree_id,
                         level=page.level + 2,
                         language=getattr(page, "language", settings.LANGUAGE_CODE),
-                        slug="%04d/%02d" % (year, month),
+                        slug=f"{year:04d}/{month:02d}",
                         lft=0,
                         rght=0,
                         _mptt_meta=page._mptt_meta,
                     )
 
             yield PagePretender(
-                title="%s" % year,
+                title=f"{year}",
                 url=f"{page.get_absolute_url()}{year}/",
                 tree_id=page.tree_id,
                 language=getattr(page, "language", settings.LANGUAGE_CODE),
                 level=page.level + 1,
-                slug="%s" % year,
+                slug=f"{year}",
                 parent=page,
                 parent_id=page.id,
                 get_children=return_months,
@@ -56,8 +57,7 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
             for category in all_categories:
                 yield PagePretender(
                     title=category.translation.title,
-                    url="%scategory/%s/"
-                    % (page.get_absolute_url(), category.translation.slug),
+                    url=f"{page.get_absolute_url()}category/{category.translation.slug}/",
                     tree_id=page.tree_id,
                     level=page.level + 2,
                     language=getattr(page, "language", settings.LANGUAGE_CODE),
@@ -85,23 +85,23 @@ class RCategoryAndDateNavigationExtension(NavigationExtension):
         def return_dates():
             for year, months in date_tree():
 
-                def return_months():
+                def return_months(year=year, months=months):
                     for month in months:
                         yield PagePretender(
-                            title="%s" % _(all_months[month - 1].strftime("%B")),
-                            url="%s%04d/%02d/" % (page.get_absolute_url(), year, month),
+                            title="{}".format(_(all_months[month - 1].strftime("%B"))),
+                            url=f"{page.get_absolute_url()}{year:04d}/{month:02d}/",
                             tree_id=page.tree_id,
                             level=page.level + 3,
                             language=getattr(page, "language", settings.LANGUAGE_CODE),
-                            slug="%04d/%02d" % (year, month),
+                            slug=f"{year:04d}/{month:02d}",
                         )
 
                 yield PagePretender(
-                    title="%s" % year,
+                    title=f"{year}",
                     url=f"{page.get_absolute_url()}{year}/",
                     tree_id=page.tree_id,
                     level=page.level + 2,
-                    slug="%s" % year,
+                    slug=f"{year}",
                     language=getattr(page, "language", settings.LANGUAGE_CODE),
                     get_children=return_months,
                 )

@@ -1,9 +1,9 @@
 from django.db import models
-from django.utils.translation import get_language, gettext_lazy as _
+from django.utils.translation import get_language
+from django.utils.translation import gettext_lazy as _
 
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
-
 
 try:
     # Load paginator with additional goodies form towel if possible

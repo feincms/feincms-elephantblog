@@ -1,0 +1,11 @@
+[tool.ruff]
+lint.ignore = [
+  # Deliberate catch-all around template rendering
+  "BLE001",
+  # The blog deliberately works with naive dates
+  "DTZ001",
+  "DTZ011",
+  # Django's class-level configuration attributes aren't ClassVars
+  "RUF012",
+]
+lint.per-file-ignores."tests/testapp/migrate/**" = [ "N999" ]

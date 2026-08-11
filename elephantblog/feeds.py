@@ -5,7 +5,6 @@ from django.utils.translation import get_language
 
 from elephantblog.models import Entry
 
-
 if not (hasattr(settings, "BLOG_TITLE") and hasattr(settings, "BLOG_DESCRIPTION")):
     import warnings
 

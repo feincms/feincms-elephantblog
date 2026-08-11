@@ -5,7 +5,6 @@ from django.urls import include, path
 from elephantblog.sitemap import EntrySitemap
 from elephantblog.urls import elephantblog_patterns
 
-
 admin.autodiscover()
 
 

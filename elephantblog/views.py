@@ -11,14 +11,13 @@ from feincms.module.mixins import ContentObjectMixin
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
 
-
 __all__ = (
     "ArchiveIndexView",
-    "YearArchiveView",
-    "MonthArchiveView",
-    "DayArchiveView",
-    "DateDetailView",
     "CategoryArchiveIndexView",
+    "DateDetailView",
+    "DayArchiveView",
+    "MonthArchiveView",
+    "YearArchiveView",
 )
 
 
@@ -140,12 +139,12 @@ class DateDetailView(
         from feincms.module.medialibrary.contents import MediaFileContent
 
         try:
-            self.object.first_image = [
+            self.object.first_image = next(
                 mediafile
                 for mediafile in self.object.content.all_of_type(MediaFileContent)
                 if mediafile.mediafile.type == "image"
-            ][0]
-        except IndexError:
+            )
+        except StopIteration:
             pass
 
         try:
@@ -193,7 +192,7 @@ class CategoryArchiveIndexView(ArchiveIndexView):
                 translations__slug=slug,
             )
         except Category.DoesNotExist:
-            raise Http404("Category with slug %s does not exist" % slug)
+            raise Http404(f"Category with slug {slug} does not exist")
 
         except Category.MultipleObjectsReturned:
             self.category = get_object_or_404(

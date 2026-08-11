@@ -3,7 +3,6 @@ from django.utils.module_loading import import_string
 
 from .models import Entry
 
-
 if hasattr(settings, "BLOG_LOOKUP_CLASS"):
     LookupClass = import_string(settings.BLOG_LOOKUP_CLASS)
 else:

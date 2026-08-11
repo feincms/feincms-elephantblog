@@ -7,7 +7,6 @@ from feincms.module.page.extensions.navigation import NavigationExtension, PageP
 
 from elephantblog.models import Category, Entry
 
-
 all_months = [datetime.date(2008, i, 1) for i in range(1, 13)]
 
 
@@ -45,8 +44,7 @@ class BlogCategoriesNavigationExtension(NavigationExtension):
         for category in categories:
             yield PagePretender(
                 title=category.translation.title,
-                url="%scategory/%s/"
-                % (page.get_absolute_url(), category.translation.slug),
+                url=f"{page.get_absolute_url()}category/{category.translation.slug}/",
                 tree_id=page.tree_id,
                 level=page.level + 1,
                 language=getattr(page, "language", settings.LANGUAGE_CODE),

@@ -7,7 +7,6 @@ from django.utils.translation import get_language
 from elephantblog.models import Category, Entry
 from elephantblog.utils import entry_list_lookup_related
 
-
 register = template.Library()
 assignment_tag = (
     register.simple_tag if django.VERSION >= (1, 9) else register.assignment_tag

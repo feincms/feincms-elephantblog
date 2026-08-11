@@ -3,7 +3,6 @@ from feincms.module.medialibrary.contents import MediaFileContent
 
 from elephantblog.models import Entry
 
-
 Entry.register_regions(
     ("main", "Main content area"),
 )

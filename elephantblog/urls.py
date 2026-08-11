@@ -48,7 +48,7 @@ from elephantblog import views
 from elephantblog.feeds import EntryFeed
 
 
-def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
+def elephantblog_patterns(list_kwargs=None, detail_kwargs=None):
     """
     Returns an instance of ready-to-use URL patterns for the blog.
 
@@ -61,6 +61,10 @@ def elephantblog_patterns(list_kwargs={}, detail_kwargs={}):
     - The format of the month (three chars or two digits)
     - etc.
     """
+    if detail_kwargs is None:
+        detail_kwargs = {}
+    if list_kwargs is None:
+        list_kwargs = {}
     return [
         path("feed/", EntryFeed(), name="elephantblog_feed"),
         path(

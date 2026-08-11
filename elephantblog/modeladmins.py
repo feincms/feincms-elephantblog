@@ -6,7 +6,6 @@ from feincms.translations import admin_translationinline
 
 from elephantblog.models import CategoryTranslation, Entry
 
-
 CategoryTranslationInline = admin_translationinline(
     CategoryTranslation, prepopulated_fields={"slug": ("title",)}
 )
