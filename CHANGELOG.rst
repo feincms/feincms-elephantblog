@@ -6,6 +6,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+v26.10.0 (2026-10-24)
+~~~~~~~~~~~~~~~~~~~~~
+
 - Dropped support for Python 3.8 and 3.9. Python 3.10 or better is required
   now, like in FeinCMS.
 - Added Django 5.2, 6.0 and 6.1 and Python 3.11 up to 3.15 support.
