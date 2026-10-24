@@ -116,7 +116,7 @@ class DateDetailView(
 
     def get_queryset(self):
         if self.request.user.is_staff and self.request.GET.get("eb_preview"):
-            return self.entry_class.objects.all()
+            return self.entry_class.objects.all().transform(entry_list_lookup_related)
         return super().get_queryset()
 
     def dispatch(self, request, *args, **kwargs):
@@ -126,33 +126,7 @@ class DateDetailView(
         self.args = args
         self.kwargs = kwargs
         self.object = self.get_object()
-        self.lookup_related()
         return self.handler(request, *args, **kwargs)
-
-    def lookup_related(self):
-        """
-        This method mirrors ``entry_list_lookup_related``, and assigns
-        ``first_richtext`` and ``first_image`` to the elephantblog entry
-        if suitable contents can be found.
-        """
-        from feincms.contents import RichTextContent
-        from feincms.module.medialibrary.contents import MediaFileContent
-
-        try:
-            self.object.first_image = next(
-                mediafile
-                for mediafile in self.object.content.all_of_type(MediaFileContent)
-                if mediafile.mediafile.type == "image"
-            )
-        except StopIteration:
-            pass
-
-        try:
-            self.object.first_richtext = self.object.content.all_of_type(
-                RichTextContent
-            )[0]
-        except IndexError:
-            pass
 
     def get_next_or_none(self):
         try:

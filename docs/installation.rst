@@ -178,3 +178,11 @@ Settings
 You can set the number of entries per page with the following setting::
 
     BLOG_PAGINATE_BY = 10
+
+The list and detail views assign ``first_richtext`` and ``first_image`` to
+entries, using ``RichTextContent`` and ``MediaFileContent``. If you're using
+other content types, subclass ``elephantblog.transforms.BaseLookup``,
+implement ``lookup(entry_qs)`` and point the following setting to your
+class::
+
+    BLOG_LOOKUP_CLASS = "blog.transforms.MyLookup"

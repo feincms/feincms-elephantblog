@@ -8,6 +8,10 @@ Change log
 
 - Fixed ``AttributeError`` when rendering empty inherited regions of entries.
   Entries do not inherit content from anywhere.
+- Fixed the detail view overwriting ``first_richtext`` and ``first_image``
+  assigned by a custom ``BLOG_LOOKUP_CLASS``. ``DateDetailView.lookup_related``
+  has been removed; the lookup class is used for detail views as well now.
+  Documented the ``BLOG_LOOKUP_CLASS`` setting.
 
 
 `v22.0.0`_ (2022-01-07)

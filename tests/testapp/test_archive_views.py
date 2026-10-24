@@ -1,3 +1,5 @@
+from unittest import mock
+
 from django.test import Client
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
@@ -5,6 +7,7 @@ from feincms.module.medialibrary.models import MediaFile
 
 from elephantblog import views as blogviews
 from elephantblog.models import Entry
+from elephantblog.transforms import BaseLookup
 
 from .factories import EntryFactory, create_category, create_entries
 
@@ -132,3 +135,22 @@ class GenericViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["object_list"][1].first_image, image)
         self.assertEqual(response.context["object_list"][1].first_richtext, richtext)
+
+    def test_custom_lookup_class(self):
+        class Lookup(BaseLookup):
+            @staticmethod
+            def lookup(entry_qs):
+                for entry in entry_qs:
+                    entry.first_richtext = "custom"
+
+        entry = Entry.objects.get(slug="entry-1")
+        entry.richtextcontent_set.create(ordering=1, region="main", text="Hello")
+
+        with mock.patch("elephantblog.utils.LookupClass", Lookup):
+            response = Client().get("/blog/2012/08/12/entry-1/")
+            self.assertEqual(response.context["entry"].first_richtext, "custom")
+
+            response = Client().get("/blog/")
+            self.assertEqual(
+                response.context["object_list"][0].first_richtext, "custom"
+            )
