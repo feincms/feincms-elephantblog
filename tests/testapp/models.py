@@ -4,7 +4,7 @@ from feincms.module.medialibrary.contents import MediaFileContent
 from elephantblog.models import Entry
 
 Entry.register_regions(
-    ("main", "Main content area"),
+    ("main", "Main content area", "inherited"),
 )
 Entry.register_extensions("feincms.extensions.translations")
 Entry.create_content_type(RichTextContent, cleanse=False, regions=("main",))

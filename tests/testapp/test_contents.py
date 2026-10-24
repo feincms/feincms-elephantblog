@@ -108,3 +108,11 @@ class ContentsTestCase(TestCase):
             html.count("<li>"),
             2,
         )
+
+
+class EmptyEntryTestCase(TestCase):
+    def test_empty_inherited_region(self):
+        entry = create_entries(EntryFactory)[0]
+        # Entries do not form a tree; empty inherited regions must not try
+        # to inherit content from ancestors (#59)
+        self.assertEqual(entry.content.main, [])

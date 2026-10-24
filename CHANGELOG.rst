@@ -6,6 +6,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Fixed ``AttributeError`` when rendering empty inherited regions of entries.
+  Entries do not inherit content from anywhere.
+
+
 `v22.0.0`_ (2022-01-07)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

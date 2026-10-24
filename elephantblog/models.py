@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from feincms import translations
-from feincms.models import Base
+from feincms.models import Base, ContentProxy
 from feincms.module.mixins import ContentModelMixin
 from feincms.utils.managers import ActiveAwareContentManagerMixin
 from feincms.utils.queryset_transform import TransformManager
@@ -76,7 +76,15 @@ EntryManager.add_to_active_filters(
 )
 
 
+class EntryContentProxy(ContentProxy):
+    def _inherit_from(self):
+        # Entries do not form a tree, there is nothing to inherit from.
+        return []
+
+
 class Entry(Base, ContentModelMixin):
+    content_proxy_class = EntryContentProxy
+
     is_active = models.BooleanField(_("is active"), default=True, db_index=True)
     is_featured = models.BooleanField(_("is featured"), default=False, db_index=True)
 
