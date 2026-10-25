@@ -186,3 +186,40 @@ implement ``lookup(entry_qs)`` and point the following setting to your
 class::
 
     BLOG_LOOKUP_CLASS = "blog.transforms.MyLookup"
+
+
+Feed
+----
+
+The feed at ``feed/`` renders the ``main`` region of each entry using the
+``elephantblog/entry_description.html`` template. Contents are rendered
+without access to the current request, and contents which raise an exception
+while rendering are skipped.
+
+If your contents need the request while rendering the feed, make it available
+to them using a `context variable
+<https://docs.python.org/3/library/contextvars.html>`__ (which, unlike a
+thread-local, also works in async code) and use your own subclass of the
+feed::
+
+    from contextvars import ContextVar
+
+    from elephantblog.feeds import EntryFeed
+
+    current_request = ContextVar("current_request", default=None)
+
+    class RequestEntryFeed(EntryFeed):
+        def __call__(self, request, *args, **kwargs):
+            token = current_request.set(request)
+            try:
+                return super().__call__(request, *args, **kwargs)
+            finally:
+                current_request.reset(token)
+
+Your contents can then use ``current_request.get()`` in their ``render``
+methods. Remember to add the feed to your URLconf yourself, before including
+``elephantblog.urls``.
+
+See `pull request #1
+<https://github.com/matthiask/feincms-elephantblog/pull/1>`__ for the
+discussion.
